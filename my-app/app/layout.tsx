@@ -20,30 +20,45 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="min-h-screen flex flex-col antialiased">
         <header className="border-b border-white/10 px-6 py-4">
-          <nav className="flex space-x-6">
-            <Link href="/" className="text-grey-800 font-medium">
-              Home
-            </Link>
-            <Link href="/posts" className="text-grey-800 duration-200 font-medium">
-              Posts
-            </Link>
+         <nav className="flex justify-between items-center">
+            <div className="flex space-x-6">
+              <Link href="/" className="font-medium">
+                Home
+              </Link>
+
+              <Link href="/posts" className="font-medium">
+                Posts
+              </Link>
+            </div>
+            <div className="flex space-x-6">
+              <Link href="/users" className="font-medium">
+                Log in
+             </Link>
+              <Link href="/users" className="font-medium">
+               Sign in
+              </Link>
+            </div> 
+            
           </nav>
         </header>
-        {children}
 
-        <footer className="mt-auto border-t border-white/10 px-6 text-center">
+
+        <main className="flex-grow px-6 py-4">
+          {children}
+        </main>
+
+        <footer className="border-t border-white/10 px-6 py-4 text-center">
           Footer
         </footer>
       </body>
     </html>
   );
 }
+
