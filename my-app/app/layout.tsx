@@ -43,7 +43,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
             <div className="flex space-x-6">
               <Link href="/login" className="font-medium">Sign in</Link>
-              <Link href="/login" className="font-medium">Log in</Link>
               <Link href="/register" className="font-medium">Register</Link>
             </div>
           </nav>
