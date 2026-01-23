@@ -29,7 +29,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-50 bg-white border-b border-black/10 px-6 py-4">
           <nav className= "navbar flex justify-between items-center">
             <div className="flex space-x-6">
-                <Link href="/" className="font-medium">ImmunoLab</Link>
+
+
+              <div>
+                <Link href = "/">
+                  <Image
+                    src="/logo.png"
+                    alt="ImmunoLab logo"
+                    width={200}
+                    height={200}
+                    priority
+                    />
+                </Link>
+
+            </div>
                 
               </div>
 
@@ -48,19 +61,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <Link href="/login" className="font-medium">Sign in</Link>
                 <Link href="/register" className="font-medium">Register</Link>
               </div>
-            <div className="flex space-x-6">
-              <div>
-                <Link href = "/">
-                  <Image
-                    src="/logo.png"
-                    alt="ImmunoLab logo"
-                    width={200}
-                    height={200}
-                    priority
-                    />
-                </Link>
-              </div>
-            </div>
+            
             </nav>
           </header>
 
