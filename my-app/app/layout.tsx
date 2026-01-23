@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`min-h-screen flex flex-col antialiased ${geistSans.variable} ${geistMono.variable}`}>
+      <Providers> 
       <header className="sticky top-0 z-50 bg-white border-b border-black/10 px-6 py-4">
           <nav className= "navbar flex justify-between items-center">
             <div className="flex space-x-6">
+                <Link href="/" className="font-medium">ImmunoLab</Link>
+                
+              </div>
 
+              <div className ="flex justify-center">
+                <Link href=""></Link>
+                <Link href="/posts" className="font-medium">Posts</Link>
+              </div>
+
+            <div className="flex space-x-6">
+              <Link href="/orders" className="font-medium">Orders</Link>
+              <Link href="/contact" className="font-medium">Contact Us</Link>
+              <Link href="/" className="font-medium">About</Link>
+            </div>
+
+              <div className="flex space-x-6">
+                <Link href="/login" className="font-medium">Sign in</Link>
+                <Link href="/register" className="font-medium">Register</Link>
+              </div>
+            <div className="flex space-x-6">
               <div>
                 <Link href = "/">
                   <Image
@@ -37,37 +58,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                     height={200}
                     priority
                     />
-
-                  
-
                 </Link>
               </div>
-              
             </div>
+            </nav>
+          </header>
 
-            <div className ="flex justify-center">
-              <Link href=""></Link>
-              <Link href="/posts" className="font-medium">Posts</Link>
-            </div>
+          <main className="flex-grow px-6 py-4">{children}</main>
 
-            <div className="flex space-x-6">
-              <Link href="/orders" className="font-medium">Orders</Link>
-              <Link href="/contact" className="font-medium">Contact Us</Link>
-              <Link href="/" className="font-medium">About</Link>
-            </div>
-
-            <div className="flex space-x-6">
-              <Link href="/login" className="font-medium">Sign in</Link>
-              <Link href="/register" className="font-medium">Register</Link>
-            </div>
-          </nav>
-        </header>
-
-        <main className="flex-grow px-6 py-4">{children}</main>
-
-        <footer className="border-t border-white/10 px-6 py-4 text-center">
-          Footer
-        </footer>
+          <footer className="border-t border-white/10 px-6 py-4 text-center">
+            Footer
+          </footer>
+        </Providers>
       </body>
     </html>
   );
