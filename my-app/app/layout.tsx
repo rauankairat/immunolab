@@ -26,11 +26,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <header className="border-b border-white/10 px-6 py-4">
           <nav className="flex justify-between items-center">
             <div className="flex space-x-6">
-              <Link href="/" className="font-medium">Home</Link>
+              <Link href="/" className="font-medium">ImmunoLab</Link>
+              
+            </div>
+
+            <div className ="flex justify-center">
+              <Link href=""></Link>
               <Link href="/posts" className="font-medium">Posts</Link>
             </div>
 
             <div className="flex space-x-6">
+<<<<<<< HEAD
               <Link href="/orders" className="font-medium">Orders</Link>
               <Link href="/contact" className="font-medium">Contact Us</Link>
               <Link href="/register" className="font-medium">About</Link>
@@ -38,6 +44,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
             <div className="flex space-x-6">
               <Link href="/login" className="font-medium">Sign in</Link>
+=======
+              <Link href="/login" className="font-medium">Log in</Link>
+>>>>>>> ff10a9c (Designed login in page)
               <Link href="/register" className="font-medium">Register</Link>
             </div>
           </nav>
