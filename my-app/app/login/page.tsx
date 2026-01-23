@@ -1,4 +1,5 @@
 import styles from "./page.module.css";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -11,8 +12,10 @@ export default function Page() {
 
         <label className={styles.label}>Password</label>
         <input className={styles.input} type="password" placeholder="Enter your password" />
+        <Link href="/login" className={styles.links}>Forgot Password?</Link>
 
         <button className={styles.button}>Sign in</button>
+        <Link href="/register"className={styles.links}>Create an Account</Link>
       </div>
     </div>
   );
