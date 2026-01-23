@@ -31,8 +31,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
 
             <div className="flex space-x-6">
-              <Link href="/users" className="font-medium">Log in</Link>
-              <Link href="/users" className="font-medium">Sign in</Link>
+              <Link href="/orders" className="font-medium">Orders</Link>
+              <Link href="/contact" className="font-medium">Contact Us</Link>
+              <Link href="/register" className="font-medium">About</Link>
+            </div>
+
+            <div className="flex space-x-6">
+              <Link href="/login" className="font-medium">Sign in</Link>
+              <Link href="/register" className="font-medium">Register</Link>
             </div>
           </nav>
         </header>
