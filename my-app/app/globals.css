@@ -3,12 +3,14 @@
 html,
 body {
   height: 100%;
+  
 }
 
 body {
   margin: 0;
-  background-color: #fbfbfb; 
+  background-color: #b5facf; 
   color: #000000;
+  
 }
 
 /* App layout */
@@ -16,8 +18,18 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
+
 }
 
 .main-content {
   flex-grow: 1;
+  
 }
+
+.navbar {
+  background: #ffffff;              
+  border-bottom: 1px solid rgba(0, 242, 255, 0.08);
+}
+
+

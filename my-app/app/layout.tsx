@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,10 +24,24 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`min-h-screen flex flex-col antialiased ${geistSans.variable} ${geistMono.variable}`}>
-        <header className="border-b border-white/10 px-6 py-4">
-          <nav className="flex justify-between items-center">
+      <header className="sticky top-0 z-50 bg-white border-b border-black/10 px-6 py-4">
+          <nav className= "navbar flex justify-between items-center">
             <div className="flex space-x-6">
-              <Link href="/" className="font-medium">ImmunoLab</Link>
+
+              <div>
+                <Link href = "/">
+                  <Image
+                    src="/logo.png"
+                    alt="ImmunoLab logo"
+                    width={200}
+                    height={200}
+                    priority
+                    />
+
+                  
+
+                </Link>
+              </div>
               
             </div>
 
@@ -38,7 +53,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <div className="flex space-x-6">
               <Link href="/orders" className="font-medium">Orders</Link>
               <Link href="/contact" className="font-medium">Contact Us</Link>
-              <Link href="/register" className="font-medium">About</Link>
+              <Link href="/" className="font-medium">About</Link>
             </div>
 
             <div className="flex space-x-6">
