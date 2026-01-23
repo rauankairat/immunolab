@@ -12,6 +12,7 @@ export default function Page() {
 
         <label className={styles.label}>Password</label>
         <input className={styles.input} type="password" placeholder="Enter your password" />
+        <Link href="/login" className={styles.links}>Forgot Password?</Link>
 
         <button className={styles.button}>Sign in</button>
         <div className={styles.label}><Link href="/register">Don't have an account? Sign up now!</Link></div>
