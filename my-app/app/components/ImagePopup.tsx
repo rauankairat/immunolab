@@ -55,7 +55,7 @@ export default function ImagePopup() {
         
         <div className="flex flex-col items-center">
           <Image
-            src="/aru.png"
+            src="/logo.png"
             alt="Welcome to ImmunoLab"
             width={400}
             height={400}
@@ -65,10 +65,10 @@ export default function ImagePopup() {
           
           <div className="mt-4 text-center">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              Я дочка владельицы компании Immuno Lab!
+              Welcome to ImmunoLab!
             </h2>
             <p className="text-gray-600">
-              Четам дабейби детка!
+              Your trusted partner in immunological testing
             </p>
           </div>
         </div>
