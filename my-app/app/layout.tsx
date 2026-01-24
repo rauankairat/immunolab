@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import { Providers } from "./providers";
+import LanguageSelector from "./components/LanguageSelector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,7 +58,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Link href="/" className="font-medium">About</Link>
             </div>
 
-              <div className="flex space-x-6">
+              <div className="flex space-x-6 items-center">
+                <LanguageSelector />
                 <Link href="/login" className="font-medium">Sign in</Link>
                 <Link href="/register" className="font-medium">Register</Link>
               </div>

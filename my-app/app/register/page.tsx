@@ -42,6 +42,7 @@ export default function Register() {
           <input className={styles.input} type="password" name="confirmPassword" placeholder="Enter your password" />
 
           <button className={styles.button} type="submit">Register</button>
+          <label className={styles.label} htmlFor="/login">Already have an account? <br />Sign in now!</label>
         </form>
       </div>
     </div>

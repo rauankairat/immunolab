@@ -49,7 +49,7 @@ export default function Login() {
           <button className={styles.button}>Sign in</button>
         </form>
 
-        <div className={styles.label}><Link href="/register">Don't have an account? Sign up now!</Link></div>
+        <div className={styles.label}><Link href="/register">Don't have an account? <br />Sign up now!</Link></div>
       </div>
     </div>
   );
