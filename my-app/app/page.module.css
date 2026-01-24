@@ -1,12 +1,10 @@
 .body {
-    background-color:rgb(144, 29, 29)
-    
+  background-color: rgb(144, 29, 29);
 }
 
-  .home {
-    background-color: #b5facf;
-    min-height: calc(100vh - 200px);
-    margin: -1rem -1.5rem; /* Counteracts the px-6 py-4 padding from layout */
-    padding: 1rem 1.5rem; /* Adds the padding back inside */
-  }
-  
+.home {
+  background-color: #b5facf;
+  min-height: 100vh;
+  margin: -1.5rem; /* Counteracts the px-6 from layout */
+  padding: 1.5rem; /* Adds the padding back inside */
+}

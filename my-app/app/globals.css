@@ -13,6 +13,10 @@ body {
   
 }
 
+.footer {
+  background: #2f2f2f;
+  border-top: 1px solid rgba(0, 242, 255, 0.08);
+}
 /* App layout */
 .app-layout {
   min-height: 100vh;
@@ -129,3 +133,5 @@ body {
   flex-shrink: 0;
   color: #000000;
 }
+
+

@@ -67,9 +67,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </nav>
           </header>
 
-          <main className="flex-grow px-6 py-4">{children}</main>
+          <main className="flex-grow px-6 pt-4">{children}</main>
 
-          <footer className="border-t border-white/10 px-6 py-4 text-center">
+          <footer className="footer border-t border-white/10 px-6 py-4 text-center">
             Footer
           </footer>
         </Providers>
