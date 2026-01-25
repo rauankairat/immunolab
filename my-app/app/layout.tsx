@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <div className="flex space-x-6">
               <Link href="/orders" className="font-medium">Orders</Link>
               <Link href="/contact" className="font-medium">Contact Us</Link>
-              <Link href="/" className="font-medium">About</Link>
+              <Link href="/about" className="font-medium">About</Link>
             </div>
 
               <div className="flex space-x-6 items-center">
