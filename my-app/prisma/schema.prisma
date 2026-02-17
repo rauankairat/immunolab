@@ -6,19 +6,24 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   =  "../src/app/generated/prisma"
+  output   = "../src/app/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  
 }
 
-
-model User{
+model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
+  age       Int
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
+model Tests {
+  id        Int      @id @default(autoincrement())
+  name      String
+  testedDay DateTime
+}
