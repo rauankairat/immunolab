@@ -1,0 +1,63 @@
+.wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+}
+
+.title {
+  margin-bottom: 16px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.label {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: white;
+  font-size: large;
+ 
+  
+}
+
+.button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: white;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.placeholder {
+  background-color: aqua;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 3rem 2.5rem;   
+  padding-bottom: 3.5rem;
+
+  border-radius: 20px;
+  background-color: #588157;
+  ;    
+}
+
+.input {
+  text-align: center;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  border-radius: 20px;
+
+  color: black;
+  
+  background-color: #ffffff;
+}

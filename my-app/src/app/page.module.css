@@ -1,0 +1,10 @@
+.body {
+  background-color: rgb(144, 29, 29);
+}
+
+.home {
+  background-color: #b5facf;
+  min-height: 100vh;
+  margin: -1.5rem; /* Counteracts the px-6 from layout */
+  padding: 1.5rem; /* Adds the padding back inside */
+}
