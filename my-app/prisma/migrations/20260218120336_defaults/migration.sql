@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Test" ALTER COLUMN "testedDay" SET DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "isAdmin" SET DEFAULT false;

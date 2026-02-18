@@ -15,15 +15,27 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
+  isAdmin   Boolean  @default(false)
+  role      Role @default(BASIC)
   email     String   @unique
   name      String?
-  age       Int
+  age       Int?
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tests     Test[] @relation("ActiveTests")
+
+  @@index([email])
 }
 
-model Tests {
-  id        Int      @id @default(autoincrement())
+model Test {
+  id        String   @id @default(cuid())
   name      String
-  testedDay DateTime
+  testedDay DateTime @default(now())
+  patient   User     @relation("ActiveTests", fields: [patientId], references: [id])
+  patientId String
+}
+
+enum Role{
+  BASIC
+  ADMIN 
 }
