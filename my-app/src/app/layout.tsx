@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 import Image from "next/image";
 import { Providers } from "./providers";
 import LanguageSelector from "./components/LanguageSelector";
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <footer className="footer border-t border-white/10 px-6 py-4 text-center">
             Footer
           </footer>
+            <Toaster />  
         </Providers>
       </body>
     </html>

@@ -1,4 +1,5 @@
 "use client";
+import { Toaster } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,19 +32,21 @@ export default function RegisterPage() {
   async function onSubmit({ name, email, password }: SignUpValues) {
     setError(null);
 
-    const res = await authClient.signUp.email({
+    const {error} = await authClient.signUp.email({
       name,
       email,
       password,
-      callbackURL: "/",
+      callbackURL: "/email-verified",
     });
 
-    if (res.error) {
-      setError(res.error.message ?? "Sign up failed");
-      return;
+    if (error) {
+      setError(error.message ?? "Sign up failed");
+    }else{
+      toast.succes("Signed up successfully")
+      router.push("/home");
     }
 
-    router.push("/");
+    
   }
 
   return (
