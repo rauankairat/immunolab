@@ -3,47 +3,23 @@
 import { z } from "zod";
 import { SignupFormSchema, type FormState } from "../validation/auth";
 
+export async function register(state: FormState, formData: FormData) {
+  const validatedFields = SignupFormSchema.safeParse({
+    name: formData.get("name"),           
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"), 
+  });
 
-export async function registerUserAction(prevState: FormState, formData : FormData): Promise<FormState>{
-    console.log("Hello from register user action")
+  console.log(validatedFields);
 
-    const fields = {
-        username: formData.get("username") as string,
-        password: formData.get("password") as string,
-        confirmPassword: formData.get("confirmPassword") as string,
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors,)
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
     };
+  }
 
-    const validatedFields = SignupFormSchema.safeParse(fields);
-
-    if (!validatedFields.success) {
-        const flattenedErrors = z.flattenError(validatedFields.error);
-        console.log("Validation failed:", flattenedErrors.fieldErrors);
-        return {
-            success: false,
-            message: "Validation failed",
-            strapiErrors: null,
-            zodErrors: flattenedErrors.fieldErrors,
-            data: {
-                ...prevState.data,
-                ...fields,
-            },
-        };
-    }
-    
-    console.log("Validation successful:", validatedFields.data);
-
-    console.log("############")
-    console.log(fields)
-    console.log("################")
-
-    return{
-        success: true,
-        message: "User registration successful",
-        strapiErrors: null,
-        zodErrors: null,
-        data:{
-            ...prevState.data,
-            ...fields,
-        },
-    };
+  const { name, email, password, confirmPassword } = validatedFields.data; 
+  console.log(validatedFields); // now valid
 }

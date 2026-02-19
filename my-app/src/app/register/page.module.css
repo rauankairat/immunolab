@@ -7,6 +7,12 @@
 
 }
 
+.error {
+  color: #d91204; /* red */
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
 .title {
   margin-bottom: 16px;
   font-size: 24px;
@@ -46,7 +52,7 @@
   padding-bottom: 3.5rem;
 
   border-radius: 20px;
-  background-color: #588157;
+  background-color: #508D4E;
   ;    
 }
 

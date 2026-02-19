@@ -1,48 +1,116 @@
 "use client";
-import { useActionState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import styles from "./page.module.css";
-import { actions } from "../data/actions";
-import { type FormState } from "../data/validation/auth";
-import { ZodErrors } from "../components/custom/zod-errors";
+import { authClient } from "@/lib/auth-client";
+import { SignupFormSchema } from "@/app/data/validation/auth";
 
+// tell react-hook-form what shape the data is
+type SignUpValues = z.infer<typeof SignupFormSchema>;
 
-export default function Register() {
+export default function RegisterPage() {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
-    const INITIAL_STATE = {
-      success: false,
-      message: undefined,
-      strapiErrors: null,
-      zodErrors: null,
-    };
+  const form = useForm<SignUpValues>({
+    resolver: zodResolver(SignupFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-    const [formState, formAction] = useActionState(
-        actions.auth.registerUserAction,
-        INITIAL_STATE
-    );
+  const loading = form.formState.isSubmitting;
 
-    console.log("## will render on client ##");
-    console.log(formState);
-    console.log("###########################");
+  async function onSubmit({ name, email, password }: SignUpValues) {
+    setError(null);
+
+    const res = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      callbackURL: "/",
+    });
+
+    if (res.error) {
+      setError(res.error.message ?? "Sign up failed");
+      return;
+    }
+
+    router.push("/");
+  }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Register</h1>
+        <h1 className={styles.title}>Create account</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          
+          <label className={styles.label}>Name</label>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="John Doe"
+            {...form.register("name")}
+          />
+          {form.formState.errors.name && (
+            <p className={styles.error}>{form.formState.errors.name.message}</p>
+          )}
 
-        <form action={formAction}>
-          <label className={styles.label}>Username</label>
-          <input className={styles.input} type="text" name="username" placeholder="Email or mobile number" defaultValue={formState?.data?.username || ""}/>
-          <ZodErrors error={formState?.zodErrors?.username} />
+          <label className={styles.label}>Email</label>
+          <input
+            className={styles.input}
+            type="email"
+            placeholder="you@email.com"
+            {...form.register("email")}
+          />
+          {form.formState.errors.email && (
+            <p className={styles.error}>{form.formState.errors.email.message}</p>
+          )}
 
           <label className={styles.label}>Password</label>
-          <input className={styles.input} type="password" name="password" placeholder="Enter your password" defaultValue={formState?.data?.password || ""} />
-          <ZodErrors error={formState?.zodErrors?.password} />
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Enter password"
+            autoComplete="new-password"
+            {...form.register("password")}
+          />
+          {form.formState.errors.password && (
+            <p className={styles.error}>{form.formState.errors.password.message}</p>
+          )}
 
-          <label className={styles.label}>re-enter Password</label>
-          <input className={styles.input} type="password" name="confirmPassword" placeholder="Enter your password" />
+          <label className={styles.label}>Confirm Password</label>
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Repeat password"
+            autoComplete="new-password"
+            {...form.register("confirmPassword")}
+          />
+          {form.formState.errors.confirmPassword && (
+            <p className={styles.error}>{form.formState.errors.confirmPassword.message}</p>
+          )}
 
-          <button className={styles.button} type="submit">Register</button>
-          <label className={styles.label} htmlFor="/login">Already have an account? <br />Sign in now!</label>
+          {error && <p className={styles.error}>{error}</p>}
+
+          <button 
+            className={styles.button} 
+            type="submit" 
+            disabled={loading}
+          >
+            {loading ? "Creating account..." : "Create account"}
+          </button>
+
+          <p className={styles.footer}>
+            Already have an account? <Link href="/login">Sign in</Link>
+          </p>
         </form>
       </div>
     </div>
