@@ -125,6 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   isAdmin: 'isAdmin',
   role: 'role',
   email: 'email',
+  emailVerified: 'emailVerified',
   name: 'name',
   age: 'age',
   createdAt: 'createdAt',
@@ -136,6 +137,42 @@ exports.Prisma.TestScalarFieldEnum = {
   name: 'name',
   testedDay: 'testedDay',
   patientId: 'patientId'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  expiresAt: 'expiresAt',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  accountId: 'accountId',
+  providerId: 'providerId',
+  userId: 'userId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  idToken: 'idToken',
+  accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
+  scope: 'scope',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -159,7 +196,10 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Test: 'Test'
+  Test: 'Test',
+  Session: 'Session',
+  Account: 'Account',
+  Verification: 'Verification'
 };
 
 /**

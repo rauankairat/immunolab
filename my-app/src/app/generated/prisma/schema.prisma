@@ -14,15 +14,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  isAdmin   Boolean  @default(false)
-  role      Role     @default(BASIC)
-  email     String   @unique
-  name      String?
-  age       Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  tests     Test[]   @relation("ActiveTests")
+  id            String    @id @default(cuid())
+  isAdmin       Boolean   @default(false)
+  role          Role      @default(BASIC)
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  name          String?
+  age           Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  tests         Test[]    @relation("ActiveTests")
+  sessions      Session[]
+  accounts      Account[]
 
   @@index([email])
 }
@@ -38,4 +41,49 @@ model Test {
 enum Role {
   BASIC
   ADMIN
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
 }

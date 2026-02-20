@@ -11,6 +11,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+
+  
+  
 }
 
 model User {
@@ -18,8 +21,7 @@ model User {
   isAdmin       Boolean   @default(false)
   role          Role      @default(BASIC)
   email         String    @unique
-  emailVerified Boolean
-  image         String
+  emailVerified Boolean  @default(false)
   name          String?
   age           Int?
   createdAt     DateTime  @default(now())
