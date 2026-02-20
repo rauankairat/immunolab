@@ -2,14 +2,14 @@ import { getServerSession } from "@/lib/get-session";
 import styles from "./page.module.css";
 
 
-import { redirect, unauthorized } from "next/navigation";
+import { redirect} from "next/navigation";
 
 
 export default async function OrderPage() {
   const session = await getServerSession();
   const user = session?.user;
   
-  if (!user) unauthorized()!
+  if (!user) redirect("/unauth"); 
 
 
 

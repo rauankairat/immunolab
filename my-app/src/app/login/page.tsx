@@ -48,6 +48,7 @@ export default function Login() {
     }else{
       toast.success("Signed in successfully")
       router.push("/account")
+      router.refresh();
     }
   }
    

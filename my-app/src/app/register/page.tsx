@@ -48,6 +48,7 @@ export default function RegisterPage() {
       onSuccess: (ctx) => {
         toast.success("Signed up successfully");
         router.push("/account");
+        router.refresh();
       }
     });
 }
