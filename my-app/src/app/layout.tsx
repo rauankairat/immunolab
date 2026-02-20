@@ -6,6 +6,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
 import LanguageSelector from "./components/LanguageSelector";
+import NavAuth from "./components/NavAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +28,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className={`min-h-screen flex flex-col antialiased ${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-
-          {/* ── Navbar ── */}
           <header style={{
             backgroundColor: "#1a5319",
             position: "sticky",
@@ -79,39 +78,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               {/* Auth + Language */}
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <LanguageSelector />
-                <Link href="/login" style={{
-                  padding: "8px 24px",
-                  borderRadius: "6px",
-                  backgroundColor: "#4a7c4e",
-                  color: "#ffffff",
-                  fontSize: "15px",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  fontFamily: "Poppins, Helvetica, sans-serif",
-                }}>
-                  Sign in
-                </Link>
-                <Link href="/register" style={{
-                  padding: "8px 24px",
-                  borderRadius: "6px",
-                  backgroundColor: "#ffffff",
-                  color: "#000000",
-                  fontSize: "15px",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  border: "2px solid #cccccc",
-                  fontFamily: "Poppins, Helvetica, sans-serif",
-                }}>
-                  Register
-                </Link>
+                <NavAuth />  {/* ✅ replaces Sign in + Register */}
               </div>
             </nav>
           </header>
 
-          {/* ── Page content ── */}
           <main className="flex-grow">{children}</main>
 
-          {/* ── Footer ── */}
           <footer style={{
             backgroundColor: "#1a5319",
             padding: "40px",
