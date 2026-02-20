@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import Image from "next/image";
 import { Providers } from "./providers";
 import LanguageSelector from "./components/LanguageSelector";
 
@@ -27,53 +26,123 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`min-h-screen flex flex-col antialiased ${geistSans.variable} ${geistMono.variable}`}>
-      <Providers> 
-      <header className="sticky top-0 z-50 bg-white border-b border-black/10 px-6 py-4">
-          <nav className= "navbar flex justify-between items-center">
-            <div className="flex space-x-6">
+        <Providers>
 
+          {/* ── Navbar ── */}
+          <header style={{
+            backgroundColor: "#1a5319",
+            position: "sticky",
+            top: 0,
+            zIndex: 50,
+            width: "100%",
+          }}>
+            <nav style={{
+              maxWidth: "1400px",
+              margin: "0 auto",
+              height: "70px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "0 40px",
+            }}>
+              {/* Logo */}
+              <Link href="/" style={{
+                fontSize: "22px",
+                fontWeight: 700,
+                color: "#ffffff",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                fontFamily: "Poppins, Helvetica, sans-serif",
+              }}>
+                ImmunoLab
+              </Link>
 
-              <div>
-                <Link href = "/">
-                  <Image
-                    src="/logo.png"
-                    alt="ImmunoLab logo"
-                    width={200}
-                    height={200}
-                    priority
-                    />
-                </Link>
-
-            </div>
-                
+              {/* Center links */}
+              <div style={{ display: "flex", gap: "48px" }}>
+                {[
+                  { href: "/orders", label: "Order" },
+                  { href: "/about", label: "About" },
+                  { href: "/contact", label: "Contact Us" },
+                ].map(({ href, label }) => (
+                  <Link key={href} href={href} style={{
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    color: "#ffffff",
+                    textDecoration: "none",
+                    fontFamily: "Poppins, Helvetica, sans-serif",
+                  }}>
+                    {label}
+                  </Link>
+                ))}
               </div>
 
-              <div className ="flex justify-center">
-                <Link href=""></Link>
-                <Link href="/posts" className="font-medium">Posts</Link>
-              </div>
-
-            <div className="flex space-x-6">
-              <Link href="/orders" className="font-medium">Orders</Link>
-              <Link href="/contact" className="font-medium">Contact Us</Link>
-              <Link href="/about" className="font-medium">About</Link>
-            </div>
-
-              <div className="flex space-x-6 items-center">
+              {/* Auth + Language */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <LanguageSelector />
-                <Link href="/login" className="font-medium">Sign in</Link>
-                <Link href="/register" className="font-medium">Register</Link>
+                <Link href="/login" style={{
+                  padding: "8px 24px",
+                  borderRadius: "6px",
+                  backgroundColor: "#4a7c4e",
+                  color: "#ffffff",
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  fontFamily: "Poppins, Helvetica, sans-serif",
+                }}>
+                  Sign in
+                </Link>
+                <Link href="/register" style={{
+                  padding: "8px 24px",
+                  borderRadius: "6px",
+                  backgroundColor: "#ffffff",
+                  color: "#000000",
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  border: "2px solid #cccccc",
+                  fontFamily: "Poppins, Helvetica, sans-serif",
+                }}>
+                  Register
+                </Link>
               </div>
-            
             </nav>
           </header>
 
-          <main className="flex-grow px-6 pt-4">{children}</main>
+          {/* ── Page content ── */}
+          <main className="flex-grow">{children}</main>
 
-          <footer className="footer border-t border-white/10 px-6 py-4 text-center">
-            Footer
+          {/* ── Footer ── */}
+          <footer style={{
+            backgroundColor: "#1a5319",
+            padding: "40px",
+          }}>
+            <div style={{
+              maxWidth: "1400px",
+              margin: "0 auto",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}>
+              <div>
+                <p style={{ margin: "0 0 6px 0", color: "#ffffff", fontSize: "15px", fontWeight: 600, fontFamily: "Poppins, Helvetica, sans-serif" }}>
+                  ImmunoLab@gmail.com
+                </p>
+                <p style={{ margin: 0, color: "#ffffff", fontSize: "15px", fontWeight: 600, fontFamily: "Poppins, Helvetica, sans-serif" }}>
+                  +777 777 777 7777
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: "32px" }}>
+                <Link href="/privacy" style={{ color: "rgba(255,255,255,0.75)", fontSize: "15px", fontWeight: 600, textDecoration: "none", fontFamily: "Poppins, Helvetica, sans-serif" }}>
+                  Privacy Policy
+                </Link>
+                <Link href="/terms" style={{ color: "rgba(255,255,255,0.75)", fontSize: "15px", fontWeight: 600, textDecoration: "none", fontFamily: "Poppins, Helvetica, sans-serif" }}>
+                  Terms
+                </Link>
+              </div>
+            </div>
           </footer>
-            <Toaster />  
+
+          <Toaster />
         </Providers>
       </body>
     </html>

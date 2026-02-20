@@ -1,0 +1,252 @@
+/* ── Page wrapper ── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", Helvetica, sans-serif;
+  background-color: #ffffff;
+}
+
+/* ── Banner ── */
+.banner {
+  background-color: #c8c8c8;
+  padding: 32px 40px 36px;
+}
+
+.bannerTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 12px 0;
+}
+
+.bannerDesc {
+  font-size: 16px;
+  font-weight: 400;
+  color: #000000;
+  margin: 0;
+  max-width: 860px;
+  line-height: 1.5;
+}
+
+/* ── Main layout ── */
+.main {
+  display: flex;
+  gap: 48px;
+  padding: 48px 40px;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px 40px;
+  align-self: flex-start;
+}
+
+.avatarWrap {
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7b5ea7 0%, #3b2a6e 100%);
+  border: 3px solid #aaaaaa;
+}
+
+.userName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 4px 0;
+  text-align: center;
+}
+
+.userEmail {
+  font-size: 13px;
+  font-weight: 400;
+  color: #333333;
+  margin: 0 0 2px 0;
+  text-align: center;
+}
+
+.userPhone {
+  font-size: 13px;
+  font-weight: 400;
+  color: #333333;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.newOrderBtn {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #2d6a2c;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: "Poppins", Helvetica, sans-serif;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.newOrderBtn:hover {
+  background-color: #1a5319;
+}
+
+/* ── Content ── */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ── Section ── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  font-size: 26px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+/* ── Card ── */
+.card {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* ── Badges ── */
+.badge {
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.badgeScheduled {
+  background-color: #c0c0ef;
+  color: #000000;
+}
+
+.badgeInProgress {
+  background-color: #ca9542;
+  color: #ffffff;
+}
+
+.badgeCompleted {
+  background-color: #4cac5e;
+  color: #ffffff;
+}
+
+/* ── Card body ── */
+.cardBody {
+  background-color: #f5f5f5;
+  margin: 0 12px 12px;
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.cardDate {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 4px 0;
+}
+
+.cardLocation {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  margin: 0;
+}
+
+.divider {
+  border: none;
+  border-top: 1.5px solid #d9d9d9;
+  margin: 14px 0 12px;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Action buttons ── */
+.actionBtnGray {
+  padding: 8px 22px;
+  border-radius: 7px;
+  background-color: #e0dfdf;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Poppins", Helvetica, sans-serif;
+  color: #000000;
+  cursor: pointer;
+}
+
+.actionBtnGray:hover {
+  background-color: #cccccc;
+}
+
+.actionBtnGreen {
+  padding: 8px 22px;
+  border-radius: 7px;
+  background-color: #d6efd8;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Poppins", Helvetica, sans-serif;
+  color: #000000;
+  cursor: default;
+}
+
+.actionBtnPurple {
+  padding: 8px 22px;
+  border-radius: 7px;
+  background-color: #c0c0ef;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Poppins", Helvetica, sans-serif;
+  color: #000000;
+  cursor: pointer;
+}
+
+.actionBtnPurple:hover {
+  background-color: #a8a8e0;
+}
