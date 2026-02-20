@@ -1,6 +1,18 @@
+import { getServerSession } from "@/lib/get-session";
 import styles from "./page.module.css";
 
-export default function OrderPage() {
+
+import { redirect, unauthorized } from "next/navigation";
+
+
+export default async function OrderPage() {
+  const session = await getServerSession();
+  const user = session?.user;
+  
+  if (!user) unauthorized()!
+
+
+
   return (
     <div className={styles.page}>
 
