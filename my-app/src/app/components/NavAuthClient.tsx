@@ -38,7 +38,7 @@ export default function NavAuthClient({ user }: { user: User }) {
         <div className={styles.dropdown}>
           {user ? (
             <>
-              <Link href="/orders" onClick={() => setOpen(false)} className={styles.item}>
+              <Link href="/account" onClick={() => setOpen(false)} className={styles.item}>
                 My Account
               </Link>
               <button className={styles.item} onClick={handleSignOut}>
