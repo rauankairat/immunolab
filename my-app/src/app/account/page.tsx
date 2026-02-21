@@ -1,21 +1,15 @@
 import { getServerSession } from "@/lib/get-session";
+import { User } from "@/lib/auth";
 import styles from "./page.module.css";
-
-
-import { redirect} from "next/navigation";
-
+import { redirect } from "next/navigation";
 
 export default async function OrderPage() {
   const session = await getServerSession();
   const user = session?.user;
-  
-  if (!user) redirect("/unauth"); 
-
-
+  if (!user) redirect("/unauth");
 
   return (
     <div className={styles.page}>
-
       {/* ── Page Header Banner ── */}
       <div className={styles.banner}>
         <h1 className={styles.bannerTitle}>My Test Orders</h1>
@@ -27,21 +21,11 @@ export default async function OrderPage() {
 
       {/* ── Main Layout ── */}
       <div className={styles.main}>
-
         {/* Sidebar */}
-        <aside className={styles.sidebar}>
-          <div className={styles.avatarWrap}>
-            <div className={styles.avatar}></div>
-          </div>
-          <p className={styles.userName}>Rauan Kairat</p>
-          <p className={styles.userEmail}>rauan@gmail.com</p>
-          <p className={styles.userPhone}>+777 7777 7777</p>
-          <button className={styles.newOrderBtn}>+ New Test Order</button>
-        </aside>
+        <ProfileInformation user={user} />
 
         {/* Content */}
         <div className={styles.content}>
-
           {/* Upcoming Tests */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Upcoming Tests</h2>
@@ -98,10 +82,26 @@ export default async function OrderPage() {
               </div>
             </div>
           </section>
-
         </div>
       </div>
-
     </div>
+  );
+}
+
+interface ProfileInformationProps {
+  user: User;
+}
+
+function ProfileInformation({ user }: ProfileInformationProps) {
+  return (
+    <aside className={styles.sidebar}>
+      <div className={styles.avatarWrap}>
+        <div className={styles.avatar}></div>
+      </div>
+      <p className={styles.userName}>{user.name}</p>
+      <p className={styles.userEmail}>{user.email}</p>
+      <p className={styles.userPhone}>+777 7777 7777</p>
+      <button className={styles.newOrderBtn}>+ New Test Order</button>
+    </aside>
   );
 }
