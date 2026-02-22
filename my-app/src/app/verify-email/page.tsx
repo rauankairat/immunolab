@@ -1,10 +1,17 @@
+import { getServerSession } from "@/lib/get-session";
 import styles from "./page.module.css";
-import Link from "next/link";
+import { redirect, unauthorized } from "next/navigation";
+import { ResendVerificationButton } from "../components/ResendVerification";
 
-export default function VerifyEmailPage() {
+export default async function VerifyEmailPage() {
+    const session = await getServerSession()
+    const user = session?.user;
+
+    if(!user) unauthorized() ;
+
+    if(user.emailVerified) redirect("/account")
   return (
     <div className={styles.page}>
-      {/* ── Banner ── */}
       <div className={styles.banner}>
         <h1 className={styles.bannerTitle}>Verify Email</h1>
         <p className={styles.bannerDesc}>
@@ -12,37 +19,38 @@ export default function VerifyEmailPage() {
         </p>
       </div>
 
-      {/* ── Main ── */}
       <div className={styles.main}>
         <div className={styles.card}>
-          {/* Icon */}
           <div className={styles.iconWrap}>
-            <div className={styles.lockIcon}>✉️</div>
+            <div className={styles.iconRing}>
+              <div className={styles.icon}>✉️</div>
+            </div>
           </div>
 
-          <h2 className={styles.cardTitle}>Email Verification Required</h2>
+          <h2 className={styles.cardTitle}>Check your inbox</h2>
 
           <p className={styles.cardDesc}>
-            We have sent a verification link to your email address.
-            Please open the email and click the link to confirm your account.
+            We sent a verification link to your email address. Open the email and click the link to confirm your account.
           </p>
 
-          <p className={styles.cardDesc}>
-            If you did not receive the email, you can request a new verification link.
-          </p>
+          <div className={styles.tipBox}>
+            <p className={styles.tipTitle}>Didn’t get the email?</p>
+            <ul className={styles.tipList}>
+              <li>Check Spam or Promotions</li>
+              <li>Wait 1 to 2 minutes and refresh your inbox</li>
+              <li>Make sure your email address is correct</li>
+            </ul>
+          </div>
 
           <hr className={styles.divider} />
 
           <div className={styles.actions}>
-            <button className={styles.resendBtn}>
-              Resend Verification Email
-            </button>
+            <ResendVerificationButton email={user.email} />
           </div>
-          <Link href="/account" className={styles.homeLink}>
-          ← Back to Account
-          </Link>
 
-         
+          <p className={styles.footerNote}>
+            You can close this page after you verify.
+          </p>
         </div>
       </div>
     </div>

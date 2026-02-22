@@ -77,7 +77,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
               {/* Auth + Language */}
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <LanguageSelector />
+               
                 <NavAuth />  {/* ✅ replaces Sign in + Register */}
               </div>
             </nav>
