@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
+import { callbackOAuth } from "better-auth/api"
 
 const schema = z
   .object({
@@ -52,6 +53,7 @@ export default function RegisterPage() {
         email: values.identifier,
         password: values.password,
         name: values.name,
+        callbackURL: "email-verified"
       })
 
       if (result?.error) {
@@ -62,7 +64,7 @@ export default function RegisterPage() {
       }
 
       toast.success("Account created")
-      router.push("/login")
+      router.push("/account")
       router.refresh()
     } catch (e: any) {
       const msg = e?.message || "Registration failed"

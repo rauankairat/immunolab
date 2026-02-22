@@ -22,7 +22,7 @@ export default function NavAuthClient({ user }: { user: User }) {
     toast.error(error.message || "Something went wrong");
   } else {
     toast.success("Signed out successfully");
-    router.push("/register");
+    router.push("/login");
     router.refresh(); 
   }
 }
