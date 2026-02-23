@@ -47,7 +47,7 @@ export default function RegisterPage() {
     setServerError(null)
 
     try {
-      // Adjust to your actual signup API if needed
+     
       const result = await (authClient as any).signUp?.email?.({
         email: values.identifier,
         password: values.password,
@@ -62,7 +62,7 @@ export default function RegisterPage() {
       }
 
       toast.success("Account created")
-      router.push("/verify-email")
+      router.push(`/verify-email?email=${values.identifier}`)
       router.refresh()
     } catch (e: any) {
       const msg = e?.message || "Registration failed"
