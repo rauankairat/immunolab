@@ -33,7 +33,7 @@ text: `Click the link to verify your email: / Нажмите на ссылку �
       }
     }
   },
-  trustedOrigins: ["http://localhost:3001"],
+  trustedOrigins: ["https://www.allergoexpressmed.com"],
 });
 
 export type Session = typeof auth.$Infer.Session
