@@ -13,5 +13,5 @@ export async function sendEmail({to, subject, text}: sendEmailValues) {
         to,
         subject,
         text,
-    })
+    });
 }

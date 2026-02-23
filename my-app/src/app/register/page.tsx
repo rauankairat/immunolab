@@ -62,7 +62,7 @@ export default function RegisterPage() {
       }
 
       toast.success("Account created")
-      router.push("/login")
+      router.push("/verify-email")
       router.refresh()
     } catch (e: any) {
       const msg = e?.message || "Registration failed"

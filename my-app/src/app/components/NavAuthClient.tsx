@@ -10,6 +10,7 @@ import styles from "./NavAuth.module.css";
 type User = {
   name: string;
   email: string;
+  role: string;
 } | null;
 
 export default function NavAuthClient({ user }: { user: User }) {
@@ -17,15 +18,15 @@ export default function NavAuthClient({ user }: { user: User }) {
   const router = useRouter();
 
   async function handleSignOut() {
-  const { error } = await authClient.signOut();
-  if (error) {
-    toast.error(error.message || "Something went wrong");
-  } else {
-    toast.success("Signed out successfully");
-    router.push("/login");
-    router.refresh(); 
+    const { error } = await authClient.signOut();
+    if (error) {
+      toast.error(error.message || "Something went wrong");
+    } else {
+      toast.success("Signed out successfully");
+      router.push("/login");
+      router.refresh();
+    }
   }
-}
 
   return (
     <div className={styles.wrapper}>
@@ -33,7 +34,6 @@ export default function NavAuthClient({ user }: { user: User }) {
         <UserIcon size={16} />
         <span>{user ? user.name : "Account"} ▾</span>
       </button>
-
       {open && (
         <div className={styles.dropdown}>
           {user ? (
@@ -41,6 +41,11 @@ export default function NavAuthClient({ user }: { user: User }) {
               <Link href="/account" onClick={() => setOpen(false)} className={styles.item}>
                 My Account
               </Link>
+              {user.role === "ADMIN" && (
+                <Link href="/admin" onClick={() => setOpen(false)} className={styles.item}>
+                  Admin Dashboard
+                </Link>
+              )}
               <button className={styles.item} onClick={handleSignOut}>
                 <LogOutIcon size={16} />
                 Sign out

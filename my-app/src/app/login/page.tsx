@@ -47,24 +47,28 @@ export default function LoginPage() {
   })
 
   const onSubmit = async (values: FormValues) => {
-    setServerError(null)
+  setServerError(null)
 
-    const result = await authClient.signIn.email({
-      email: values.identifier,
-      password: values.password,
-      rememberMe: values.remember,
-    })
+  const result = await authClient.signIn.email({
+    email: values.identifier,
+    password: values.password,
+    rememberMe: values.remember,
+  })
 
-    if (result.error) {
-      const msg = result.error.message || "Login failed"
-      setServerError(msg)
-      toast.error(msg)
-    } else {
-      toast.success("Signed in successfully")
-      router.push("/account")
-      router.refresh()
+  if (result.error) {
+    if (result.error.code === "EMAIL_NOT_VERIFIED") {
+      router.push(`/verify-email?email=${values.identifier}`)
+      return
     }
+    const msg = result.error.message || "Login failed"
+    setServerError(msg)
+    toast.error(msg)
+  } else {
+    toast.success("Signed in successfully")
+    router.push("/account")
+    router.refresh()
   }
+}
 
   return (
     <div className={styles.page}>
