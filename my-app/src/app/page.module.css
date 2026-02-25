@@ -1,10 +1,682 @@
-.body {
-  background-color: rgb(144, 29, 29);
+/* ═══════════════════════════════════════════════════════════════
+   ImmunoLab — page.module.css
+   Fonts: Georgia (headings) + Poppins / Helvetica (body)
+   No @import — add Poppins in globals.css if desired
+═══════════════════════════════════════════════════════════════ */
+
+/* ── DESIGN TOKENS ────────────────────────────────────────────── */
+.page {
+  --forest:      #0f2e0f;
+  --forest-mid:  #1a4d1a;
+  --green:       #2d7a2d;
+  --green-soft:  #4a9e4a;
+  --mint:        #d4edd4;
+  --mint-light:  #eef7ee;
+  --cream:       #f9f7f2;
+  --ink:         #0d1f0d;
+  --ink-muted:   #3d4f3d;
+  --white:       #ffffff;
+  --accent:      #6bc46b;
+
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   24px;
+
+  background-color: var(--cream);
+  color: var(--ink);
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
 }
 
-.home {
-  background-color: #b5facf;
-  min-height: 100vh;
-  margin: -1.5rem; /* Counteracts the px-6 from layout */
-  padding: 1.5rem; /* Adds the padding back inside */
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: inherit;
+}
+
+/* ── NOISE GRAIN OVERLAY ─────────────────────────────────────── */
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* ── SHARED: LABEL PILL ──────────────────────────────────────── */
+.sectionLabel {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 18px;
+  padding: 5px 12px;
+  border: 1.5px solid var(--green-soft);
+  border-radius: 100px;
+  line-height: 1.4;
+}
+
+/* ── SHARED: SECTION TITLE ───────────────────────────────────── */
+.sectionTitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.1;
+  color: var(--forest);
+  margin: 0 0 28px;
+}
+
+/* ── SHARED: BUTTONS ─────────────────────────────────────────── */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background-color: var(--forest);
+  color: var(--white);
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: background-color 0.2s ease, gap 0.2s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btnPrimary:hover,
+.btnPrimary:focus-visible {
+  background-color: var(--green);
+  gap: 16px;
+  outline: 2px solid #4a90e2;
+  outline-offset: 3px;
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background-color: transparent;
+  color: var(--ink);
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(13, 31, 13, 0.25);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  line-height: 1;
+}
+
+.btnGhost:hover,
+.btnGhost:focus-visible {
+  border-color: var(--forest);
+  background-color: rgba(13, 31, 13, 0.04);
+  outline: 2px solid #4a90e2;
+  outline-offset: 3px;
+}
+
+.btnArrow {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 80px 100px;
+  gap: 60px;
+  overflow: hidden;
+  background-color: var(--cream);
+}
+
+/* decorative orb top-right */
+.heroOrb {
+  position: absolute;
+  top: -220px;
+  right: -180px;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 40%,
+    #b8deb8 0%,
+    #d4edd4 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 560px;
+  max-width: 560px;
+}
+
+/* badge */
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  background-color: var(--mint);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+  line-height: 1.4;
+}
+
+.heroBadge::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* hero headline */
+.heroTitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(48px, 6vw, 84px);
+  font-weight: 400;
+  line-height: 1.0;
+  color: var(--forest);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.heroTitle em {
+  font-style: italic;
+  color: var(--green);
+}
+
+.heroSubtitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin: 0 0 32px;
+  letter-spacing: -0.01em;
+}
+
+.heroBody {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 0 40px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* stat cards — right column */
+.heroCards {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.heroCard {
+  background: var(--white);
+  border: 1px solid rgba(45, 122, 45, 0.15);
+  border-radius: var(--radius-md);
+  padding: 22px 32px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 16px rgba(15, 46, 15, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.heroCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(15, 46, 15, 0.12);
+}
+
+.heroCardAccent {
+  background: var(--forest);
+  border-color: var(--forest);
+}
+
+.heroCardAccent .heroCardNum {
+  color: var(--white);
+}
+
+.heroCardAccent .heroCardLabel {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.heroCardNum {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--forest);
+  line-height: 1;
+}
+
+.heroCardLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHAT WE DO
+═══════════════════════════════════════════════════════════════ */
+.what {
+  background-color: var(--forest);
+  position: relative;
+  overflow: hidden;
+}
+
+/* dot-grid texture */
+.what::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.055) 1px,
+    transparent 1px
+  );
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.whatInner {
+  position: relative;
+  z-index: 1;
+  padding: 100px 80px;
+}
+
+/* override label + title colours inside dark section */
+.what .sectionLabel {
+  color: var(--accent);
+  border-color: rgba(107, 196, 107, 0.4);
+}
+
+.what .sectionTitle {
+  color: var(--white);
+  max-width: 480px;
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.featureItem {
+  display: grid;
+  grid-template-columns: 72px 1px 1fr;
+  gap: 0 32px;
+  align-items: stretch;
+  padding: 36px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.featureItem:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.featureItem:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.featureNum {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 42px;
+  font-weight: 400;
+  color: rgba(107, 196, 107, 0.35);
+  line-height: 1;
+  align-self: center;
+  padding-left: 4px;
+}
+
+.featureLine {
+  width: 1px;
+  background-color: rgba(107, 196, 107, 0.22);
+  align-self: stretch;
+}
+
+.featureBody {
+  padding: 4px 0;
+  align-self: center;
+}
+
+.featureTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0 0 10px;
+}
+
+.featureText {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.65;
+  max-width: 600px;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY IMMUNOLAB
+═══════════════════════════════════════════════════════════════ */
+.why {
+  position: relative;
+  padding: 100px 80px;
+  overflow: hidden;
+  background-color: var(--cream);
+}
+
+/* right-side green panel */
+.whyBg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 52%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--mint-light) 0%, var(--mint) 100%);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.whyInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 80px;
+  align-items: center;
+}
+
+.whyLeft {
+  flex: 0 0 440px;
+}
+
+.whyBody {
+  font-size: 16px;
+  color: var(--ink-muted);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+
+.whyRight {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.whyCard {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid rgba(45, 122, 45, 0.12);
+  box-shadow: 0 2px 12px rgba(15, 46, 15, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whyCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(15, 46, 15, 0.1);
+}
+
+.whyStat {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--forest);
+  line-height: 1;
+}
+
+.whyLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CTA
+═══════════════════════════════════════════════════════════════ */
+.cta {
+  position: relative;
+  background-color: var(--forest-mid);
+  padding: 100px 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ctaOrb {
+  position: absolute;
+  bottom: -200px;
+  right: -100px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(107, 196, 107, 0.2) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ctaInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 720px;
+}
+
+.ctaEyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ctaTitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--white);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.ctaBtnLarge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 36px;
+  background-color: var(--accent);
+  color: var(--forest);
+  font-family: "Poppins", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  margin-top: 8px;
+  transition: background-color 0.2s ease, gap 0.2s ease;
+  line-height: 1;
+}
+
+.ctaBtnLarge:hover,
+.ctaBtnLarge:focus-visible {
+  background-color: #80d480;
+  gap: 18px;
+  outline: 2px solid #4a90e2;
+  outline-offset: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FIND US
+═══════════════════════════════════════════════════════════════ */
+.findUs {
+  padding: 100px 80px;
+  display: flex;
+  gap: 80px;
+  align-items: center;
+  background-color: var(--cream);
+}
+
+.findUsLeft {
+  flex: 0 0 380px;
+}
+
+.findUsTitle {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 400;
+  color: var(--forest);
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.findUsAddress {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  font-style: normal;
+  margin: 0 0 36px;
+  letter-spacing: 0.01em;
+}
+
+/* map placeholder */
+.mapWrap {
+  flex: 1;
+  height: 360px;
+  background-color: var(--mint-light);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(45, 122, 45, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.mapGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(45, 122, 45, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 122, 45, 0.1) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* horizontal road */
+.mapGrid::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: rgba(45, 122, 45, 0.22);
+  transform: translateY(-50%);
+}
+
+/* vertical road */
+.mapGrid::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: rgba(45, 122, 45, 0.22);
+  transform: translateX(-50%);
+}
+
+.mapPin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mapPinDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--forest);
+  border: 3px solid var(--white);
+  box-shadow: 0 2px 8px rgba(15, 46, 15, 0.4);
+  position: relative;
+  z-index: 2;
+}
+
+.mapPinRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(15, 46, 15, 0.3);
+  animation: ring 2.5s ease-out infinite;
+}
+
+@keyframes ring {
+  0%   { width: 24px;  height: 24px;  opacity: 0.8; }
+  100% { width: 80px;  height: 80px;  opacity: 0;   }
 }
