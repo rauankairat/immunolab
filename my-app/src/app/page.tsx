@@ -1,5 +1,7 @@
 import Link from "next/link";
 import styles from "./page.module.css";
+import Map2GIS from "./components/Map2GIS";
+
 
 export default function HomePage() {
   return (
@@ -117,12 +119,14 @@ export default function HomePage() {
             <h2 id="find-us-heading" className={styles.findUsTitle}>
               Find Us
             </h2>
+            
             <address className={styles.findUsAddress}>
               Astana, Kazakhstan
             </address>
             <Link href="#directions" className={styles.directionsBtn}>
               Get Directions
             </Link>
+            <Map2GIS />
           </div>
         </section>
       </main>
