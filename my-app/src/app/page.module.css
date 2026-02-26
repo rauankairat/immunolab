@@ -2,6 +2,8 @@
 .home {
   min-height: 100vh;
   background: #ffffff;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: #333333;
 }
 
 /* Video container */
@@ -63,6 +65,243 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
+/* Hero section */
+.heroSection {
+  position: relative;
+  background: #ffffff;
+  padding: 60px 60px 0 60px;
+}
+
+/* Hero content block */
+.heroContent {
+  max-width: 480px;
+  padding-bottom: 80px;
+}
+
+/* Hero main title */
+.heroTitle {
+  margin: 0 0 18px;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #2d5a27;
+  letter-spacing: -0.02em;
+}
+
+/* Hero description */
+.heroDesc {
+  margin: 0 0 32px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #333333;
+  max-width: 420px;
+}
+
+/* CTA button row */
+.ctaButtons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Primary filled button */
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  background: #ffffff;
+  color: #2d5a27;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+.primaryButton:hover {
+  background: #f0f0f0;
+  border-color: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+/* Secondary outlined button */
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+/* What We Do section */
+.whatWeDoSection {
+  padding: 64px 40px 72px;
+  text-align: center;
+  background: #ffffff;
+}
+
+/* Section headings */
+.sectionTitle {
+  margin: 0 0 40px;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+}
+
+/* 3-column feature grid */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Individual feature card */
+.featureCard {
+  background: #cce3cc;
+  border-radius: 8px;
+  padding: 48px 24px 36px;
+  text-align: center;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.featureTitle {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.featureDesc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #444444;
+}
+
+/* Horizontal divider */
+.divider {
+  border: none;
+  border-top: 1px solid #cccccc;
+  margin: 0 40px;
+}
+
+/* Why ImmunoLab section */
+.whySection {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 64px 40px;
+  background: #ffffff;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.whyLeft {
+  flex: 1;
+}
+
+.whyTitle {
+  margin: 0 0 28px;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+}
+
+.whyList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.whyItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #222222;
+}
+
+/* Green check SVG icon */
+.checkIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Green rectangle on the right side */
+.whyRight {
+  flex: 1.2;
+  height: 220px;
+  background: #cce3cc;
+  border-radius: 10px;
+}
+
+/* Final CTA section */
+.ctaSection {
+  padding: 64px 24px 80px;
+  text-align: center;
+  background: #ffffff;
+}
+
+.ctaTitle {
+  margin: 0 0 32px;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+}
+
+/* Create an Account button */
+.createAccountButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 40px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  background: #4a7c59;
+  color: #ffffff;
+  border: 2px solid #4a7c59;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+.createAccountButton:hover {
+  background: #3a6b3a;
+  border-color: #3a6b3a;
+  transform: translateY(-1px);
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .videoCard {
@@ -76,6 +315,35 @@
 
   .brand h1 {
     font-size: 40px;
+  }
+
+  .heroSection {
+    padding: 40px 24px 0;
+  }
+
+  .heroContent {
+    padding-bottom: 60px;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .whySection {
+    flex-direction: column;
+    padding: 48px 24px;
+  }
+
+  .whyRight {
+    width: 100%;
+  }
+
+  .whatWeDoSection {
+    padding: 48px 24px 56px;
+  }
+
+  .divider {
+    margin: 0 24px;
   }
 }
 

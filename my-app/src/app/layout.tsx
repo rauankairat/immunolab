@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -46,14 +47,27 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             }}>
               {/* Logo */}
               <Link href="/" style={{
-                fontSize: "22px",
-                fontWeight: 700,
-                color: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
                 textDecoration: "none",
-                whiteSpace: "nowrap",
-                fontFamily: "Poppins, Helvetica, sans-serif",
               }}>
-                ImmunoLab
+                <Image
+                  src="/logo.png"   
+                  alt="ImmunoLab Logo"
+                  width={200}            
+                  height={200}
+                  style={{ objectFit: "contain" }}
+                />
+                <span style={{
+                  fontSize: "22px",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                  whiteSpace: "nowrap",
+                  fontFamily: "Poppins, Helvetica, sans-serif",
+                }}>
+                  ImmunoLab
+                </span>
               </Link>
 
               {/* Center links with sliding underline */}
@@ -81,10 +95,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             }}>
               <div>
                 <p style={{ margin: "0 0 6px 0", color: "#ffffff", fontSize: "15px", fontWeight: 600, fontFamily: "Poppins, Helvetica, sans-serif" }}>
-                  ImmunoLab@gmail.com
+                  allergoexpressmed@gmail.com
                 </p>
                 <p style={{ margin: 0, color: "#ffffff", fontSize: "15px", fontWeight: 600, fontFamily: "Poppins, Helvetica, sans-serif" }}>
-                  +777 777 777 7777
+                  +7 707 566 88 99
                 </p>
               </div>
               <div style={{ display: "flex", gap: "32px" }}>
