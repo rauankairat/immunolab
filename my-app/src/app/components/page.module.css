@@ -1,0 +1,21 @@
+.resendBtn {
+  padding: 10px 24px;
+  background-color: #1a5319;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: Poppins, Helvetica, sans-serif;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.resendBtn:hover {
+  background-color: #154516;
+}
+
+.resendBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
