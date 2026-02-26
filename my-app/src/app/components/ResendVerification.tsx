@@ -1,8 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import styles from "@/app/verify-email/page.module.css";
+import styles from "./page.module.css";
 
 export function ResendVerificationButton({ email }: { email: string }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,43 +9,33 @@ export function ResendVerificationButton({ email }: { email: string }) {
   const [error, setError] = useState<string | null>(null);
 
   async function resendVerificationEmail() {
-    if (!email) {
-      setError("No email found for this user");
-      return;
-    }
+   setSuccess(null)
+   setError(null)
+   setIsLoading(true)
 
-    setSuccess(null);
-    setError(null);
-    setIsLoading(true);
+   const {error} = await authClient.sendVerificationEmail({
+    email,
+    callbackURL: "/email-verified"
+   })
 
-    try {
-      const result = await (authClient as any).sendVerificationEmail?.({
-        email,
-        callbackURL: "/email-verified",
-      });
+   setIsLoading(false)
 
-      if (result?.error) {
-        setError(result.error.message || "Something went wrong");
-      } else {
-        setSuccess("Verification email sent successfully");
-      }
-    } catch (e: any) {
-      setError(e?.message || "Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
+   if(error) {
+    setError(error.message || "Something went wrong")
+   }else{
+    setSuccess("Verification email sent successfully")
+   }
   }
 
   return (
     <div>
-      {success && <p style={{ color: "green", marginBottom: 8 }}>{success}</p>}
-      {error && <p style={{ color: "red", marginBottom: 8 }}>{error}</p>}
-
+      {success && <p style={{ color: "green" }}>{success}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <button
-        type="button"
         className={styles.resendBtn}
         onClick={resendVerificationEmail}
         disabled={isLoading}
+        type="button"
       >
         {isLoading ? "Sending..." : "Resend Verification Email"}
       </button>

@@ -17,6 +17,8 @@ export default async function EmailVerifiedPage() {
     redirect("/account");
   }
 
+  
+
   return (
     <div className={styles.page}>
       <div className={styles.banner}>
