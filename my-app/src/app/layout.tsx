@@ -5,8 +5,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
-import LanguageSelector from "./components/LanguageSelector";
 import NavAuth from "./components/NavAuth";
+import NavLinks from "./components/NavLink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Immuno Lab",
   description: "Manage your allergy tests",
 };
@@ -56,29 +56,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 ImmunoLab
               </Link>
 
-              {/* Center links */}
-              <div style={{ display: "flex", gap: "48px" }}>
-                {[
-                  { href: "/orders", label: "Order" },
-                  { href: "/about", label: "About" },
-                  { href: "/contact", label: "Contact Us" },
-                ].map(({ href, label }) => (
-                  <Link key={href} href={href} style={{
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    color: "#ffffff",
-                    textDecoration: "none",
-                    fontFamily: "Poppins, Helvetica, sans-serif",
-                  }}>
-                    {label}
-                  </Link>
-                ))}
-              </div>
+              {/* Center links with sliding underline */}
+              <NavLinks />
 
-              {/* Auth + Language */}
+              {/* Auth */}
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-               
-                <NavAuth />  {/* ✅ replaces Sign in + Register */}
+                <NavAuth />
               </div>
             </nav>
           </header>
