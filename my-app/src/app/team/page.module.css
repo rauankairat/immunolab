@@ -1,0 +1,247 @@
+.page {
+  background: #fff;
+  font-family: "Poppins", Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Hero ── */
+.hero {
+  background: #1a5319;
+  padding: 56px 40px;
+}
+
+.heroInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.heroEyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 10px 0;
+}
+
+.heroTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
+}
+
+.heroSub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── Body ── */
+.body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 40px 100px;
+}
+
+/* ── Section ── */
+.section {
+  margin-bottom: 72px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionHead {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin: 0 0 0 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionHead::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: #1a5319;
+  flex-shrink: 0;
+}
+
+/* ── Table layout ── */
+.table {
+  width: 100%;
+}
+
+.tableHead {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tableHeadCell {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ccc;
+}
+
+/* ── Person row ── */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.row:hover .name {
+  color: #1a5319;
+}
+
+.row:hover .nameArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Name cell */
+.nameCell {
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: default;
+  width: fit-content;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2e1a;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+.nameArrow {
+  font-size: 11px;
+  color: #1a5319;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+/* Role cell */
+.roleCell {
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #f0f0f0;
+  padding-left: 24px;
+}
+
+.role {
+  font-size: 13px;
+  color: #777;
+  font-weight: 400;
+}
+
+/* ── Floating image ── */
+.imageFloat {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.imageFloat.visible {
+  opacity: 1;
+}
+
+.imageFloatInner {
+  width: 180px;
+  background: #fff;
+  border: 1px solid #e4ede4;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.imageFloatInner img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.imageFloatName {
+  padding: 10px 12px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1a2e1a;
+  font-family: "Poppins", Helvetica, sans-serif;
+  border-top: 1px solid #f0f0f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.imageFloatRole {
+  padding: 0 12px 10px;
+  font-size: 10.5px;
+  color: #999;
+  font-family: "Poppins", Helvetica, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Placeholder image ── */
+.placeholder {
+  width: 100%;
+  height: 220px;
+  background: #f0f7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero { padding: 40px 24px; }
+  .heroTitle { font-size: 26px; }
+  .body { padding: 40px 24px 60px; }
+
+  .tableHead { display: none; }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .roleCell {
+    border-left: none;
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 16px;
+  }
+
+  .role {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  /* On mobile, no floating image — too cramped */
+  .imageFloat { display: none; }
+}x`

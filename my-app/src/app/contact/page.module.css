@@ -1,0 +1,250 @@
+.page {
+  background: #fff;
+  font-family: "Poppins", Helvetica, sans-serif;
+}
+
+/* ── Hero ── */
+.hero {
+  background: #1a5319;
+  padding: 56px 40px;
+}
+
+.heroInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.heroEyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 10px 0;
+}
+
+.heroTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
+}
+
+.heroSub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── Grid ── */
+.grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 40px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.sectionHead {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin: 0 0 16px 0;
+}
+
+/* ── Contact rows ── */
+.rows { margin-bottom: 40px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.row:first-child { border-top: 1px solid #f0f0f0; }
+.row:hover .rowValue { color: #1a5319; }
+
+.rowIcon {
+  width: 34px;
+  height: 34px;
+  background: #f5f9f5;
+  border: 1px solid #e4ede4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.rowLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ccc;
+  margin: 0 0 1px 0;
+}
+
+.rowValue {
+  font-size: 14px;
+  font-weight: 500;
+  color: #222;
+  margin: 0;
+  transition: color 0.15s;
+}
+
+/* ── Social ── */
+.social {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Poppins", Helvetica, sans-serif;
+  text-decoration: none;
+  border: 1px solid #e0e0e0;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.socialBtn:hover {
+  background: #f7f7f7;
+  border-color: #bbb;
+}
+
+.socialIcon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  opacity: 0.55;
+}
+
+/* ── Note ── */
+.note {
+  background: #f7fbf7;
+  border-left: 3px solid #1a5319;
+  padding: 14px 18px;
+}
+
+.noteText {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.65;
+  margin: 0;
+  font-weight: 400;
+}
+
+.noteText strong {
+  font-weight: 600;
+  color: #1a5319;
+}
+
+/* ── Map ── */
+.mapWrap {
+  height: 300px;
+  border: 1px solid #e4ede4;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.mapLoading {
+  height: 300px;
+  background: #f5f9f5;
+  border: 1px solid #e4ede4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #aaa;
+  font-family: "Poppins", Helvetica, sans-serif;
+}
+
+/* ── Branch list ── */
+.branchList {
+  border: 1px solid #ebebeb;
+  border-top: none;
+}
+
+.hoursHead {
+  padding: 11px 18px;
+  background: #fafafa;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.hoursHeadText {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin: 0;
+}
+
+.branchItems {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.branchItems::-webkit-scrollbar { width: 4px; }
+.branchItems::-webkit-scrollbar-track { background: #fafafa; }
+.branchItems::-webkit-scrollbar-thumb { background: #ddd; }
+
+.branchItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 18px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.branchItem:last-child { border-bottom: none; }
+
+.branchName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+}
+
+.branchAddress {
+  font-size: 12px;
+  color: #888;
+  font-weight: 400;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero { padding: 40px 24px; }
+  .heroTitle { font-size: 26px; }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 40px 24px 60px;
+  }
+
+  .social { flex-direction: column; }
+  .mapWrap { height: 240px; }
+}
