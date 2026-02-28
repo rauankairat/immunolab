@@ -5,7 +5,7 @@
 
 /* Hero */
 .hero {
-  background: #1a5319;
+  background: linear-gradient(135deg, #1a5319 0%, #2d7a2c 55%, #3a9438 100%);
   padding: 56px 40px;
 }
 
