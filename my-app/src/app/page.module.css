@@ -149,56 +149,96 @@
   border-color: #ffffff;
 }
 
-/* What We Do section */
+/* What We Do - cooked */
 .whatWeDoSection {
-  padding: 64px 40px 72px;
+  padding: 80px 40px 88px;
   text-align: center;
   background: #ffffff;
 }
 
-/* Section headings */
 .sectionTitle {
-  margin: 0 0 40px;
+  margin: 0 0 48px;
   font-size: clamp(22px, 3vw, 32px);
   font-weight: 800;
   color: #1a1a1a;
   letter-spacing: -0.01em;
 }
 
-/* 3-column feature grid */
 .featuresGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 16px;
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* Individual feature card */
 .featureCard {
   background: #cce3cc;
-  border-radius: 8px;
-  padding: 48px 24px 36px;
-  text-align: center;
-  min-height: 160px;
+  border-radius: 12px;
+  padding: 40px 28px 32px;
+  text-align: left;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(26, 83, 25, 0.15);
+}
+
+.featureCard::before {
+  content: attr(data-n);
+  position: absolute;
+  top: -8px;
+  right: 16px;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 96px;
+  font-weight: 800;
+  color: rgba(26, 83, 25, 0.08);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.featureCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: rgba(26, 83, 25, 0.25);
+  border-radius: 0 0 2px 2px;
 }
 
 .featureTitle {
   margin: 0 0 10px;
-  font-size: 15px;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 16px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #0d1f0d;
+  line-height: 1.25;
 }
 
 .featureDesc {
   margin: 0;
+  font-family: "Poppins", Helvetica, sans-serif;
   font-size: 13px;
-  line-height: 1.55;
-  color: #444444;
+  line-height: 1.6;
+  color: #3a5c3a;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .whatWeDoSection { padding: 56px 24px 64px; }
+  .featuresGrid { grid-template-columns: 1fr; gap: 12px; }
+  .featureCard { min-height: 160px; }
 }
 
 /* Horizontal divider */
@@ -355,5 +395,649 @@
 
   .videoCard {
     background: url("/hero-poster.jpg") center / cover no-repeat;
+  }
+}
+
+/* ============================================================
+   NEW SECTIONS
+   ============================================================ */
+
+/* ---- Ticker ---- */
+.ticker {
+  background: #1a5319;
+  overflow: hidden;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.tickerTrack {
+  display: flex;
+  white-space: nowrap;
+  animation: tickerScroll 40s linear infinite;
+}
+
+.tickerItem {
+  display: inline-flex;
+  align-items: center;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  padding-right: 0;
+  flex-shrink: 0;
+}
+
+.tickerDot {
+  margin: 0 18px;
+  color: rgba(255,255,255,0.25);
+  font-size: 14px;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---- Stats strip ---- */
+.statsStrip {
+  background: #fff;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.statsInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: stretch;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px 0;
+  gap: 6px;
+}
+
+.statDivider {
+  width: 1px;
+  background: #ebebeb;
+  margin: 24px 48px;
+  flex-shrink: 0;
+}
+
+.statNum {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 44px;
+  font-weight: 800;
+  color: #1a5319;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.statSup {
+  font-size: 24px;
+  font-weight: 700;
+  vertical-align: super;
+  letter-spacing: 0;
+}
+
+.statSmall {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.statLabel {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 12px;
+  color: #999;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ---- How it works ---- */
+.howSection {
+  background: #f7fbf7;
+  padding: 96px 40px;
+}
+
+.howInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.howEyebrow {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1a5319;
+  margin: 0 0 16px 0;
+}
+
+.howTitle {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: #0d1f0d;
+  margin: 0 0 64px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.howSteps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid #e0ebe0;
+}
+
+.howStep {
+  padding: 40px 32px 40px 0;
+  border-right: 1px solid #e0ebe0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.howStep:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.howStep:first-child {
+  padding-left: 0;
+}
+
+.howStep + .howStep {
+  padding-left: 32px;
+}
+
+.howNum {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: #dce8dc;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  display: block;
+}
+
+.howStepBody {}
+
+.howStepTitle {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a2e1a;
+  margin: 0 0 10px 0;
+}
+
+.howStepDesc {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 13px;
+  color: #777;
+  line-height: 1.65;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ---- Result preview ---- */
+.previewSection {
+  background: #fff;
+  padding: 96px 40px;
+}
+
+.previewInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.previewLeft {}
+
+.previewTitle {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: #0d1f0d;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.previewDesc {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 14px;
+  color: #777;
+  line-height: 1.7;
+  margin: 0 0 32px 0;
+  font-weight: 400;
+}
+
+.previewCta {
+  display: inline-block;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a5319;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid #1a5319;
+  padding-bottom: 2px;
+  transition: opacity 0.15s;
+}
+
+.previewCta:hover {
+  opacity: 0.7;
+}
+
+/* ---- Result mock card ---- */
+.resultCard {
+  background: #fff;
+  border: 1px solid #e0e8e0;
+  box-shadow: 0 12px 48px rgba(26, 83, 25, 0.08), 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.resultPatientLabel {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin: 0 0 3px 0;
+}
+
+.resultPatient {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a2e1a;
+  margin: 0;
+}
+
+.resultBadge {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #edf5ed;
+  color: #1a5319;
+  padding: 5px 12px;
+  border: 1px solid #cce3cc;
+}
+
+.resultMeta {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 22px;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 11px;
+  color: #bbb;
+  background: #fafcfa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.resultSameDay {
+  color: #1a5319;
+  font-weight: 600;
+}
+
+.resultRows {
+  padding: 8px 22px 12px;
+}
+
+.resultRow {
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.resultRow:last-child {
+  border-bottom: none;
+}
+
+.resultRowTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.resultName {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.resultLevel {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+}
+
+.levelHigh     { background: #fef0f0; color: #c0392b; }
+.levelModerate { background: #fef9ec; color: #e67e22; }
+.levelLow      { background: #edf5ed; color: #1a5319; }
+.levelNegative { background: #f5f5f5; color: #aaa; }
+
+.resultBar {
+  height: 4px;
+  background: #f0f0f0;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.resultBarFill {
+  height: 100%;
+  background: #1a5319;
+  transition: width 0.6s ease;
+}
+
+.resultVal {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.resultFooter {
+  padding: 12px 22px;
+  background: #1a5319;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.04em;
+}
+
+/* ---- Testimonial ---- */
+.testimonialSection {
+  background: #0d1f0d;
+  padding: 96px 40px;
+}
+
+.testimonialInner {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.testimonialMark {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 120px;
+  color: rgba(255,255,255,0.06);
+  line-height: 0.8;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.testimonialQuote {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.7;
+  margin: 0 0 40px 0;
+  font-style: italic;
+  position: relative;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.testimonialAvatar {
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.testimonialName {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 2px 0;
+}
+
+.testimonialRole {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ---- Responsive for new sections ---- */
+@media (max-width: 900px) {
+  .howSteps {
+    grid-template-columns: 1fr 1fr;
+  }
+  .howStep:nth-child(2) {
+    border-right: none;
+  }
+  .howStep:nth-child(3) {
+    border-right: 1px solid #e0ebe0;
+    padding-left: 0;
+  }
+  .previewInner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .statsInner {
+    flex-direction: column;
+    padding: 0 24px;
+    gap: 0;
+  }
+  .stat {
+    padding: 28px 0;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .stat:last-child {
+    border-bottom: none;
+  }
+  .statDivider { display: none; }
+  .howSection { padding: 64px 24px; }
+  .howSteps { grid-template-columns: 1fr; }
+  .howStep {
+    border-right: none;
+    border-bottom: 1px solid #e0ebe0;
+    padding: 32px 0;
+  }
+  .howStep + .howStep { padding-left: 0; }
+  .howStep:last-child { border-bottom: none; }
+  .previewSection { padding: 64px 24px; }
+  .testimonialSection { padding: 64px 24px; }
+  .testimonialQuote { font-size: 16px; }
+}
+
+/* ---- Hero row ---- */
+.heroRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/* dividers between panels */
+.heroRow > * + * {
+  border-left: 1px solid #e8e8e8;
+}
+
+/* existing heroSection sits in column 1 unchanged,
+   just remove its standalone bottom padding */
+.heroRow .heroSection {
+  padding-bottom: 60px;
+  border-bottom: none;
+}
+
+/* ---- New panels shared base ---- */
+.heroSectionAlt,
+.heroSectionDark {
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.heroSectionAlt {
+  background: #f5faf5;
+}
+
+.heroSectionDark {
+  background: #1a5319;
+}
+
+/* tag / eyebrow */
+.heroAltTag {
+  display: inline-block;
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1a5319;
+  border: 1px solid #c0dcc0;
+  padding: 4px 10px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+
+/* light panel title */
+.heroAltTitle {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 800;
+  color: #0d1f0d;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* dark panel title */
+.heroAltTitleLight {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* light panel description */
+.heroAltDesc {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 13.5px;
+  color: #666;
+  line-height: 1.65;
+  margin: 0 0 28px 0;
+  font-weight: 400;
+}
+
+/* dark panel description */
+.heroAltDescLight {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+  margin: 0 0 28px 0;
+  font-weight: 400;
+}
+
+/* light panel link */
+.heroAltLink {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a5319;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid #1a5319;
+  padding-bottom: 2px;
+  width: fit-content;
+  transition: opacity 0.15s;
+}
+
+.heroAltLink:hover {
+  opacity: 0.65;
+}
+
+/* dark panel link */
+.heroAltLinkLight {
+  font-family: "Poppins", Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid rgba(255,255,255,0.4);
+  padding-bottom: 2px;
+  width: fit-content;
+  transition: opacity 0.15s;
+}
+
+.heroAltLinkLight:hover {
+  opacity: 0.65;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .heroRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .heroRow .heroSection {
+    grid-column: 1 / -1;
+    border-left: none;
+    border-bottom: 1px solid #e8e8e8;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroRow {
+    grid-template-columns: 1fr;
+  }
+
+  .heroSectionAlt,
+  .heroSectionDark {
+    padding: 48px 24px;
   }
 }
