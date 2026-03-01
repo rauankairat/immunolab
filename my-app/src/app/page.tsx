@@ -50,16 +50,16 @@ export default function Home() {
 
         {/* existing */}
         <section className={styles.heroSection}>
-          <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>
+          <div className={styles.heroAltTag}>Clinical Data Platform</div>
+            <h2 className={styles.heroAltTitle}>
               Structured Clinical Data.<br />
               Smarter Decisions.
-            </h1>
-            <p className={styles.heroDesc}>
+            </h2>
+            <p className={styles.heroAltDesc}>
               ImmunoLab securely collects, standardizes, and manages laboratory
               and clinical data for healthcare teams and researchers.
             </p>
-          </div>
+            <a href="/about" className={styles.heroAltLink}>Learn more &rarr;</a>
         </section>
 
         {/* new: fast results */}
@@ -117,22 +117,27 @@ export default function Home() {
         </div>
       </div>
 
-      {/* -- What We Do -- */}
       <section className={styles.whatWeDoSection}>
-        <h2 className={styles.sectionTitle}>What We Do</h2>
-        <div className={styles.featuresGrid}>
-          <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Secure Data Collection</h3>
-            <p className={styles.featureDesc}>Encrypted lab &amp; clinical data capture across all branch locations.</p>
-          </article>
-          <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Structured Data Management</h3>
-            <p className={styles.featureDesc}>Standardized formats that improve accuracy and eliminate transcription errors.</p>
-          </article>
-          <article className={styles.featureCard}>
-            <h3 className={styles.featureTitle}>Intelligent Accessibility</h3>
-            <p className={styles.featureDesc}>Real-time secure access to results for patients and clinicians alike.</p>
-          </article>
+        <div className={styles.whatWeDoInner}>
+          <p className={styles.whatWeDoTitle}>What we do</p>
+          <p className={styles.whatWeDoSubtitle}>
+            We securely collect, standardize, and deliver laboratory results, enabling
+             healthcare teams and patients with clean, structured data they can actually use.
+          </p>
+          <div className={styles.whatWeDoGrid}>
+            <div className={styles.whatWeDoItem}>
+              <h3 className={styles.whatWeDoItemTitle}>Secure Data Collection</h3>
+              <p className={styles.whatWeDoItemDesc}>Encrypted lab &amp; clinical data capture across all 13 branch locations.</p>
+            </div>
+            <div className={styles.whatWeDoItem}>
+              <h3 className={styles.whatWeDoItemTitle}>Structured Management</h3>
+              <p className={styles.whatWeDoItemDesc}>Standardized formats that improve accuracy and eliminate transcription errors.</p>
+            </div>
+            <div className={styles.whatWeDoItem}>
+              <h3 className={styles.whatWeDoItemTitle}>Intelligent Accessibility</h3>
+              <p className={styles.whatWeDoItemDesc}>Real-time secure access to results for patients and clinicians alike.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -225,7 +230,7 @@ export default function Home() {
             Results arrive structured, annotated, and ready to act on -- no transcription, no ambiguity.
           </blockquote>
           <div className={styles.testimonialAuthor}>
-            <div className={styles.testimonialAvatar}>:stethoscope:</div>
+            <div className={styles.testimonialAvatar}></div>
             <div>
               <p className={styles.testimonialName}>Dr. [Name]</p>
               <p className={styles.testimonialRole}>Allergist / Immunologist, Almaty</p>
