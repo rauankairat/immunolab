@@ -4,8 +4,9 @@ import { useState } from "react";
 
 const links = [
   { href: "/orders", label: "Order" },
-  { href: "/about", label: "About" },
+  { href: "/team", label: "The Team"},
   { href: "/contact", label: "Contact Us" },
+  { href: "/about", label: "About" }
 ];
 
 export default function NavLinks() {

@@ -1,7 +1,10 @@
-export default function Contact() {
-  return (
-    <div>
-      <h1>Contact page</h1>
-    </div>
-  );
+import { getServerSession } from '@/lib/get-session';
+import { redirect } from 'next/navigation';
+import ContactPage from './contactClient';
+
+const page = async () => {
+  
+  return <ContactPage />
 }
+
+export default page
