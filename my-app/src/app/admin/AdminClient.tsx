@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 const STATUS_LABELS = {
@@ -16,6 +17,7 @@ type Test = {
   location: string;
   status: "upcoming" | "current" | "past";
   hasResult?: boolean;
+  resultUrl?: string | null;
   patient: {
     id: string;
     name: string;
@@ -30,7 +32,34 @@ type Props = {
 };
 
 export default function AdminClient({ upcoming, current, past }: Props) {
+  const router = useRouter();
   const [search, setSearch] = useState("");
+
+  async function updateStatus(
+    testId: string,
+    status: "UPCOMING" | "CURRENT" | "PAST"
+  ) {
+    await fetch(`/api/tests/${testId}/status`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    router.refresh();
+  }
+
+  async function uploadResult(testId: string, file: File) {
+    const fd = new FormData();
+    fd.append("file", file);
+    await fetch(`/api/tests/${testId}/result`, {
+      method: "POST",
+      body: fd,
+    });
+    router.refresh();
+  }
+
+  function viewResult(testId: string) {
+    window.open(`/api/tests/${testId}/result/view`, "_blank");
+  }
 
   const query = search.toLowerCase().trim();
 
@@ -99,7 +128,7 @@ export default function AdminClient({ upcoming, current, past }: Props) {
               </p>
             )}
             {filteredUpcoming.map((test) => (
-              <TestCard key={test.id} test={test} />
+              <TestCard key={test.id} test={test} updateStatus={updateStatus} uploadResult={uploadResult} viewResult={viewResult} />
             ))}
           </div>
         </section>
@@ -118,7 +147,7 @@ export default function AdminClient({ upcoming, current, past }: Props) {
               </p>
             )}
             {filteredCurrent.map((test) => (
-              <TestCard key={test.id} test={test} />
+              <TestCard key={test.id} test={test} updateStatus={updateStatus} uploadResult={uploadResult} viewResult={viewResult} />
             ))}
           </div>
         </section>
@@ -137,7 +166,7 @@ export default function AdminClient({ upcoming, current, past }: Props) {
               </p>
             )}
             {filteredPast.map((test) => (
-              <TestCard key={test.id} test={test} />
+              <TestCard key={test.id} test={test} updateStatus={updateStatus} uploadResult={uploadResult} viewResult={viewResult} />
             ))}
           </div>
         </section>
@@ -146,7 +175,27 @@ export default function AdminClient({ upcoming, current, past }: Props) {
   );
 }
 
-function TestCard({ test }: { test: Test }) {
+function TestCard({
+  test,
+  updateStatus,
+  uploadResult,
+  viewResult,
+}: {
+  test: Test;
+  updateStatus: (testId: string, status: "UPCOMING" | "CURRENT" | "PAST") => Promise<void>;
+  uploadResult: (testId: string, file: File) => Promise<void>;
+  viewResult: (testId: string) => void;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+
+  async function handleUpload(file: File) {
+    setUploading(true);
+    await uploadResult(test.id, file);
+    setUploadedFileName(file.name);
+    setUploading(false);
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.cardTop}>
@@ -164,37 +213,124 @@ function TestCard({ test }: { test: Test }) {
             {STATUS_LABELS[test.status]}
           </span>
         </div>
+
         <div className={styles.cardActions}>
           {test.status === "upcoming" && (
-            <button className={styles.btnOutline}>Mark as In Progress</button>
+            <button
+              className={styles.btnOutline}
+              onClick={() => updateStatus(test.id, "CURRENT")}
+            >
+              Mark as In Progress
+            </button>
           )}
+
           {test.status === "current" && (
             <>
-              <label className={styles.uploadBtn}>
-                📄 Upload PDF Result
-                <input type="file" accept=".pdf" className={styles.fileInput} />
+              {/* Success pill — appears after upload */}
+              {uploadedFileName && (
+                <span style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  fontSize: "0.78rem",
+                  fontWeight: 500,
+                  color: "#16a34a",
+                  background: "#f0fdf4",
+                  border: "1px solid #bbf7d0",
+                  borderRadius: "6px",
+                  padding: "4px 10px",
+                  whiteSpace: "nowrap",
+                  maxWidth: "200px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}>
+                  ✅ {uploadedFileName}
+                </span>
+              )}
+
+              {/* Upload / Replace button */}
+              <label
+                className={styles.uploadBtn}
+                style={{
+                  opacity: uploading ? 0.6 : 1,
+                  pointerEvents: uploading ? "none" : "auto",
+                }}
+              >
+                {uploading
+                  ? "⏳ Uploading..."
+                  : uploadedFileName
+                  ? "🔄 Replace PDF"
+                  : "📄 Upload PDF Result"}
+                <input
+                  type="file"
+                  accept=".pdf"
+                  className={styles.fileInput}
+                  disabled={uploading}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleUpload(f);
+                  }}
+                />
               </label>
-              <button className={styles.btnPrimary}>Mark as Completed</button>
+
+              {/* Check Upload button — only visible after a successful upload */}
+              {uploadedFileName && (
+                <button
+                  className={styles.btnOutline}
+                  onClick={() => viewResult(test.id)}
+                >
+                  👁 Check Upload
+                </button>
+              )}
+
+              <button
+                className={styles.btnPrimary}
+                onClick={() => updateStatus(test.id, "PAST")}
+              >
+                Mark as Completed
+              </button>
             </>
           )}
-          {test.status === "past" && (
-            test.hasResult ? (
+
+          {test.status === "past" &&
+            (test.hasResult ? (
               <>
-                <button className={styles.btnOutline}>👁 View PDF</button>
+                <button
+                  className={styles.btnOutline}
+                  onClick={() => viewResult(test.id)}
+                >
+                  👁 View PDF
+                </button>
                 <label className={styles.uploadBtn}>
                   🔄 Replace PDF
-                  <input type="file" accept=".pdf" className={styles.fileInput} />
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    className={styles.fileInput}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) uploadResult(test.id, file);
+                    }}
+                  />
                 </label>
               </>
             ) : (
               <label className={styles.uploadBtnWarning}>
                 ⚠️ Upload Missing Result
-                <input type="file" accept=".pdf" className={styles.fileInput} />
+                <input
+                  type="file"
+                  accept=".pdf"
+                  className={styles.fileInput}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) uploadResult(test.id, file);
+                  }}
+                />
               </label>
-            )
-          )}
+            ))}
         </div>
       </div>
+
       <div className={styles.cardMeta}>
         <PatientChip name={test.patient.name} email={test.patient.email} />
         <span className={styles.metaDivider}>·</span>

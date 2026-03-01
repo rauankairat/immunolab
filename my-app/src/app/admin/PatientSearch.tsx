@@ -1,54 +1,162 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./PatientSearch.module.css";
 
-// ── Mock patients (replace with DB fetch later) ───────────────────────────────
-const MOCK_ALL_PATIENTS = [
-  { id: "p1", name: "Aisha Bekova", email: "aisha.bekova@email.com", createdAt: "February 10, 2026", testCount: 1 },
-  { id: "p2", name: "Daniyar Seitkali", email: "daniyar@email.com", createdAt: "January 5, 2026", testCount: 1 },
-  { id: "p3", name: "Madina Nurova", email: "madina.n@email.com", createdAt: "December 20, 2025", testCount: 2 },
-  { id: "p4", name: "Ruslan Akhmetov", email: "ruslan.a@email.com", createdAt: "March 1, 2026", testCount: 1 },
-  { id: "p5", name: "Zarina Ospanova", email: "zarina.o@email.com", createdAt: "February 28, 2026", testCount: 0 },
-  { id: "p6", name: "Bekzat Nurlanov", email: "bekzat.n@email.com", createdAt: "February 15, 2026", testCount: 0 },
-];
+type Patient = {
+  id: string;
+  name: string | null;
+  email: string;
+  createdAt: string;
+  age?: number | null;
+};
 
-type Patient = (typeof MOCK_ALL_PATIENTS)[number];
 type UploadForm = { testName: string; testDate: string; file: File | null };
 
-export default function PatientSearch() {
-  const [query, setQuery] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [form, setForm] = useState<UploadForm>({ testName: "", testDate: "", file: null });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+async function safeError(res: Response): Promise<string> {
+  try {
+    const data = await res.json();
+    return data?.error ?? data?.message ?? res.statusText;
+  } catch {
+    return res.statusText;
+  }
+}
 
-  const results = query.trim().length > 0
-    ? MOCK_ALL_PATIENTS.filter(
-        (p) =>
-          p.name.toLowerCase().includes(query.toLowerCase()) ||
-          p.email.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
+export default function PatientSearch() {
+  const router = useRouter();
+
+  const [query, setQuery] = useState("");
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [loadingResults, setLoadingResults] = useState(false);
+
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [form, setForm] = useState<UploadForm>({
+    testName: "",
+    testDate: "",
+    file: null,
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const shouldSearch = query.trim().length > 0;
+
+  const results = useMemo(() => patients, [patients]);
+
+  useEffect(() => {
+    if (!shouldSearch) {
+      setPatients([]);
+      return;
+    }
+
+    const controller = new AbortController();
+    const q = query.trim();
+
+    async function run() {
+      try {
+        setLoadingResults(true);
+        setError(null);
+
+        const res = await fetch(`/api/patients?q=${encodeURIComponent(q)}`, {
+          method: "GET",
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          const msg = await safeError(res);
+          throw new Error(msg || "Failed to search patients");
+        }
+
+        const data = (await res.json()) as Patient[];
+        setPatients(data);
+      } catch (e: any) {
+        if (e?.name === "AbortError") return;
+        setError(e?.message || "Something went wrong");
+        setPatients([]);
+      } finally {
+        setLoadingResults(false);
+      }
+    }
+
+    const t = setTimeout(run, 250);
+    return () => {
+      clearTimeout(t);
+      controller.abort();
+    };
+  }, [query, shouldSearch]);
 
   function openModal(patient: Patient) {
     setSelectedPatient(patient);
     setForm({ testName: "", testDate: "", file: null });
     setSubmitted(false);
+    setError(null);
   }
 
   function closeModal() {
     setSelectedPatient(null);
     setSubmitted(false);
+    setError(null);
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!selectedPatient) return;
     if (!form.testName || !form.testDate || !form.file) return;
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200)); // TODO: replace with real API call
-    setLoading(false);
-    setSubmitted(true);
+
+    try {
+      setLoadingSubmit(true);
+      setError(null);
+
+      // 1) create test row
+      const createRes = await fetch("/api/tests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId: selectedPatient.id,
+          name: form.testName,
+          testedDay: form.testDate,
+          location: "ImmunoLab",
+        }),
+      });
+
+      if (!createRes.ok) {
+        const msg = await safeError(createRes);
+        throw new Error(msg || "Failed to create test");
+      }
+
+      const created = (await createRes.json()) as { id: string };
+      const testId = created.id;
+
+      // 2) upload PDF
+      const fd = new FormData();
+      fd.append("file", form.file);
+
+      const uploadRes = await fetch(`/api/tests/${testId}/result`, {
+        method: "POST",
+        body: fd,
+      });
+
+      if (!uploadRes.ok) {
+        const msg = await safeError(uploadRes);
+        throw new Error(msg || "Failed to upload PDF");
+      }
+
+      // 3) mark as PAST
+      await fetch(`/api/tests/${testId}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "PAST" }),
+      });
+
+      setSubmitted(true);
+      router.refresh();
+    } catch (e: any) {
+      setError(e?.message || "Upload failed");
+    } finally {
+      setLoadingSubmit(false);
+    }
   }
 
   return (
@@ -64,7 +172,13 @@ export default function PatientSearch() {
 
       {/* Search Input */}
       <div className={styles.searchBox}>
-        <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg
+          className={styles.searchIcon}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.35-4.35" />
         </svg>
@@ -77,8 +191,19 @@ export default function PatientSearch() {
           autoComplete="off"
         />
         {query && (
-          <button className={styles.clearBtn} onClick={() => setQuery("")} type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+          <button
+            className={styles.clearBtn}
+            onClick={() => setQuery("")}
+            type="button"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              width="16"
+              height="16"
+            >
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </button>
@@ -86,37 +211,61 @@ export default function PatientSearch() {
       </div>
 
       {/* Results */}
-      {query.trim().length > 0 && (
+      {shouldSearch && (
         <div className={styles.results}>
-          {results.length === 0 ? (
+          {loadingResults ? (
+            <div className={styles.noResults}>
+              <span className={styles.noResultsIcon}>⏳</span>
+              <p>Searching...</p>
+            </div>
+          ) : results.length === 0 ? (
             <div className={styles.noResults}>
               <span className={styles.noResultsIcon}>🔍</span>
-              <p>No patients found for <strong>"{query}"</strong></p>
-              <span className={styles.noResultsSub}>Check the spelling or try searching by email</span>
+              <p>
+                No patients found for <strong>"{query}"</strong>
+              </p>
+              <span className={styles.noResultsSub}>
+                Check the spelling or try searching by email
+              </span>
             </div>
           ) : (
             <>
               <p className={styles.resultsMeta}>
                 {results.length} patient{results.length !== 1 ? "s" : ""} found
               </p>
+
               <div className={styles.patientList}>
                 {results.map((patient) => (
                   <div key={patient.id} className={styles.patientCard}>
                     <div className={styles.patientLeft}>
                       <div className={styles.avatar}>
-                        {patient.name.charAt(0).toUpperCase()}
+                        {(patient.name?.[0] ?? patient.email[0]).toUpperCase()}
                       </div>
                       <div className={styles.patientInfo}>
-                        <span className={styles.patientName}>{patient.name}</span>
+                        <span className={styles.patientName}>
+                          {patient.name ?? "Unnamed Patient"}
+                        </span>
                         <span className={styles.patientEmail}>{patient.email}</span>
                         <span className={styles.patientMeta}>
-                          Member since {patient.createdAt} ·{" "}
-                          {patient.testCount === 0 ? "No tests yet" : `${patient.testCount} test${patient.testCount !== 1 ? "s" : ""}`}
+                          Member since{" "}
+                          {new Date(patient.createdAt).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
-                    <button className={styles.uploadTrigger} onClick={() => openModal(patient)} type="button">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
+
+                    <button
+                      className={styles.uploadTrigger}
+                      onClick={() => openModal(patient)}
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        width="15"
+                        height="15"
+                      >
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="17 8 12 3 7 8" />
                         <line x1="12" y1="3" x2="12" y2="15" />
@@ -133,22 +282,43 @@ export default function PatientSearch() {
 
       {/* Modal */}
       {selectedPatient && (
-        <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && closeModal()}>
+        <div
+          className={styles.overlay}
+          onClick={(e) => e.target === e.currentTarget && closeModal()}
+        >
           <div className={styles.modal}>
             {!submitted ? (
               <>
                 <div className={styles.modalHeader}>
                   <div className={styles.modalPatient}>
                     <div className={styles.modalAvatar}>
-                      {selectedPatient.name.charAt(0).toUpperCase()}
+                      {(
+                        selectedPatient.name?.[0] ?? selectedPatient.email[0]
+                      ).toUpperCase()}
                     </div>
                     <div>
-                      <p className={styles.modalPatientName}>{selectedPatient.name}</p>
-                      <p className={styles.modalPatientEmail}>{selectedPatient.email}</p>
+                      <p className={styles.modalPatientName}>
+                        {selectedPatient.name ?? "Unnamed Patient"}
+                      </p>
+                      <p className={styles.modalPatientEmail}>
+                        {selectedPatient.email}
+                      </p>
                     </div>
                   </div>
-                  <button className={styles.closeBtn} onClick={closeModal} type="button">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+
+                  <button
+                    className={styles.closeBtn}
+                    onClick={closeModal}
+                    type="button"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      width="18"
+                      height="18"
+                    >
                       <path d="M18 6 6 18M6 6l12 12" />
                     </svg>
                   </button>
@@ -157,7 +327,15 @@ export default function PatientSearch() {
                 <div className={styles.modalDivider} />
 
                 <h3 className={styles.modalTitle}>Upload Test Result</h3>
-                <p className={styles.modalSub}>Fill in the test details and attach the PDF result.</p>
+                <p className={styles.modalSub}>
+                  Fill in the test details and attach the PDF result.
+                </p>
+
+                {error && (
+                  <p style={{ marginTop: 8, color: "var(--danger, #b00020)" }}>
+                    {error}
+                  </p>
+                )}
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                   <div className={styles.field}>
@@ -167,7 +345,9 @@ export default function PatientSearch() {
                       className={styles.input}
                       placeholder="e.g. Corona Virus Test"
                       value={form.testName}
-                      onChange={(e) => setForm({ ...form, testName: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, testName: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -178,7 +358,9 @@ export default function PatientSearch() {
                       type="date"
                       className={styles.input}
                       value={form.testDate}
-                      onChange={(e) => setForm({ ...form, testDate: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, testDate: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -189,46 +371,66 @@ export default function PatientSearch() {
                       {form.file ? (
                         <div className={styles.fileSelected}>
                           <span className={styles.fileIcon}>📄</span>
-                          <span className={styles.fileName}>{form.file.name}</span>
+                          <span className={styles.fileName}>
+                            {form.file.name}
+                          </span>
                           <button
                             type="button"
                             className={styles.fileRemove}
-                            onClick={(e) => { e.preventDefault(); setForm({ ...form, file: null }); }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setForm({ ...form, file: null });
+                            }}
                           >
                             Remove
                           </button>
                         </div>
                       ) : (
                         <div className={styles.filePrompt}>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="32" height="32" className={styles.fileUploadIcon}>
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="17 8 12 3 7 8" />
-                            <line x1="12" y1="3" x2="12" y2="15" />
-                          </svg>
-                          <span className={styles.filePromptText}>Click to upload PDF</span>
-                          <span className={styles.filePromptSub}>PDF files only</span>
+                          <span className={styles.filePromptText}>
+                            Click to upload PDF
+                          </span>
+                          <span className={styles.filePromptSub}>
+                            PDF files only
+                          </span>
                         </div>
                       )}
+
                       <input
                         type="file"
                         accept=".pdf"
                         className={styles.hiddenInput}
-                        onChange={(e) => setForm({ ...form, file: e.target.files?.[0] ?? null })}
+                        onChange={(e) =>
+                          setForm({
+                            ...form,
+                            file: e.target.files?.[0] ?? null,
+                          })
+                        }
                         required
                       />
                     </label>
                   </div>
 
                   <div className={styles.modalActions}>
-                    <button type="button" className={styles.cancelBtn} onClick={closeModal}>
+                    <button
+                      type="button"
+                      className={styles.cancelBtn}
+                      onClick={closeModal}
+                    >
                       Cancel
                     </button>
+
                     <button
                       type="submit"
                       className={styles.submitBtn}
-                      disabled={loading || !form.testName || !form.testDate || !form.file}
+                      disabled={
+                        loadingSubmit ||
+                        !form.testName ||
+                        !form.testDate ||
+                        !form.file
+                      }
                     >
-                      {loading ? <span className={styles.spinner} /> : "Upload Result"}
+                      {loadingSubmit ? "Uploading..." : "Upload Result"}
                     </button>
                   </div>
                 </form>
@@ -238,10 +440,18 @@ export default function PatientSearch() {
                 <div className={styles.successIcon}>✅</div>
                 <h3 className={styles.successTitle}>Result Uploaded</h3>
                 <p className={styles.successSub}>
-                  <strong>{form.testName}</strong> result has been successfully uploaded for{" "}
-                  <strong>{selectedPatient.name}</strong>.
+                  <strong>{form.testName}</strong> result has been successfully
+                  uploaded for{" "}
+                  <strong>
+                    {selectedPatient.name ?? selectedPatient.email}
+                  </strong>
+                  .
                 </p>
-                <button className={styles.submitBtn} onClick={closeModal} type="button">
+                <button
+                  className={styles.submitBtn}
+                  onClick={closeModal}
+                  type="button"
+                >
                   Done
                 </button>
               </div>

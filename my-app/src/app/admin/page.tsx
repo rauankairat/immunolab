@@ -3,82 +3,23 @@ import { redirect } from "next/navigation";
 import styles from "./page.module.css";
 import AdminClient from "./AdminClient";
 import PatientSearch from "./PatientSearch";
+import { prisma } from "@/lib/prisma";
 
+function mapStatus(status: "UPCOMING" | "CURRENT" | "PAST") {
+  if (status === "UPCOMING") return "upcoming" as const;
+  if (status === "CURRENT") return "current" as const;
+  return "past" as const;
+}
 
-// ── Mock data (replace with DB calls later) ──────────────────────────────────
-const MOCK_PATIENTS = [
-  {
-    id: "p1",
-    name: "Aisha Bekova",
-    email: "aisha.bekova@email.com",
-    tests: [
-      {
-        id: "t1",
-        name: "Corona Virus Test",
-        date: "15th April 2026, 10:00AM",
-        location: "ImmunoLab - Almaty",
-        status: "upcoming" as const,
-      },
-    ],
-  },
-  {
-    id: "p2",
-    name: "Daniyar Seitkali",
-    email: "daniyar@email.com",
-    tests: [
-      {
-        id: "t2",
-        name: "Allergy Panel Test",
-        date: "15th April 2026, 10:00AM",
-        location: "ImmunoLab - Almaty",
-        status: "current" as const,
-      },
-    ],
-  },
-  {
-    id: "p3",
-    name: "Madina Nurova",
-    email: "madina.n@email.com",
-    tests: [
-      {
-        id: "t3",
-        name: "Blood Count Test",
-        date: "10th April 2025, 10:00AM",
-        location: "ImmunoLab - Almaty",
-        status: "past" as const,
-        hasResult: true,
-      },
-      {
-        id: "t4",
-        name: "Corona Virus Test",
-        date: "20th March 2025, 09:00AM",
-        location: "ImmunoLab - Almaty",
-        status: "past" as const,
-        hasResult: false,
-      },
-    ],
-  },
-  {
-    id: "p4",
-    name: "Ruslan Akhmetov",
-    email: "ruslan.a@email.com",
-    tests: [
-      {
-        id: "t5",
-        name: "Hepatitis B Test",
-        date: "20th April 2026, 11:00AM",
-        location: "ImmunoLab - Astana",
-        status: "upcoming" as const,
-      },
-    ],
-  },
-];
-
-const STATUS_LABELS = {
-  upcoming: "Scheduled",
-  current: "In Progress",
-  past: "Completed",
-};
+function formatTestDate(d: Date) {
+  return d.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
 
 export default async function AdminPage() {
   const session = await getServerSession();
@@ -87,41 +28,41 @@ export default async function AdminPage() {
   if (!user) redirect("/unauth");
   if (user.role !== "ADMIN") redirect("/unauth");
 
-  const upcoming = MOCK_PATIENTS.flatMap((p) =>
-    p.tests
-      .filter((t) => t.status === "upcoming")
-      .map((t) => ({ ...t, patient: p }))
-  );
+  const tests = await prisma.test.findMany({
+    orderBy: { testedDay: "desc" },
+    include: {
+      patient: { select: { id: true, name: true, email: true } },
+    },
+  });
 
-  const current = MOCK_PATIENTS.flatMap((p) =>
-    p.tests
-      .filter((t) => t.status === "current")
-      .map((t) => ({ ...t, patient: p }))
-  );
-
-  const past = MOCK_PATIENTS.flatMap((p) =>
-    p.tests
-      .filter((t) => t.status === "past")
-      .map((t) => ({ ...t, patient: p }))
-  );
-
-  const allPatients = MOCK_PATIENTS.map((p) => ({
-    id: p.id,
-    name: p.name,
-    email: p.email,
+  const shaped = tests.map((t) => ({
+    id: t.id,
+    name: t.name,
+    date: formatTestDate(t.testedDay),
+    location: t.location ?? "ImmunoLab",
+    status: mapStatus(t.status),
+    hasResult: Boolean(t.resultUrl),
+    resultUrl: t.resultUrl ?? null,
+    patient: {
+      id: t.patient.id,
+      name: t.patient.name ?? "Unnamed Patient",
+      email: t.patient.email,
+    },
   }));
+
+  const upcoming = shaped.filter((t) => t.status === "upcoming");
+  const current = shaped.filter((t) => t.status === "current");
+  const past = shaped.filter((t) => t.status === "past");
 
   return (
     <div className={styles.page}>
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerInner}>
           <div>
             <h1 className={styles.headerTitle}>Lab Dashboard</h1>
-            <p className={styles.headerSub}>
-              Manage patient tests and upload results
-            </p>
+            <p className={styles.headerSub}>Manage patient tests and upload results</p>
           </div>
+
           <div className={styles.statsRow}>
             <div className={styles.stat}>
               <span className={styles.statNum}>{upcoming.length}</span>

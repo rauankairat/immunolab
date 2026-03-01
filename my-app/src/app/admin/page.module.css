@@ -392,3 +392,27 @@
   color: #777777;
   margin: 8px 0 0 4px;
 }
+
+.uploadSuccess {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.uploadSuccessIcon {
+  font-size: 14px;
+}
+
+.uploadSuccessName {
+  font-size: 13px;
+  color: #166534;
+  font-weight: 500;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

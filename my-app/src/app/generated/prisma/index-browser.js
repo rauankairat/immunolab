@@ -136,6 +136,13 @@ exports.Prisma.TestScalarFieldEnum = {
   id: 'id',
   name: 'name',
   testedDay: 'testedDay',
+  status: 'status',
+  location: 'location',
+  resultUrl: 'resultUrl',
+  resultName: 'resultName',
+  uploadedAt: 'uploadedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   patientId: 'patientId'
 };
 
@@ -192,6 +199,12 @@ exports.Prisma.NullsOrder = {
 exports.Role = exports.$Enums.Role = {
   BASIC: 'BASIC',
   ADMIN: 'ADMIN'
+};
+
+exports.TestStatus = exports.$Enums.TestStatus = {
+  UPCOMING: 'UPCOMING',
+  CURRENT: 'CURRENT',
+  PAST: 'PAST'
 };
 
 exports.Prisma.ModelName = {
