@@ -2,25 +2,28 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const links = [
-  { href: "/orders", label: "Order" },
-  { href: "/team", label: "The Team"},
-  { href: "/contact", label: "Contact Us" },
-  { href: "/about", label: "About" }
-];
+type Labels = {
+  order: string;
+  team: string;
+  contact: string;
+  about: string;
+};
 
-export default function NavLinks() {
+export default function NavLinks({ labels }: { labels: Labels }) {
+  const links = [
+    { href: "/orders",  label: labels.order },
+    { href: "/team",    label: labels.team },
+    { href: "/contact", label: labels.contact },
+    { href: "/about",   label: labels.about },
+  ];
+
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0, opacity: 0 });
 
   function handleMouseEnter(e: React.MouseEvent<HTMLAnchorElement>) {
     const el = e.currentTarget;
     const parent = el.parentElement!.getBoundingClientRect();
     const rect = el.getBoundingClientRect();
-    setUnderlineStyle({
-      left: rect.left - parent.left,
-      width: rect.width,
-      opacity: 1,
-    });
+    setUnderlineStyle({ left: rect.left - parent.left, width: rect.width, opacity: 1 });
   }
 
   function handleMouseLeave() {
@@ -49,21 +52,17 @@ export default function NavLinks() {
           {label}
         </Link>
       ))}
-
-      {/* Sliding underline */}
-      <span
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: underlineStyle.left,
-          width: underlineStyle.width,
-          height: "2px",
-          backgroundColor: "#ffffff",
-          opacity: underlineStyle.opacity,
-          transition: "left 0.25s ease, width 0.25s ease, opacity 0.2s ease",
-          pointerEvents: "none",
-        }}
-      />
+      <span style={{
+        position: "absolute",
+        bottom: 0,
+        left: underlineStyle.left,
+        width: underlineStyle.width,
+        height: "2px",
+        backgroundColor: "#ffffff",
+        opacity: underlineStyle.opacity,
+        transition: "left 0.25s ease, width 0.25s ease, opacity 0.2s ease",
+        pointerEvents: "none",
+      }} />
     </div>
   );
 }

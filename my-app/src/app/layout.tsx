@@ -8,6 +8,9 @@ import { Toaster } from "sonner";
 import { Providers } from "./providers";
 import NavAuth from "./components/NavAuth";
 import NavLinks from "./components/NavLink";
+import LanguageSelector from "./components/LanguageSelector";
+import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +27,13 @@ export const metadata: Metadata = {
   description: "Manage your allergy tests",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("NEXT_LOCALE")?.value ?? "en";
+  const t = await getTranslations("nav");
+
   return (
     <html lang="en">
       <body className={`min-h-screen flex flex-col antialiased ${geistSans.variable} ${geistMono.variable}`}>
@@ -53,9 +62,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 textDecoration: "none",
               }}>
                 <Image
-                  src="/logo.png"   
+                  src="/logo.png"
                   alt="ImmunoLab Logo"
-                  width={200}            
+                  width={200}
                   height={200}
                   style={{ objectFit: "contain" }}
                 />
@@ -70,11 +79,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 </span>
               </Link>
 
-              {/* Center links with sliding underline */}
-              <NavLinks />
+              {/* Center nav links */}
+              <NavLinks labels={{
+                order: t("order"),
+                team: t("team"),
+                contact: t("contact"),
+                about: t("about"),
+              }} />
 
-              {/* Auth */}
+              {/* Right side */}
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <LanguageSelector current={locale} />
                 <NavAuth />
               </div>
             </nav>
