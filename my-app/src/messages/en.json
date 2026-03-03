@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "Home",
+    "account": "My Tests",
+    "admin": "Dashboard",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "account": {
+    "title": "My Test Orders",
+    "description": "Manage your test orders. Review upcoming, current and past test orders to stay informed about potential allergies and recommended medications.",
+    "upcoming": "Upcoming Tests",
+    "current": "Current Test",
+    "past": "Past Tests",
+    "noUpcoming": "No upcoming tests.",
+    "noCurrent": "No tests currently in progress.",
+    "noPast": "No past tests.",
+    "reschedule": "Reschedule",
+    "awaiting": "Awaiting Lab Analysis...",
+    "viewResults": "View Results",
+    "resultPending": "Result Pending",
+    "newOrder": "+ New Test Order",
+    "memberSince": "Member since",
+    "verifyEmail": "Please verify your email address to access all features.",
+    "verifyBtn": "Verify Email"
+  },
+  "languages": {
+    "en": "English",
+    "ru": "Русский",
+    "kk": "Қазақша"
+  }
+}
