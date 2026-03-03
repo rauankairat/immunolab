@@ -2,13 +2,34 @@
 
 import styles from "./page.module.css";
 import dynamic from "next/dynamic";
-import { branches } from "./branches";
+import { branchCoords } from "./branches";
 
-// Leaflet can't run on the server — load it client-side only
 const BranchMap = dynamic(() => import("./BranchMap"), {
   ssr: false,
-  loading: () => <div className={styles.mapLoading}>Loading map…</div>,
+  loading: () => <div className={styles.mapLoading}>Loading map...</div>,
 });
+
+type Labels = {
+  eyebrow: string;
+  title: string;
+  sub: string;
+  phone: string;
+  emailAddress: string;
+  location: string;
+  socials: string;
+  bannerText: string;
+  mapText: string;
+};
+
+type BranchTranslation = {
+  name: string;
+  address: string;
+};
+
+type Props = {
+  labels: Labels;
+  branches: BranchTranslation[];
+};
 
 function WhatsAppIcon() {
   return (
@@ -26,23 +47,28 @@ function InstagramIcon() {
   );
 }
 
-export default function ContactPage() {
+export default function ContactClient({ labels, branches }: Props) {
+  const mergedBranches = branches.map((b, i) => ({
+    ...b,
+    ...branchCoords[i],
+  }));
+
   return (
     <div className={styles.page}>
 
       <div className={styles.hero}>
         <div className={styles.heroInner}>
-          <p className={styles.heroEyebrow}>Allergo Express Med</p>
-          <h1 className={styles.heroTitle}>Contact Us</h1>
-          <p className={styles.heroSub}>We're happy to answer questions about your tests or results.</p>
+          <p className={styles.heroEyebrow}>{labels.eyebrow}</p>
+          <h1 className={styles.heroTitle}>{labels.title}</h1>
+          <p className={styles.heroSub}>{labels.sub}</p>
         </div>
       </div>
 
       <div className={styles.grid}>
 
-        {/* ── Left ── */}
+        {/* Left */}
         <div>
-          <p className={styles.sectionHead}>Phone</p>
+          <p className={styles.sectionHead}>{labels.phone}</p>
           <div className={styles.rows}>
             <a href="tel:+77075668899" className={styles.row}>
               <span className={styles.rowIcon}>📞</span>
@@ -53,7 +79,7 @@ export default function ContactPage() {
             </a>
           </div>
 
-          <p className={styles.sectionHead}>Email & Address</p>
+          <p className={styles.sectionHead}>{labels.emailAddress}</p>
           <div className={styles.rows}>
             <a href="mailto:allergoexpressmed@gmail.com" className={styles.row}>
               <span className={styles.rowIcon}>✉️</span>
@@ -65,15 +91,15 @@ export default function ContactPage() {
             <div className={styles.row} style={{ cursor: "default" }}>
               <span className={styles.rowIcon}>📍</span>
               <div>
-                <p className={styles.rowLabel}>Location</p>
+                <p className={styles.rowLabel}>{labels.location}</p>
                 <p className={styles.rowValue}>13 branches across Almaty, Kazakhstan</p>
               </div>
             </div>
           </div>
 
-          <p className={styles.sectionHead}>Messengers & Social</p>
+          <p className={styles.sectionHead}>{labels.socials}</p>
           <div className={styles.social}>
-            <a href="https://www.instagram.com/allergoexpressimmunolab/" target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
+            <a href="https://wa.me/77075668899" target="_blank" rel="noopener noreferrer" className={styles.socialBtn}>
               <WhatsAppIcon />
               WhatsApp
             </a>
@@ -84,27 +110,22 @@ export default function ContactPage() {
           </div>
 
           <div className={styles.note}>
-            <p className={styles.noteText}>
-              Results are issued <strong>same day</strong> for samples submitted before 12:00 noon.
-              Samples received after 12:00 will be ready the next business day.
-            </p>
+            <p className={styles.noteText}>{labels.bannerText}</p>
           </div>
         </div>
 
-        {/* ── Right ── */}
+        {/* Right */}
         <div>
-          {/* Map */}
           <div className={styles.mapWrap}>
-            <BranchMap />
+            <BranchMap branches={mergedBranches} />
           </div>
 
-          {/* Branch list */}
           <div className={styles.branchList}>
             <div className={styles.hoursHead}>
-              <p className={styles.hoursHeadText}>Our Branches — {branches.length} locations</p>
+              <p className={styles.hoursHeadText}>{labels.mapText}</p>
             </div>
             <ul className={styles.branchItems}>
-              {branches.map((b, i) => (
+              {mergedBranches.map((b, i) => (
                 <li key={i} className={styles.branchItem}>
                   <span className={styles.branchName}>{b.name}</span>
                   <span className={styles.branchAddress}>{b.address}</span>

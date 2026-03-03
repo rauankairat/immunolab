@@ -1,20 +1,24 @@
 "use client";
-
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 import L from "leaflet";
-import { branches } from "./branches";
+
+type Branch = {
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+  phone: string;
+};
 
 const CENTER: [number, number] = [43.240, 76.930];
 
-export default function BranchMap() {
+export default function BranchMap({ branches }: { branches: Branch[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
-
-    // Already initialised (Strict Mode double-invoke guard)
     if (mapRef.current) {
       mapRef.current.remove();
       mapRef.current = null;
@@ -51,7 +55,7 @@ export default function BranchMap() {
       map.remove();
       mapRef.current = null;
     };
-  }, []);
+  }, [branches]);
 
   return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 }

@@ -93,22 +93,7 @@
     "location": "LOCATION",
     "socials": "MESSENGERS & SOCIALS",
     "banner_text": "Results are issued same day for samples submitted before 12:00 noon. Samples received after 12:00 will be ready the next business day.",
-    "map_text": "OUR BRANCHES - 13 LOCATIONS",
-      "branches": [
-  { "name": "AllergoExpress Immunolab", "address": "Shagabutdinova St, 132" },
-  { "name": "Tau Sunkar MC", "address": "Rozybakiev St, 33 A" },
-  { "name": "New Med MC", "address": "Microdistrict 10 A, 22 A" },
-  { "name": "Comfort Clinic", "address": "Serkebaev Ave, 146/12 (Comfort City, between blocks 5 & 6)" },
-  { "name": "Dr. Kalimoldaeva MC", "address": "Kenesary Khan St, 54/11" },
-  { "name": "LB Clinic (Pain Clinic)", "address": "Raiymbek Ave, 540/7" },
-  { "name": "AdkMed MC", "address": "Turkebaev St, 257 E" },
-  { "name": "Interteach Clinic", "address": "Nazarbayev Ave, 257 E" },
-  { "name": "Interteach Clinic", "address": "Nazarbayev Ave, 111" },
-  { "name": "Interteach Clinic", "address": "Microdistrict 6, bld 16" },
-  { "name": "Interteach (Pediatrics)", "address": "Samal-2, Mendikulov St, 49" },
-  { "name": "Interteach (Pediatrics)", "address": "Kabanbay Batyr St, 122 A" },
-  { "name": "Jasmin MC", "address": "Abay Lane, 14" }
-]
+    "map_text": "OUR BRANCHES - 13 LOCATIONS"
   },
   "about": {
     "intro": "ABOUT THE LABORATORY",
@@ -117,7 +102,6 @@
     "about_stat2": "Results (if sampled before noon)",
     "about_stat3": "Gold-standard testing method",
     "about_stat4": "Multiple branches across the city",
-    "about_stat5": "ELISA",
     "who": "WHO WE ARE",
     "about_h1": "Precision allergy diagnostics you can rely on",
     "about_h1_text1": "AllergoExpress Immunolab is a specialized medical laboratory focused on the express diagnosis of allergic reactions to local anesthetics and antibiotics. We work closely with clinics, dentists, and individual patients across Almaty to provide timely, accurate results that directly inform treatment decisions.",
@@ -158,17 +142,6 @@
     "verifyEmail": "Please verify your email address to access all features.",
     "verifyBtn": "Verify Email"
   },
-
-  "team": {
-  "eyebrow": "Allergo Express Med",
-  "title": "Meet the Team",
-  "sub": "The people behind your results.",
-  "medical_team": "Medical Team",
-  "dev_team": "Development Team",
-  "table_name": "Name",
-  "table_role": "Role"
-},
-
   "languages": {
     "en": "English",
     "ru": "Русский",
