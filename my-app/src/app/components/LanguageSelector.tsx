@@ -1,78 +1,105 @@
 "use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
 
-export default function ImagePopup() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [isAnimating, setIsAnimating] = useState(false);
+import { useState, useRef, useEffect, useTransition } from "react";
+import { useRouter } from "next/navigation";
+
+export default function LanguageSelector({ current }: { current: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState(current);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "ru", name: "Русский" },
+    { code: "kk", name: "Қазақша" },
+  ];
 
   useEffect(() => {
-    // Fade in animation
-    setIsAnimating(true);
-
-    // Start fade out after 4.5 seconds (to complete fade by 5 seconds)
-    const fadeOutTimer = setTimeout(() => {
-      setIsAnimating(false);
-    }, 4500);
-
-    // Completely hide after fade out completes
-    const hideTimer = setTimeout(() => {
-      setIsVisible(false);
-    }, 5000);
-
-    // Cleanup timers
-    return () => {
-      clearTimeout(fadeOutTimer);
-      clearTimeout(hideTimer);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleClose = () => {
-    setIsAnimating(false);
-    setTimeout(() => setIsVisible(false), 300); // Wait for fade out
-  };
+  async function handleSelect(code: string) {
+    setSelectedLang(code);
+    setIsOpen(false);
 
-  if (!isVisible) return null;
+    await fetch("/api/locale", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ locale: code }),
+    });
+
+    startTransition(() => {
+      router.refresh();
+    });
+  }
+
+  const currentLang = languages.find((lang) => lang.code === selectedLang);
 
   return (
-    <div 
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-500 ${
-        isAnimating ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      <div 
-        className={`relative bg-white rounded-lg shadow-2xl p-6 max-w-md mx-4 transition-all duration-500 ${
-          isAnimating ? "opacity-100 scale-100" : "opacity-0 scale-95"
-        }`}
+    <div className="language-dropdown" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="language-selector"
+        aria-expanded={isOpen}
+        disabled={isPending}
       >
-        <button
-          onClick={handleClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold transition-colors"
-          aria-label="Close popup"
+        {currentLang?.name}
+        <svg
+          className={`dropdown-arrow ${isOpen ? "open" : ""}`}
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
         >
-          ×
-        </button>
-        
-        <div className="flex flex-col items-center">
-          <Image
-            src="/logo.png"
-            alt="Welcome to ImmunoLab"
-            width={400}
-            height={400}
-            priority
-            className="rounded-lg"
+          <path
+            d="M1 1.5L6 6.5L11 1.5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          
-          <div className="mt-4 text-center">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              Welcome to ImmunoLab!
-            </h2>
-            <p className="text-gray-600">
-              Your trusted partner in immunological testing
-            </p>
-          </div>
-        </div>
-      </div>
+        </svg>
+      </button>
+
+      {isOpen && (
+        <ul className="language-dropdown-menu">
+          {languages.map((lang) => (
+            <li key={lang.code}>
+              <button
+                onClick={() => handleSelect(lang.code)}
+                className={`language-option ${selectedLang === lang.code ? "selected" : ""}`}
+              >
+                {selectedLang === lang.code && (
+                  <svg
+                    className="check-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M13.3333 4L6 11.3333L2.66667 8"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                <span>{lang.name}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

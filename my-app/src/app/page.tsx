@@ -1,42 +1,40 @@
+import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
-import newStyles from "./homepage-additions.module.css";
 
-export default function Home() {
+export default async function Home() {
+  const t = await getTranslations("home");
+
+  const steps = [
+    { n: "01", title: t("process_subheading1"), body: t("process_subheading1_text") },
+    { n: "02", title: t("process_subheading2"), body: t("process_subheading2_text") },
+    { n: "03", title: t("process_subheading3"), body: t("process_subheading3_text") },
+    { n: "04", title: t("process_subheading4"), body: t("process_subheading4_text") },
+  ];
+
+  const tickerItems = t.raw("moving_nav_bar") as string[];
+
   return (
     <div className={styles.home}>
 
       {/* -- Video Hero -- */}
       <div className={styles.videoCard}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className={styles.backgroundVideo}
-        >
+        <video autoPlay muted loop playsInline className={styles.backgroundVideo}>
           <source src="/videos/background.mp4" type="video/mp4" />
         </video>
         <div className={styles.bottomFade} />
         <div className={styles.brand}>
-          <h1>Get Your Allergo Test</h1>
+          <h1>{t("title")}</h1>
           <div className={styles.ctaButtons}>
-            <a href="/register" className={styles.primaryButton}>Get Started</a>
-            <a href="/about" className={styles.secondaryButton}>Learn More</a>
+            <a href="/register" className={styles.primaryButton}>{t("get_started")}</a>
+            <a href="/about" className={styles.secondaryButton}>{t("learn_more")}</a>
           </div>
         </div>
       </div>
 
-      {/* -- [NEW] Ticker -- */}
+      {/* -- Ticker -- */}
       <div className={styles.ticker}>
         <div className={styles.tickerTrack}>
-          {[
-            "ALLERGEN PANEL", "IgE TESTING", "SKIN PRICK TEST", "FOOD SENSITIVITY",
-            "DRUG ALLERGIES", "PATCH TESTING", "MOLD SPORES", "DUST MITES",
-            "POLLEN SCREEN", "ANIMAL DANDER", "LATEX ALLERGY", "INSECT VENOM",
-            "ALLERGEN PANEL", "IgE TESTING", "SKIN PRICK TEST", "FOOD SENSITIVITY",
-            "DRUG ALLERGIES", "PATCH TESTING", "MOLD SPORES", "DUST MITES",
-            "POLLEN SCREEN", "ANIMAL DANDER", "LATEX ALLERGY", "INSECT VENOM",
-          ].map((item, i) => (
+          {tickerItems.map((item, i) => (
             <span key={i} className={styles.tickerItem}>
               {item}
               <span className={styles.tickerDot}>&bull;</span>
@@ -45,114 +43,86 @@ export default function Home() {
         </div>
       </div>
 
-{/* -- Hero Row -- */}
+      {/* -- Hero Row -- */}
       <div className={styles.heroRow}>
-
-        {/* existing */}
         <section className={styles.heroSection}>
-          <div className={styles.heroAltTag}>Clinical Data Platform</div>
-            <h2 className={styles.heroAltTitle}>
-              Structured Clinical Data.<br />
-              Smarter Decisions.
-            </h2>
-            <p className={styles.heroAltDesc}>
-              ImmunoLab securely collects, standardizes, and manages laboratory
-              and clinical data for healthcare teams and researchers.
-            </p>
-            <a href="/about" className={styles.heroAltLink}>Learn more &rarr;</a>
+          <div className={styles.heroAltTag}>{t("box1_header1")}</div>
+          <h2 className={styles.heroAltTitle}>{t("box1_header2")}</h2>
+          <p className={styles.heroAltDesc}>{t("box1_text")}</p>
+          <a href="/about" className={styles.heroAltLink}>{t("box1_footer")} &rarr;</a>
         </section>
 
-        {/* new: fast results */}
         <section className={styles.heroSectionAlt}>
-          <div className={styles.heroAltTag}>Same-day results</div>
-          <h2 className={styles.heroAltTitle}>
-            Submitted before 12:00?<br />
-            Ready today.
-          </h2>
-          <p className={styles.heroAltDesc}>
-            Order online, walk into any of our 13 Almaty branches,
-            and receive your structured IgE panel results the same afternoon.
-          </p>
-          <a href="/contact" className={styles.heroAltLink}>Find a branch &rarr;</a>
+          <div className={styles.heroAltTag}>{t("box2_header1")}</div>
+          <h2 className={styles.heroAltTitle}>{t("box2_header2")}</h2>
+          <p className={styles.heroAltDesc}>{t("box2_text")}</p>
+          <a href="/contact" className={styles.heroAltLink}>{t("box2_footer")} &rarr;</a>
         </section>
 
-        {/* new: secure access */}
         <section className={styles.heroSectionDark}>
-          <div className={styles.heroAltTag} style={{ color: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.15)" }}>Secure access</div>
-          <h2 className={styles.heroAltTitleLight}>
-            Your results.<br />
-            Your account.
-          </h2>
-          <p className={styles.heroAltDescLight}>
-            Every test is logged, structured, and waiting in your personal dashboard.
-            Download, share with your doctor, or track over time.
-          </p>
-          <a href="/register" className={styles.heroAltLinkLight}>Create an account &rarr;</a>
+          <div className={styles.heroAltTag} style={{ color: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.15)" }}>
+            {t("box3_header1")}
+          </div>
+          <h2 className={styles.heroAltTitleLight}>{t("box3_header2")}</h2>
+          <p className={styles.heroAltDescLight}>{t("box3_text")}</p>
+          <a href="/register" className={styles.heroAltLinkLight}>{t("box3_footer")} &rarr;</a>
         </section>
-
       </div>
 
-      {/* -- [NEW] Stats strip -- */}
+      {/* -- Stats strip -- */}
       <div className={styles.statsStrip}>
         <div className={styles.statsInner}>
           <div className={styles.stat}>
             <span className={styles.statNum}>13</span>
-            <span className={styles.statLabel}>Branches across Almaty</span>
+            <span className={styles.statLabel}>{t("stat1")}</span>
           </div>
           <div className={styles.statDivider} />
           <div className={styles.stat}>
             <span className={styles.statNum}>21<span className={styles.statSup}>+</span></span>
-            <span className={styles.statLabel}>Allergen panels available</span>
+            <span className={styles.statLabel}>{t("stat2")}</span>
           </div>
           <div className={styles.statDivider} />
           <div className={styles.stat}>
             <span className={styles.statNum}>Same<span className={styles.statSmall}>-day</span></span>
-            <span className={styles.statLabel}>Results before 12:00</span>
+            <span className={styles.statLabel}>{t("stat3")}</span>
           </div>
           <div className={styles.statDivider} />
           <div className={styles.stat}>
             <span className={styles.statNum}>100<span className={styles.statSup}>%</span></span>
-            <span className={styles.statLabel}>Secure digital delivery</span>
+            <span className={styles.statLabel}>{t("stat4")}</span>
           </div>
         </div>
       </div>
 
+      {/* -- What we do -- */}
       <section className={styles.whatWeDoSection}>
         <div className={styles.whatWeDoInner}>
-          <p className={styles.whatWeDoTitle}>What we do</p>
-          <p className={styles.whatWeDoSubtitle}>
-            We securely collect, standardize, and deliver laboratory results, enabling
-             healthcare teams and patients with clean, structured data they can actually use.
-          </p>
+          <p className={styles.whatWeDoTitle}>{t("what_we_do_title")}</p>
+          <p className={styles.whatWeDoSubtitle}>{t("what_we_do_text")}</p>
           <div className={styles.whatWeDoGrid}>
             <div className={styles.whatWeDoItem}>
-              <h3 className={styles.whatWeDoItemTitle}>Secure Data Collection</h3>
-              <p className={styles.whatWeDoItemDesc}>Encrypted lab &amp; clinical data capture across all 13 branch locations.</p>
+              <h3 className={styles.whatWeDoItemTitle}>{t("what_we_do_h1")}</h3>
+              <p className={styles.whatWeDoItemDesc}>{t("what_we_do_h1_text")}</p>
             </div>
             <div className={styles.whatWeDoItem}>
-              <h3 className={styles.whatWeDoItemTitle}>Structured Management</h3>
-              <p className={styles.whatWeDoItemDesc}>Standardized formats that improve accuracy and eliminate transcription errors.</p>
+              <h3 className={styles.whatWeDoItemTitle}>{t("what_we_do_h2")}</h3>
+              <p className={styles.whatWeDoItemDesc}>{t("what_we_do_h2_text")}</p>
             </div>
             <div className={styles.whatWeDoItem}>
-              <h3 className={styles.whatWeDoItemTitle}>Intelligent Accessibility</h3>
-              <p className={styles.whatWeDoItemDesc}>Real-time secure access to results for patients and clinicians alike.</p>
+              <h3 className={styles.whatWeDoItemTitle}>{t("what_we_do_h3")}</h3>
+              <p className={styles.whatWeDoItemDesc}>{t("what_we_do_h3_text")}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* -- [NEW] How it works -- */}
+      {/* -- How it works -- */}
       <section className={styles.howSection}>
         <div className={styles.howInner}>
-          <p className={styles.howEyebrow}>The process</p>
-          <h2 className={styles.howTitle}>From sample to screen in hours.</h2>
+          <p className={styles.howEyebrow}>{t("the_process")}</p>
+          <h2 className={styles.howTitle}>{t("process_text")}</h2>
           <div className={styles.howSteps}>
-            {[
-              { n: "01", title: "Order online", body: "Select your allergen panel through our portal. Same-day appointments available at all 13 branches." },
-              { n: "02", title: "Sample collection", body: "Visit any branch. A qualified nurse collects your blood sample -- quick, clean, clinical." },
-              { n: "03", title: "Lab analysis", body: "Your sample is processed in our certified immunology lab using IgE-specific testing methodology." },
-              { n: "04", title: "Receive results", body: "Structured results delivered securely to your account. Download, share, or discuss with your doctor." },
-            ].map((step) => (
+            {steps.map((step) => (
               <div key={step.n} className={styles.howStep}>
                 <span className={styles.howNum}>{step.n}</span>
                 <div className={styles.howStepBody}>
@@ -165,20 +135,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* -- [NEW] Result preview -- */}
+      {/* -- Result preview -- */}
       <section className={styles.previewSection}>
         <div className={styles.previewInner}>
           <div className={styles.previewLeft}>
-            <p className={styles.howEyebrow}>What you receive</p>
-            <h2 className={styles.previewTitle}>Your results,<br />structured and clear.</h2>
-            <p className={styles.previewDesc}>
-              Every test result is structured, annotated, and immediately readable.
-              No jargon. No guesswork. Share directly with your specialist.
-            </p>
-            <a href="/register" className={styles.previewCta}>Get your test &rarr;</a>
+            <p className={styles.howEyebrow}>{t("result_title")}</p>
+            <h2 className={styles.previewTitle}>{t("result_text")}</h2>
+            <p className={styles.previewDesc}>{t("result_subtext")}</p>
+            <a href="/register" className={styles.previewCta}>{t("result_cta")} &rarr;</a>
           </div>
           <div className={styles.previewRight}>
-            {/* Mock result card */}
             <div className={styles.resultCard}>
               <div className={styles.resultHeader}>
                 <div>
@@ -220,20 +186,17 @@ export default function Home() {
       </section>
 
       <hr className={styles.divider} aria-hidden="true" />
-      
-      {/* -- [NEW] Testimonial -- */}
+
+      {/* -- Testimonial -- */}
       <section className={styles.testimonialSection}>
         <div className={styles.testimonialInner}>
           <span className={styles.testimonialMark}>&ldquo;</span>
-          <blockquote className={styles.testimonialQuote}>
-            ImmunoLab has fundamentally changed how I communicate allergy data to my patients.
-            Results arrive structured, annotated, and ready to act on -- no transcription, no ambiguity.
-          </blockquote>
+          <blockquote className={styles.testimonialQuote}>{t("quote")}</blockquote>
           <div className={styles.testimonialAuthor}>
             <div className={styles.testimonialAvatar}></div>
             <div>
-              <p className={styles.testimonialName}>Dr. [Name]</p>
-              <p className={styles.testimonialRole}>Allergist / Immunologist, Almaty</p>
+              <p className={styles.testimonialName}>{t("quote_name")}</p>
+              <p className={styles.testimonialRole}>{t("quote_name_profession")}</p>
             </div>
           </div>
         </div>
@@ -241,8 +204,8 @@ export default function Home() {
 
       {/* -- Final CTA -- */}
       <section className={styles.ctaSection}>
-        <h2 className={styles.ctaTitle}>Ready to improve your clinical workflow ?</h2>
-        <a href="#create-account" className={styles.createAccountButton}>Create an Account</a>
+        <h2 className={styles.ctaTitle}>{t("improve")}</h2>
+        <a href="#create-account" className={styles.createAccountButton}>{t("accc_creation")}</a>
       </section>
 
     </div>
