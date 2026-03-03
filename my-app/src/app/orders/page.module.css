@@ -322,3 +322,29 @@
     width: calc(100% + 48px);
   }
 }
+
+.listSwitcher {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 16px;
+}
+
+.switchBtn {
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: #aaa;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.switchBtnActive {
+  color: #1a5319;
+  border-bottom-color: #1a5319;
+}

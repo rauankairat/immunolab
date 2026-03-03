@@ -170,9 +170,138 @@
   "table_role": "Role"
 },
 
+  
+  
+
+    
+  
+
   "languages": {
     "en": "English",
     "ru": "Русский",
     "kk": "Қазақша"
+  },
+
+  "order": {
+    "test1": "Articaine Hydrochloride 4%, Huons Co., Ltd., Korea",
+    "desc1": "Local anesthetic commonly used for dental procedures.",
+
+    "test2": "Articaine 4% + Epinephrine 1:100 000, Spain, INIBSA",
+    "desc2": "Anesthetic with vasoconstrictor for longer-lasting effect.",
+
+    "test3": "Mepivastesin 3%, 3M ESPE, Germany",
+    "desc3": "Intermediate-acting local anesthetic for minor dental treatments.",
+
+    "test4": "Orabloc 1:100 000 / Red, Pierrel S.P.A., Italy",
+    "desc4": "Contains epinephrine for extended anesthesia.",
+
+    "test5": "Orabloc 1:200 000 / Blue, Pierrel S.P.A., Italy",
+    "desc5": "Milder epinephrine content for sensitive patients.",
+
+    "test6": "Septanest with Adrenaline 1:100 000, Blue, Septodont, France",
+    "desc6": "High potency dental anesthetic with adrenaline.",
+
+    "test7": "Septanest with Adrenaline 1:200 000, Green, Septodont, France",
+    "desc7": "Lower adrenaline concentration for safer use.",
+
+    "test8": "Ubistesin 4% Forte, 3M ESPE, Germany",
+    "desc8": "Strong anesthetic for longer procedures.",
+
+    "test9": "Ubistesin 4%, 3M ESPE, Germany / Red",
+    "desc9": "Standard dental anesthetic with moderate potency.",
+
+    "test10": "c 68 Ultracaine / Articaine",
+    "desc10": "Rapid onset anesthetic for minor dental work.",
+
+    "test11": "c 88 Mepivacaine",
+    "desc11": "Commonly used local anesthetic, moderate duration.",
+
+    "test12": "c 82 Lidocaine",
+    "desc12": "Classic dental anesthetic, widely used.",
+
+    "test13": "c 83 Novocaine",
+    "desc13": "Older anesthetic, mild effect, limited use today.",
+
+    "test14": "c 196 Epinephrine",
+    "desc14": "Vasoconstrictor often combined with anesthetics.",
+
+    "test15": "c 206 Cephalosporin",
+    "desc15": "Antibiotic for bacterial infections.",
+
+    "test16": "c 204 Amoxicillin",
+    "desc16": "Broad-spectrum antibiotic.",
+
+    "test17": "c 281 Diclofenac",
+    "desc17": "Anti-inflammatory and pain relief.",
+
+    "test18": "c 286 Ibuprofen",
+    "desc18": "Painkiller and anti-inflammatory.",
+
+    "test19": "c 194 Azithromycin",
+    "desc19": "Antibiotic for respiratory and skin infections.",
+
+    "test20": "c 172 Ketoprofen",
+    "desc20": "Nonsteroidal anti-inflammatory drug.",
+
+    "test21": "c 20 Paracetamol",
+    "desc21": "Analgesic and antipyretic drug."
+  },
+
+  "order2": {
+    "test1": "Thiamine (Vitamin B1)",
+    "test2": "Prednisolone",
+    "test3": "Dermatophagoides pteronyssinus",
+    "test4": "Dermatophagoides farinae",
+    "test5": "Dermatophagoides microceras",
+    "test6": "Cat dander",
+    "test7": "Dog dander",
+    "test8": "Chocolate",
+    "test9": "Buckwheat",
+    "test10": "Raspberry",
+    "test11": "Pea",
+    "test12": "Almond",
+    "test13": "Peanut",
+    "test14": "Lactose",
+    "test15": "Lemon",
+    "test16": "White cabbage",
+    "test17": "Apricot",
+    "test18": "Tomato",
+    "test19": "Walnut",
+    "test20": "Beef",
+    "test21": "Cod",
+    "test22": "Goat milk",
+    "test23": "Mandarin",
+    "test24": "Carrot",
+    "test25": "Potato",
+    "test26": "Salmon",
+    "test27": "Strawberry",
+    "test28": "Apple",
+    "test29": "Wheat",
+    "test30": "Pollock",
+    "test31": "Gluten",
+    "test32": "Corn",
+    "test33": "Chicken",
+    "test34": "Melon",
+    "test35": "Lamb",
+    "test36": "Rice",
+    "test37": "Banana",
+    "test38": "Seafood allergen mix (cod, crab, shrimp, mussels)",
+    "test39": "Nut mix (hazelnut, peanut, almond, walnut, coconut)",
+    "test40": "Late flowering meadow grass mix (g1-g5-g7-g12-g13)",
+    "test41": "House dust (mite, fungal, epithelial, insect, textile components)",
+    "test42": "House dust allergen mix (h1-d1-d2-i6)",
+    "test43": "Alternaria alternata (mold and yeast fungi)",
+    "test44": "Mold allergen mix (m1-m2-m3-m5-m6-m8)",
+    "test45": "Black poplar",
+    "test46": "Silver birch",
+    "test47": "Tree allergen mix (t1-t3-t5-t7-t10)",
+    "test48": "Common ragweed",
+    "test49": "Lamb’s quarters",
+    "test50": "Sunflower",
+    "test51": "Bitter wormwood",
+    "test52": "Common wormwood",
+    "test53": "Dandelion",
+    "test54": "Weed mix (w1-w5-w7-w8-w12)",
+    "test55": "Weed mix (w1-w9-w10-w12-w20)"
   }
 }
