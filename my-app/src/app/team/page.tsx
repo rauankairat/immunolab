@@ -30,9 +30,9 @@ const medicalTeam: Person[] = [
 
 const devTeam: Person[] = [
   // TODO: replace names, roles, and image paths below
-  { name: "[Dev Name]",        role: "Full-stack Developer",              image: null },
-  { name: "[Dev Name]",        role: "Frontend Developer",                image: null },
-  { name: "[Dev Name]",        role: "Backend Developer",                 image: null },
+  { name: "Rauan Kairat",        role: "Lead Software Engineer",              image: null },
+  { name: "Mustafa Rizwan",        role: "UI Designer",                image: null },
+  { name: "Nawfal Lodhi",        role: "Frontend developer",                 image: null },
 ];
 
 // ─── Floating image component ─────────────────────────────────────────────────
