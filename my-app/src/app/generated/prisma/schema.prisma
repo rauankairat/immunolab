@@ -33,6 +33,7 @@ model User {
 model Test {
   id         String     @id @default(cuid())
   name       String
+  testCode   String?    @unique
   testedDay  DateTime   @default(now())
   status     TestStatus @default(UPCOMING)
   location   String?
@@ -42,8 +43,8 @@ model Test {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @default(now()) @updatedAt
 
-  patient   User   @relation("ActiveTests", fields: [patientId], references: [id])
-  patientId String
+  patient   User?   @relation("ActiveTests", fields: [patientId], references: [id])
+  patientId String?
 }
 
 enum TestStatus {

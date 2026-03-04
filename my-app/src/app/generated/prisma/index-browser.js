@@ -135,6 +135,7 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TestScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  testCode: 'testCode',
   testedDay: 'testedDay',
   status: 'status',
   location: 'location',
