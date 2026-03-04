@@ -1,83 +1,66 @@
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 
 export const runtime = "nodejs";
 
-export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ id: string }> }
-) {
+export async function POST(req: Request) {
   const auth = await requireAdmin();
-  if (!auth.ok) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
-
-  const { id } = await ctx.params;
+  if (!auth.ok) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   try {
-    const formData = await req.formData();
-    const file = formData.get("file");
+    const body = await req.json();
+    const { patientId, walkinName, name, testedDay, location, testCode } = body;
 
-    if (!(file instanceof File)) {
-      return NextResponse.json({ error: "file is required" }, { status: 400 });
-    }
-
-    const isPdf =
-      file.type === "application/pdf" ||
-      file.name.toLowerCase().endsWith(".pdf");
-
-    if (!isPdf) {
-      return NextResponse.json({ error: "only pdf allowed" }, { status: 400 });
-    }
-
-    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
-    if (file.size > MAX_SIZE) {
+    // Must have either a registered patient or a walk-in name
+    if (!patientId && !walkinName) {
       return NextResponse.json(
-        { error: "pdf too large (max 10MB)" },
+        { error: "either patientId or walkinName is required" },
         { status: 400 }
       );
     }
 
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const key = `tests/${id}/${Date.now()}_${safeName}`;
-
-    const blob = await put(key, file, {
-      access: "private", // change later if you want private downloads
-      addRandomSuffix: false,
-    });
-
-    const updated = await prisma.test.update({
-      where: { id },
-      data: {
-        resultUrl: blob.url,
-        resultName: file.name,
-        uploadedAt: new Date(),
-      },
-      select: {
-        id: true,
-        resultUrl: true,
-        resultName: true,
-        uploadedAt: true,
-      },
-    });
-
-    return NextResponse.json(updated);
-  } catch (e: any) {
-    console.error("UPLOAD RESULT FAILED:", e);
-
-    // Prisma "record not found"
-    if (e?.code === "P2025") {
-      return NextResponse.json({ error: "test not found" }, { status: 404 });
+    if (!name || typeof name !== "string") {
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
     }
 
-    return NextResponse.json(
-      {
-        error: "internal server error",
-        message: e?.message ?? null,
-        code: e?.code ?? null,
+    if (!testedDay || typeof testedDay !== "string") {
+      return NextResponse.json({ error: "testedDay is required" }, { status: 400 });
+    }
+
+    const d = new Date(testedDay);
+    if (Number.isNaN(d.getTime())) {
+      return NextResponse.json({ error: "testedDay must be a valid date string" }, { status: 400 });
+    }
+
+    if (!testCode || typeof testCode !== "string" || testCode.length !== 10 || !/^\d{10}$/.test(testCode)) {
+      return NextResponse.json({ error: "testCode must be exactly 10 digits" }, { status: 400 });
+    }
+
+    // Check testCode not already taken
+    const existing = await prisma.test.findUnique({ where: { testCode } });
+    if (existing) {
+      return NextResponse.json({ error: "testCode already in use" }, { status: 409 });
+    }
+
+    const created = await prisma.test.create({
+      data: {
+        name,
+        testCode,
+        testedDay: d,
+        location: typeof location === "string" ? location : null,
+        status: "CURRENT",
+        ...(patientId ? { patientId } : {}),
+        ...(walkinName ? { walkinName } : {}),
       },
+      select: { id: true, testCode: true },
+    });
+
+    return NextResponse.json(created, { status: 201 });
+  } catch (e: any) {
+    console.error("POST /api/tests failed:", e);
+    return NextResponse.json(
+      { error: e?.message || "internal error", code: e?.code || null },
       { status: 500 }
     );
   }
