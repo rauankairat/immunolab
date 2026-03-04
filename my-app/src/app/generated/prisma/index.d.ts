@@ -2536,6 +2536,7 @@ export namespace Prisma {
     resultUrl: string | null
     resultName: string | null
     uploadedAt: Date | null
+    walkinName: string | null
     createdAt: Date | null
     updatedAt: Date | null
     patientId: string | null
@@ -2551,6 +2552,7 @@ export namespace Prisma {
     resultUrl: string | null
     resultName: string | null
     uploadedAt: Date | null
+    walkinName: string | null
     createdAt: Date | null
     updatedAt: Date | null
     patientId: string | null
@@ -2566,6 +2568,7 @@ export namespace Prisma {
     resultUrl: number
     resultName: number
     uploadedAt: number
+    walkinName: number
     createdAt: number
     updatedAt: number
     patientId: number
@@ -2583,6 +2586,7 @@ export namespace Prisma {
     resultUrl?: true
     resultName?: true
     uploadedAt?: true
+    walkinName?: true
     createdAt?: true
     updatedAt?: true
     patientId?: true
@@ -2598,6 +2602,7 @@ export namespace Prisma {
     resultUrl?: true
     resultName?: true
     uploadedAt?: true
+    walkinName?: true
     createdAt?: true
     updatedAt?: true
     patientId?: true
@@ -2613,6 +2618,7 @@ export namespace Prisma {
     resultUrl?: true
     resultName?: true
     uploadedAt?: true
+    walkinName?: true
     createdAt?: true
     updatedAt?: true
     patientId?: true
@@ -2701,6 +2707,7 @@ export namespace Prisma {
     resultUrl: string | null
     resultName: string | null
     uploadedAt: Date | null
+    walkinName: string | null
     createdAt: Date
     updatedAt: Date
     patientId: string | null
@@ -2733,6 +2740,7 @@ export namespace Prisma {
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
@@ -2749,6 +2757,7 @@ export namespace Prisma {
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
@@ -2765,6 +2774,7 @@ export namespace Prisma {
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
@@ -2781,12 +2791,13 @@ export namespace Prisma {
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "testCode" | "testedDay" | "status" | "location" | "resultUrl" | "resultName" | "uploadedAt" | "createdAt" | "updatedAt" | "patientId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "testCode" | "testedDay" | "status" | "location" | "resultUrl" | "resultName" | "uploadedAt" | "walkinName" | "createdAt" | "updatedAt" | "patientId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     patient?: boolean | Test$patientArgs<ExtArgs>
   }
@@ -2812,6 +2823,7 @@ export namespace Prisma {
       resultUrl: string | null
       resultName: string | null
       uploadedAt: Date | null
+      walkinName: string | null
       createdAt: Date
       updatedAt: Date
       patientId: string | null
@@ -3248,6 +3260,7 @@ export namespace Prisma {
     readonly resultUrl: FieldRef<"Test", 'String'>
     readonly resultName: FieldRef<"Test", 'String'>
     readonly uploadedAt: FieldRef<"Test", 'DateTime'>
+    readonly walkinName: FieldRef<"Test", 'String'>
     readonly createdAt: FieldRef<"Test", 'DateTime'>
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
     readonly patientId: FieldRef<"Test", 'String'>
@@ -6990,6 +7003,7 @@ export namespace Prisma {
     resultUrl: 'resultUrl',
     resultName: 'resultName',
     uploadedAt: 'uploadedAt',
+    walkinName: 'walkinName',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     patientId: 'patientId'
@@ -7262,6 +7276,7 @@ export namespace Prisma {
     resultUrl?: StringNullableFilter<"Test"> | string | null
     resultName?: StringNullableFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableFilter<"Test"> | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     patientId?: StringNullableFilter<"Test"> | string | null
@@ -7278,6 +7293,7 @@ export namespace Prisma {
     resultUrl?: SortOrderInput | SortOrder
     resultName?: SortOrderInput | SortOrder
     uploadedAt?: SortOrderInput | SortOrder
+    walkinName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrderInput | SortOrder
@@ -7297,6 +7313,7 @@ export namespace Prisma {
     resultUrl?: StringNullableFilter<"Test"> | string | null
     resultName?: StringNullableFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableFilter<"Test"> | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     patientId?: StringNullableFilter<"Test"> | string | null
@@ -7313,6 +7330,7 @@ export namespace Prisma {
     resultUrl?: SortOrderInput | SortOrder
     resultName?: SortOrderInput | SortOrder
     uploadedAt?: SortOrderInput | SortOrder
+    walkinName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrderInput | SortOrder
@@ -7334,6 +7352,7 @@ export namespace Prisma {
     resultUrl?: StringNullableWithAggregatesFilter<"Test"> | string | null
     resultName?: StringNullableWithAggregatesFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableWithAggregatesFilter<"Test"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     patientId?: StringNullableWithAggregatesFilter<"Test"> | string | null
@@ -7667,6 +7686,7 @@ export namespace Prisma {
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     patient?: UserCreateNestedOneWithoutTestsInput
@@ -7682,6 +7702,7 @@ export namespace Prisma {
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: string | null
@@ -7697,6 +7718,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patient?: UserUpdateOneWithoutTestsNestedInput
@@ -7712,6 +7734,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7727,6 +7750,7 @@ export namespace Prisma {
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     patientId?: string | null
@@ -7742,6 +7766,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7756,6 +7781,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patientId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8271,6 +8297,7 @@ export namespace Prisma {
     resultUrl?: SortOrder
     resultName?: SortOrder
     uploadedAt?: SortOrder
+    walkinName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrder
@@ -8286,6 +8313,7 @@ export namespace Prisma {
     resultUrl?: SortOrder
     resultName?: SortOrder
     uploadedAt?: SortOrder
+    walkinName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrder
@@ -8301,6 +8329,7 @@ export namespace Prisma {
     resultUrl?: SortOrder
     resultName?: SortOrder
     uploadedAt?: SortOrder
+    walkinName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrder
@@ -8867,6 +8896,7 @@ export namespace Prisma {
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8881,6 +8911,7 @@ export namespace Prisma {
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8994,6 +9025,7 @@ export namespace Prisma {
     resultUrl?: StringNullableFilter<"Test"> | string | null
     resultName?: StringNullableFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableFilter<"Test"> | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
     patientId?: StringNullableFilter<"Test"> | string | null
@@ -9290,6 +9322,7 @@ export namespace Prisma {
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9329,6 +9362,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9343,6 +9377,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9357,6 +9392,7 @@ export namespace Prisma {
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
