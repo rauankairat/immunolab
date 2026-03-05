@@ -442,3 +442,48 @@
   .stepCard { padding: 24px 20px; }
   .formRow { grid-template-columns: 1fr; }
 }
+
+/* Page-level tabs */
+.pageTabs {
+  display: flex;
+  border-bottom: 2px solid #e8e8e8;
+  background: #fff;
+  padding: 0 40px;
+  max-width: 100%;
+}
+
+.pageTab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: #aaa;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.pageTabActive {
+  color: #1a5319;
+  border-bottom-color: #1a5319;
+}
+
+.pageTabCount {
+  font-size: 11px;
+  font-weight: 700;
+  background: #e8e8e8;
+  color: #666;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.pageTabActive .pageTabCount {
+  background: #e8f5e8;
+  color: #1a5319;
+}
