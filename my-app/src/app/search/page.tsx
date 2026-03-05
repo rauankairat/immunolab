@@ -4,12 +4,14 @@ import { useState } from "react";
 import styles from "./page.module.css";
 
 type Result = {
+  name: string;
   patientName: string;
   testDate: string;
   testCode: string;
   status: string;
   resultUrl: string | null;
   resultName: string | null;
+  location: string | null;  
 };
 
 export default function SearchPage() {
@@ -114,12 +116,12 @@ export default function SearchPage() {
                   </span>
                 </div>
                 <div className={styles.metaItem}>
-                  <span className={styles.metaLabel}>Patient</span>
-                  <span className={styles.metaValue}>{result.patientName}</span>
+                  <span className={styles.metaLabel}>Test Name</span>
+                  <span className={styles.metaValue}>{result.name}</span>
                 </div>
                 <div className={styles.metaItem}>
-                  <span className={styles.metaLabel}>Status</span>
-                  <span className={styles.metaValue}>{result.status}</span>
+                  <span className={styles.metaLabel}>branch</span>
+                  <span className={styles.metaValue}>{result.location}</span>
                 </div>
               </div>
 
