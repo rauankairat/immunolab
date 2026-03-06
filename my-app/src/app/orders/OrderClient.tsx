@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import OrderModal from "./OrderModal";
 
 const PRICE_PER_ITEM = 6500;
 const EXPRESS_FEE = 1500;
@@ -17,6 +18,7 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
   const [selected1, setSelected1] = useState<number[]>([]);
   const [selected2, setSelected2] = useState<number[]>([]);
   const [express, setExpress] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const products = activeList === 1 ? list1 : list2;
   const selected = activeList === 1 ? selected1 : selected2;
@@ -30,6 +32,8 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
   const pricePerItem = PRICE_PER_ITEM + (express ? EXPRESS_FEE : 0);
   const total = quantity * pricePerItem;
 
+  const selectedProducts = products.filter(p => selected.includes(p.id));
+
   return (
     <div className={styles.outerBox}>
 
@@ -37,26 +41,25 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
       <div className={styles.catalogWrapper}>
         <h2>Available Products</h2>
         <div className={styles.listSwitcher} role="tablist" aria-label="Lists">
-  <button
-    type="button"
-    onClick={() => setActiveList(1)}
-    className={`${styles.switchBtn} ${activeList === 1 ? styles.switchBtnActive : ""}`}
-    aria-selected={activeList === 1}
-    role="tab"
-  >
-    Anesthetics & Antibiotics
-  </button>
-
-  <button
-    type="button"
-    onClick={() => setActiveList(2)}
-    className={`${styles.switchBtn} ${activeList === 2 ? styles.switchBtnActive : ""}`}
-    aria-selected={activeList === 2}
-    role="tab"
-  >
-    Allergen Panel
-  </button>
-</div>
+          <button
+            type="button"
+            onClick={() => setActiveList(1)}
+            className={`${styles.switchBtn} ${activeList === 1 ? styles.switchBtnActive : ""}`}
+            aria-selected={activeList === 1}
+            role="tab"
+          >
+            Anesthetics & Antibiotics
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveList(2)}
+            className={`${styles.switchBtn} ${activeList === 2 ? styles.switchBtnActive : ""}`}
+            aria-selected={activeList === 2}
+            role="tab"
+          >
+            Allergen Panel
+          </button>
+        </div>
         <div className={styles.catalogGrid}>
           {products.map(product => (
             <div key={product.id} className={styles.catalogCard}>
@@ -73,9 +76,6 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
           <h1>Order Panel</h1>
           <p>Select products for analysis</p>
         </div>
-
-        
-      
 
         <div className={styles.layout}>
           {/* PRODUCTS SELECTION */}
@@ -134,13 +134,30 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
                 <strong>{total.toLocaleString()} ₸</strong>
               </div>
 
-              <button className={styles.orderButton} disabled={quantity === 0}>
+              <button
+                className={styles.orderButton}
+                disabled={quantity === 0}
+                onClick={() => setModalOpen(true)}
+                type="button"
+              >
                 Place Order
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ORDER MODAL */}
+      {modalOpen && (
+        <OrderModal
+          selectedProducts={selectedProducts}
+          listType={activeList === 1 ? "Anesthetics & Antibiotics" : "Allergen Panel"}
+          express={express}
+          total={total}
+          pricePerItem={pricePerItem}
+          onClose={() => setModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
