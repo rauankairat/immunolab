@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
+import QuickSearchBar from "./QuickSearchBar";
 
 export default async function Home() {
   const t = await getTranslations("home");
@@ -93,6 +94,13 @@ export default async function Home() {
           </div>
         </div>
       </div>
+
+      <section className={styles.quickSearch}>
+        <div className={styles.quickSearchInner}>
+          <p className={styles.howEyebrow}>Have a test code?</p>
+          <QuickSearchBar />
+        </div>
+      </section>
 
       {/* -- What we do -- */}
       <section className={styles.whatWeDoSection}>

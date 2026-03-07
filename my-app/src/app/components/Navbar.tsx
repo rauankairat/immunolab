@@ -10,6 +10,7 @@ type Labels = {
   team: string;
   contact: string;
   about: string;
+  search : string;
 };
 
 export default function Navbar({
@@ -33,6 +34,7 @@ export default function Navbar({
   }, []);
 
   const links = [
+    { href: "/search", label: labels.search },
     { href: "/orders", label: labels.order },
     { href: "/team", label: labels.team },
     { href: "/contact", label: labels.contact },

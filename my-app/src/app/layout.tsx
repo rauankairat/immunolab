@@ -81,6 +81,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
               {/* Center nav links */}
               <NavLinks labels={{
+                search: t("search"),
                 order: t("order"),
                 team: t("team"),
                 contact: t("contact"),

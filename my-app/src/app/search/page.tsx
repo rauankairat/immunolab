@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type Result = {
   name: string;
@@ -19,6 +21,22 @@ export default function SearchPage() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const incoming = searchParams.get("code");
+    if (incoming && incoming.length === 10) {
+      setCode(incoming);
+      // auto search
+      fetch(`/api/search?code=${incoming}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.test) setResult(data.test);
+          else setError("No test found with that code.");
+        });
+    }
+  }, []);
 
   async function handleSearch() {
     if (code.length !== 10) {
