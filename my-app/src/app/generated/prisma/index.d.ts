@@ -2529,12 +2529,14 @@ export namespace Prisma {
   export type TestMinAggregateOutputType = {
     id: string | null
     name: string | null
+    testCode: string | null
     testedDay: Date | null
     status: $Enums.TestStatus | null
     location: string | null
     resultUrl: string | null
     resultName: string | null
     uploadedAt: Date | null
+    walkinName: string | null
     createdAt: Date | null
     updatedAt: Date | null
     patientId: string | null
@@ -2543,12 +2545,14 @@ export namespace Prisma {
   export type TestMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    testCode: string | null
     testedDay: Date | null
     status: $Enums.TestStatus | null
     location: string | null
     resultUrl: string | null
     resultName: string | null
     uploadedAt: Date | null
+    walkinName: string | null
     createdAt: Date | null
     updatedAt: Date | null
     patientId: string | null
@@ -2557,12 +2561,14 @@ export namespace Prisma {
   export type TestCountAggregateOutputType = {
     id: number
     name: number
+    testCode: number
     testedDay: number
     status: number
     location: number
     resultUrl: number
     resultName: number
     uploadedAt: number
+    walkinName: number
     createdAt: number
     updatedAt: number
     patientId: number
@@ -2573,12 +2579,14 @@ export namespace Prisma {
   export type TestMinAggregateInputType = {
     id?: true
     name?: true
+    testCode?: true
     testedDay?: true
     status?: true
     location?: true
     resultUrl?: true
     resultName?: true
     uploadedAt?: true
+    walkinName?: true
     createdAt?: true
     updatedAt?: true
     patientId?: true
@@ -2587,12 +2595,14 @@ export namespace Prisma {
   export type TestMaxAggregateInputType = {
     id?: true
     name?: true
+    testCode?: true
     testedDay?: true
     status?: true
     location?: true
     resultUrl?: true
     resultName?: true
     uploadedAt?: true
+    walkinName?: true
     createdAt?: true
     updatedAt?: true
     patientId?: true
@@ -2601,12 +2611,14 @@ export namespace Prisma {
   export type TestCountAggregateInputType = {
     id?: true
     name?: true
+    testCode?: true
     testedDay?: true
     status?: true
     location?: true
     resultUrl?: true
     resultName?: true
     uploadedAt?: true
+    walkinName?: true
     createdAt?: true
     updatedAt?: true
     patientId?: true
@@ -2688,15 +2700,17 @@ export namespace Prisma {
   export type TestGroupByOutputType = {
     id: string
     name: string
+    testCode: string | null
     testedDay: Date
     status: $Enums.TestStatus
     location: string | null
     resultUrl: string | null
     resultName: string | null
     uploadedAt: Date | null
+    walkinName: string | null
     createdAt: Date
     updatedAt: Date
-    patientId: string
+    patientId: string | null
     _count: TestCountAggregateOutputType | null
     _min: TestMinAggregateOutputType | null
     _max: TestMaxAggregateOutputType | null
@@ -2719,90 +2733,100 @@ export namespace Prisma {
   export type TestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    testCode?: boolean
     testedDay?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    patient?: boolean | Test$patientArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    testCode?: boolean
     testedDay?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    patient?: boolean | Test$patientArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    testCode?: boolean
     testedDay?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    patient?: boolean | Test$patientArgs<ExtArgs>
   }, ExtArgs["result"]["test"]>
 
   export type TestSelectScalar = {
     id?: boolean
     name?: boolean
+    testCode?: boolean
     testedDay?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
     resultName?: boolean
     uploadedAt?: boolean
+    walkinName?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     patientId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "testedDay" | "status" | "location" | "resultUrl" | "resultName" | "uploadedAt" | "createdAt" | "updatedAt" | "patientId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "testCode" | "testedDay" | "status" | "location" | "resultUrl" | "resultName" | "uploadedAt" | "walkinName" | "createdAt" | "updatedAt" | "patientId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    patient?: boolean | Test$patientArgs<ExtArgs>
   }
   export type TestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    patient?: boolean | Test$patientArgs<ExtArgs>
   }
   export type TestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    patient?: boolean | UserDefaultArgs<ExtArgs>
+    patient?: boolean | Test$patientArgs<ExtArgs>
   }
 
   export type $TestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Test"
     objects: {
-      patient: Prisma.$UserPayload<ExtArgs>
+      patient: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      testCode: string | null
       testedDay: Date
       status: $Enums.TestStatus
       location: string | null
       resultUrl: string | null
       resultName: string | null
       uploadedAt: Date | null
+      walkinName: string | null
       createdAt: Date
       updatedAt: Date
-      patientId: string
+      patientId: string | null
     }, ExtArgs["result"]["test"]>
     composites: {}
   }
@@ -3197,7 +3221,7 @@ export namespace Prisma {
    */
   export interface Prisma__TestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    patient<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    patient<T extends Test$patientArgs<ExtArgs> = {}>(args?: Subset<T, Test$patientArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3229,12 +3253,14 @@ export namespace Prisma {
   interface TestFieldRefs {
     readonly id: FieldRef<"Test", 'String'>
     readonly name: FieldRef<"Test", 'String'>
+    readonly testCode: FieldRef<"Test", 'String'>
     readonly testedDay: FieldRef<"Test", 'DateTime'>
     readonly status: FieldRef<"Test", 'TestStatus'>
     readonly location: FieldRef<"Test", 'String'>
     readonly resultUrl: FieldRef<"Test", 'String'>
     readonly resultName: FieldRef<"Test", 'String'>
     readonly uploadedAt: FieldRef<"Test", 'DateTime'>
+    readonly walkinName: FieldRef<"Test", 'String'>
     readonly createdAt: FieldRef<"Test", 'DateTime'>
     readonly updatedAt: FieldRef<"Test", 'DateTime'>
     readonly patientId: FieldRef<"Test", 'String'>
@@ -3631,6 +3657,25 @@ export namespace Prisma {
      * Limit how many Tests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Test.patient
+   */
+  export type Test$patientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -6951,12 +6996,14 @@ export namespace Prisma {
   export const TestScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    testCode: 'testCode',
     testedDay: 'testedDay',
     status: 'status',
     location: 'location',
     resultUrl: 'resultUrl',
     resultName: 'resultName',
     uploadedAt: 'uploadedAt',
+    walkinName: 'walkinName',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     patientId: 'patientId'
@@ -7222,35 +7269,40 @@ export namespace Prisma {
     NOT?: TestWhereInput | TestWhereInput[]
     id?: StringFilter<"Test"> | string
     name?: StringFilter<"Test"> | string
+    testCode?: StringNullableFilter<"Test"> | string | null
     testedDay?: DateTimeFilter<"Test"> | Date | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableFilter<"Test"> | string | null
     resultUrl?: StringNullableFilter<"Test"> | string | null
     resultName?: StringNullableFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableFilter<"Test"> | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
-    patientId?: StringFilter<"Test"> | string
-    patient?: XOR<UserScalarRelationFilter, UserWhereInput>
+    patientId?: StringNullableFilter<"Test"> | string | null
+    patient?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type TestOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    testCode?: SortOrderInput | SortOrder
     testedDay?: SortOrder
     status?: SortOrder
     location?: SortOrderInput | SortOrder
     resultUrl?: SortOrderInput | SortOrder
     resultName?: SortOrderInput | SortOrder
     uploadedAt?: SortOrderInput | SortOrder
+    walkinName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    patientId?: SortOrder
+    patientId?: SortOrderInput | SortOrder
     patient?: UserOrderByWithRelationInput
   }
 
   export type TestWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    testCode?: string
     AND?: TestWhereInput | TestWhereInput[]
     OR?: TestWhereInput[]
     NOT?: TestWhereInput | TestWhereInput[]
@@ -7261,24 +7313,27 @@ export namespace Prisma {
     resultUrl?: StringNullableFilter<"Test"> | string | null
     resultName?: StringNullableFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableFilter<"Test"> | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
-    patientId?: StringFilter<"Test"> | string
-    patient?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+    patientId?: StringNullableFilter<"Test"> | string | null
+    patient?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "testCode">
 
   export type TestOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    testCode?: SortOrderInput | SortOrder
     testedDay?: SortOrder
     status?: SortOrder
     location?: SortOrderInput | SortOrder
     resultUrl?: SortOrderInput | SortOrder
     resultName?: SortOrderInput | SortOrder
     uploadedAt?: SortOrderInput | SortOrder
+    walkinName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    patientId?: SortOrder
+    patientId?: SortOrderInput | SortOrder
     _count?: TestCountOrderByAggregateInput
     _max?: TestMaxOrderByAggregateInput
     _min?: TestMinOrderByAggregateInput
@@ -7290,15 +7345,17 @@ export namespace Prisma {
     NOT?: TestScalarWhereWithAggregatesInput | TestScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Test"> | string
     name?: StringWithAggregatesFilter<"Test"> | string
+    testCode?: StringNullableWithAggregatesFilter<"Test"> | string | null
     testedDay?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableWithAggregatesFilter<"Test"> | string | null
     resultUrl?: StringNullableWithAggregatesFilter<"Test"> | string | null
     resultName?: StringNullableWithAggregatesFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableWithAggregatesFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableWithAggregatesFilter<"Test"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Test"> | Date | string
-    patientId?: StringWithAggregatesFilter<"Test"> | string
+    patientId?: StringNullableWithAggregatesFilter<"Test"> | string | null
   }
 
   export type SessionWhereInput = {
@@ -7622,82 +7679,94 @@ export namespace Prisma {
   export type TestCreateInput = {
     id?: string
     name: string
+    testCode?: string | null
     testedDay?: Date | string
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    patient: UserCreateNestedOneWithoutTestsInput
+    patient?: UserCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateInput = {
     id?: string
     name: string
+    testCode?: string | null
     testedDay?: Date | string
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    patientId: string
+    patientId?: string | null
   }
 
   export type TestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    patient?: UserUpdateOneRequiredWithoutTestsNestedInput
+    patient?: UserUpdateOneWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    patientId?: StringFieldUpdateOperationsInput | string
+    patientId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TestCreateManyInput = {
     id?: string
     name: string
+    testCode?: string | null
     testedDay?: Date | string
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    patientId: string
+    patientId?: string | null
   }
 
   export type TestUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7705,15 +7774,17 @@ export namespace Prisma {
   export type TestUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    patientId?: StringFieldUpdateOperationsInput | string
+    patientId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateInput = {
@@ -8211,20 +8282,22 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type TestCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    testCode?: SortOrder
     testedDay?: SortOrder
     status?: SortOrder
     location?: SortOrder
     resultUrl?: SortOrder
     resultName?: SortOrder
     uploadedAt?: SortOrder
+    walkinName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrder
@@ -8233,12 +8306,14 @@ export namespace Prisma {
   export type TestMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    testCode?: SortOrder
     testedDay?: SortOrder
     status?: SortOrder
     location?: SortOrder
     resultUrl?: SortOrder
     resultName?: SortOrder
     uploadedAt?: SortOrder
+    walkinName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrder
@@ -8247,12 +8322,14 @@ export namespace Prisma {
   export type TestMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    testCode?: SortOrder
     testedDay?: SortOrder
     status?: SortOrder
     location?: SortOrder
     resultUrl?: SortOrder
     resultName?: SortOrder
     uploadedAt?: SortOrder
+    walkinName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     patientId?: SortOrder
@@ -8280,6 +8357,11 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -8558,10 +8640,12 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type UserUpdateOneRequiredWithoutTestsNestedInput = {
+  export type UserUpdateOneWithoutTestsNestedInput = {
     create?: XOR<UserCreateWithoutTestsInput, UserUncheckedCreateWithoutTestsInput>
     connectOrCreate?: UserCreateOrConnectWithoutTestsInput
     upsert?: UserUpsertWithoutTestsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTestsInput, UserUpdateWithoutTestsInput>, UserUncheckedUpdateWithoutTestsInput>
   }
@@ -8805,12 +8889,14 @@ export namespace Prisma {
   export type TestCreateWithoutPatientInput = {
     id?: string
     name: string
+    testCode?: string | null
     testedDay?: Date | string
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8818,12 +8904,14 @@ export namespace Prisma {
   export type TestUncheckedCreateWithoutPatientInput = {
     id?: string
     name: string
+    testCode?: string | null
     testedDay?: Date | string
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8930,15 +9018,17 @@ export namespace Prisma {
     NOT?: TestScalarWhereInput | TestScalarWhereInput[]
     id?: StringFilter<"Test"> | string
     name?: StringFilter<"Test"> | string
+    testCode?: StringNullableFilter<"Test"> | string | null
     testedDay?: DateTimeFilter<"Test"> | Date | string
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableFilter<"Test"> | string | null
     resultUrl?: StringNullableFilter<"Test"> | string | null
     resultName?: StringNullableFilter<"Test"> | string | null
     uploadedAt?: DateTimeNullableFilter<"Test"> | Date | string | null
+    walkinName?: StringNullableFilter<"Test"> | string | null
     createdAt?: DateTimeFilter<"Test"> | Date | string
     updatedAt?: DateTimeFilter<"Test"> | Date | string
-    patientId?: StringFilter<"Test"> | string
+    patientId?: StringNullableFilter<"Test"> | string | null
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -9225,12 +9315,14 @@ export namespace Prisma {
   export type TestCreateManyPatientInput = {
     id?: string
     name: string
+    testCode?: string | null
     testedDay?: Date | string
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
     resultName?: string | null
     uploadedAt?: Date | string | null
+    walkinName?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9263,12 +9355,14 @@ export namespace Prisma {
   export type TestUpdateWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9276,12 +9370,14 @@ export namespace Prisma {
   export type TestUncheckedUpdateWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9289,12 +9385,14 @@ export namespace Prisma {
   export type TestUncheckedUpdateManyWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
     resultName?: NullableStringFieldUpdateOperationsInput | string | null
     uploadedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    walkinName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

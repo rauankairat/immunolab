@@ -135,12 +135,14 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TestScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  testCode: 'testCode',
   testedDay: 'testedDay',
   status: 'status',
   location: 'location',
   resultUrl: 'resultUrl',
   resultName: 'resultName',
   uploadedAt: 'uploadedAt',
+  walkinName: 'walkinName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   patientId: 'patientId'

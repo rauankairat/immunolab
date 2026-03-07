@@ -1,25 +1,16 @@
 import { getServerSession } from "@/lib/get-session";
 import { redirect } from "next/navigation";
 import styles from "./page.module.css";
-import AdminClient from "./AdminClient";
-import PatientSearch from "./PatientSearch";
+import AdminTabs from "./AdminTabs";
 import { prisma } from "@/lib/prisma";
 
-function mapStatus(status: "UPCOMING" | "CURRENT" | "PAST") {
-  if (status === "UPCOMING") return "upcoming" as const;
-  if (status === "CURRENT") return "current" as const;
-  return "past" as const;
-}
-
-function formatTestDate(d: Date) {
-  return d.toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
+function formatDate(d: Date) {
+  return d.toLocaleDateString("en-GB", {
+    day: "numeric", month: "long", year: "numeric",
   });
 }
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const session = await getServerSession();
@@ -30,29 +21,34 @@ export default async function AdminPage() {
 
   const tests = await prisma.test.findMany({
     orderBy: { testedDay: "desc" },
-    include: {
-      patient: { select: { id: true, name: true, email: true } },
+    select: {
+      id: true,
+      testCode: true,
+      name: true,
+      testedDay: true,
+      status: true,
+      location: true,
+      resultUrl: true,
+      resultName: true,
+      walkinName: true,
+      patient: {
+        select: { name: true, email: true },
+      },
     },
   });
 
-  const shaped = tests.map((t) => ({
+  const shaped = tests.map(t => ({
     id: t.id,
-    name: t.name,
-    date: formatTestDate(t.testedDay),
-    location: t.location ?? "ImmunoLab",
-    status: mapStatus(t.status),
+    testCode: t.testCode ?? "—",
+    testName: t.name,
+    patientName: t.patient?.name ?? t.walkinName ?? "Unknown",
+    patientEmail: t.patient?.email ?? null,
+    location: t.location ?? "—",
+    date: formatDate(t.testedDay),
+    status: t.status as string,
     hasResult: Boolean(t.resultUrl),
     resultUrl: t.resultUrl ?? null,
-    patient: {
-      id: t.patient.id,
-      name: t.patient.name ?? "Unnamed Patient",
-      email: t.patient.email,
-    },
   }));
-
-  const upcoming = shaped.filter((t) => t.status === "upcoming");
-  const current = shaped.filter((t) => t.status === "current");
-  const past = shaped.filter((t) => t.status === "past");
 
   return (
     <div className={styles.page}>
@@ -60,28 +56,21 @@ export default async function AdminPage() {
         <div className={styles.headerInner}>
           <div>
             <h1 className={styles.headerTitle}>Lab Dashboard</h1>
-            <p className={styles.headerSub}>Manage patient tests and upload results</p>
+            <p className={styles.headerSub}>Upload results and manage all tests</p>
           </div>
-
           <div className={styles.statsRow}>
             <div className={styles.stat}>
-              <span className={styles.statNum}>{upcoming.length}</span>
-              <span className={styles.statLabel}>Upcoming</span>
+              <span className={styles.statNum}>{shaped.length}</span>
+              <span className={styles.statLabel}>Total</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNum}>{current.length}</span>
-              <span className={styles.statLabel}>In Progress</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statNum}>{past.length}</span>
-              <span className={styles.statLabel}>Completed</span>
+              <span className={styles.statNum}>{shaped.filter(t => t.hasResult).length}</span>
+              <span className={styles.statLabel}>With Results</span>
             </div>
           </div>
         </div>
       </div>
-
-      <AdminClient upcoming={upcoming} current={current} past={past} />
-      <PatientSearch />
+      <AdminTabs tests={shaped} />
     </div>
   );
 }

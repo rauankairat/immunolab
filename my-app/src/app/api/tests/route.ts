@@ -10,14 +10,20 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { patientId, name, testedDay, location } = body;
+    const { patientId, walkinName, name, testedDay, location, testCode } = body;
 
-    if (!patientId || typeof patientId !== "string") {
-      return NextResponse.json({ error: "patientId is required" }, { status: 400 });
+    // Must have either a registered patient or a walk-in name
+    if (!patientId && !walkinName) {
+      return NextResponse.json(
+        { error: "either patientId or walkinName is required" },
+        { status: 400 }
+      );
     }
+
     if (!name || typeof name !== "string") {
       return NextResponse.json({ error: "name is required" }, { status: 400 });
     }
+
     if (!testedDay || typeof testedDay !== "string") {
       return NextResponse.json({ error: "testedDay is required" }, { status: 400 });
     }
@@ -27,23 +33,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "testedDay must be a valid date string" }, { status: 400 });
     }
 
+    if (!testCode || typeof testCode !== "string" || testCode.length !== 10 || !/^\d{10}$/.test(testCode)) {
+      return NextResponse.json({ error: "testCode must be exactly 10 digits" }, { status: 400 });
+    }
+
+    // Check testCode not already taken
+    const existing = await prisma.test.findUnique({ where: { testCode } });
+    if (existing) {
+      return NextResponse.json({ error: "testCode already in use" }, { status: 409 });
+    }
+
     const created = await prisma.test.create({
       data: {
-        patientId,
         name,
+        testCode,
         testedDay: d,
         location: typeof location === "string" ? location : null,
-        status: "CURRENT", // or "UPCOMING" depending on your flow
+        status: "CURRENT",
+        ...(patientId ? { patientId } : {}),
+        ...(walkinName ? { walkinName } : {}),
       },
-      select: { id: true },
+      select: { id: true, testCode: true },
     });
 
     return NextResponse.json(created, { status: 201 });
   } catch (e: any) {
-    // This is what you need to paste back to me if it still fails
     console.error("POST /api/tests failed:", e);
-
-    // Return readable error to the client (helpful during dev)
     return NextResponse.json(
       { error: e?.message || "internal error", code: e?.code || null },
       { status: 500 }

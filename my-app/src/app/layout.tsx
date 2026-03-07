@@ -75,7 +75,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                   whiteSpace: "nowrap",
                   fontFamily: "Poppins, Helvetica, sans-serif",
                 }}>
-                  ImmunoLab
+                  
                 </span>
               </Link>
 

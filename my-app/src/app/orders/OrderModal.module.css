@@ -1,0 +1,249 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px 32px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+  animation: slideUp 0.22s ease;
+  font-family: "Poppins", Helvetica, sans-serif;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modalTitle {
+  font-size: 19px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 4px 0;
+}
+
+.modalSub {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.closeBtn:hover { color: #333; background: #f0f0f0; }
+
+.divider {
+  height: 1px;
+  background: #efefef;
+  margin: 18px 0;
+}
+
+/* Tests preview */
+.testsList { }
+
+.testsLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin: 0 0 10px 0;
+}
+
+.testsScroll {
+  max-height: 140px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.testItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  background: #f7fbf7;
+  border-radius: 6px;
+}
+
+.testNum {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a5319;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.testName {
+  font-size: 13px;
+  color: #333;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: 0.03em;
+}
+
+.input {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  color: #111;
+  outline: none;
+  transition: border-color 0.15s;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus { border-color: #1a5319; }
+
+.expressTag {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #b36b00;
+  background: #fff8ed;
+  border: 1px solid #fde8b0;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fff8f8;
+  border: 1px solid #ffd0d0;
+  border-radius: 8px;
+}
+
+.errorBox span { color: #cc3333; flex-shrink: 0; }
+.errorBox p { margin: 0; font-size: 13px; color: #cc3333; }
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 4px;
+  border-top: 1px solid #efefef;
+  font-size: 15px;
+  color: #111;
+}
+
+.totalRow strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a5319;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: #1a5319;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) { background: #143f13; }
+.submitBtn:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Success */
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0;
+  gap: 12px;
+}
+
+.successIcon { font-size: 52px; }
+
+.successTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.successSub {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.7;
+  max-width: 360px;
+}
+
+.pdfBtn {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #f0f7f0;
+  border: 1.5px solid #1a5319;
+  border-radius: 8px;
+  color: #1a5319;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.pdfBtn:hover { background: #e0f0e0; }
