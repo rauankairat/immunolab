@@ -518,6 +518,23 @@
     "viewPdf": "View Result PDF →",
     "pending": "Your result is not yet available. Please check back later."
   
+},
+
+  "verifyEmail": {
+    "title": "Verify Email",
+    "desc": "Email verification is required to continue.",
+    "cardTitle": "Check your inbox",
+    "cardDesc": "We sent a verification link to your email address. Open the email and click the link to confirm your account.",
+    "tipTitle": "Didn't get the email?",
+    "tip1": "Check Spam or Promotions",
+    "tip2": "Wait 1 to 2 minutes and refresh your inbox",
+    "tip3": "Make sure your email address is correct",
+    "footerNote": "You can close this page after you verify.",
+    "sending": "Sending...",
+    "resend": "Resend Verification Email",
+    "success": "Verification email sent successfully",
+    "error": "Something went wrong"
+  
 }
 
 

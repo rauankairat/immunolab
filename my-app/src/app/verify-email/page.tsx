@@ -1,28 +1,35 @@
 import { getServerSession } from "@/lib/get-session";
+import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 import { ResendVerificationButton } from "../components/ResendVerification";
 
-export default async function VerifyEmailPage({ 
-  searchParams 
-}: { 
-  searchParams: Promise<{ email?: string }> 
+export default async function VerifyEmailPage({
+  searchParams
+}: {
+  searchParams: Promise<{ email?: string }>
 }) {
-  const session = await getServerSession()
+  const session = await getServerSession();
   const user = session?.user;
   const { email: emailParam } = await searchParams;
 
-  if (user?.emailVerified) redirect("/account")
+  if (user?.emailVerified) redirect("/account");
 
-  const email = user?.email ?? emailParam ?? ""
+  const email = user?.email ?? emailParam ?? "";
+  const t = await getTranslations("verifyEmail");
+
+  const labels = {
+    sending: t("sending"),
+    resend: t("resend"),
+    success: t("success"),
+    error: t("error"),
+  };
 
   return (
     <div className={styles.page}>
       <div className={styles.banner}>
-        <h1 className={styles.bannerTitle}>Verify Email</h1>
-        <p className={styles.bannerDesc}>
-          Email verification is required to continue.
-        </p>
+        <h1 className={styles.bannerTitle}>{t("title")}</h1>
+        <p className={styles.bannerDesc}>{t("desc")}</p>
       </div>
       <div className={styles.main}>
         <div className={styles.card}>
@@ -31,25 +38,21 @@ export default async function VerifyEmailPage({
               <div className={styles.icon}>✉️</div>
             </div>
           </div>
-          <h2 className={styles.cardTitle}>Check your inbox</h2>
-          <p className={styles.cardDesc}>
-            We sent a verification link to your email address. Open the email and click the link to confirm your account.
-          </p>
+          <h2 className={styles.cardTitle}>{t("cardTitle")}</h2>
+          <p className={styles.cardDesc}>{t("cardDesc")}</p>
           <div className={styles.tipBox}>
-            <p className={styles.tipTitle}>Didn't get the email?</p>
+            <p className={styles.tipTitle}>{t("tipTitle")}</p>
             <ul className={styles.tipList}>
-              <li>Check Spam or Promotions</li>
-              <li>Wait 1 to 2 minutes and refresh your inbox</li>
-              <li>Make sure your email address is correct</li>
+              <li>{t("tip1")}</li>
+              <li>{t("tip2")}</li>
+              <li>{t("tip3")}</li>
             </ul>
           </div>
           <hr className={styles.divider} />
           <div className={styles.actions}>
-            <ResendVerificationButton email={email} />
+            <ResendVerificationButton email={email} labels={labels} />
           </div>
-          <p className={styles.footerNote}>
-            You can close this page after you verify.
-          </p>
+          <p className={styles.footerNote}>{t("footerNote")}</p>
         </div>
       </div>
     </div>
