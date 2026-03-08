@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./NavBar.module.css";
 
 type Labels = {
@@ -14,9 +13,6 @@ type Labels = {
 
 export default function NavLinks({ labels }: { labels: Labels }) {
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0, opacity: 0 });
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [code, setCode] = useState("");
-  const router = useRouter();
 
   const links = [
     { href: "/orders",  label: labels.order },
@@ -36,46 +32,16 @@ export default function NavLinks({ labels }: { labels: Labels }) {
     setUnderlineStyle(prev => ({ ...prev, opacity: 0 }));
   }
 
-  function handleSearch() {
-    if (code.length === 10) {
-      router.push(`/search?code=${code}`);
-      setSearchOpen(false);
-      setCode("");
-    }
-  }
-
   return (
     <div
-      style={{ display: "flex", gap: "48px", position: "relative" }}
-      onMouseLeave={() => { handleMouseLeave(); setSearchOpen(false); }}
+      style={{ display: "flex", gap: "48px", alignItems: "center", position: "relative" }}
+      onMouseLeave={handleMouseLeave}
     >
-      {/* Search dropdown item */}
-      <div className={styles.searchItem}>
-        <Link href="/search" onMouseEnter={handleMouseEnter} className={styles.searchTrigger}>{labels.search}</Link>
-        <div className={styles.searchPopover}>
-          <div className={styles.searchPopoverInner}>
-            <input
-              className={styles.navSearchInput}
-              type="text"
-              inputMode="numeric"
-              maxLength={10}
-              placeholder="Enter 10-digit test code"
-              value={code}
-              onChange={e => setCode(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={e => e.key === "Enter" && handleSearch()}
-            />
-            <button
-              className={styles.navSearchBtn}
-              onClick={handleSearch}
-              disabled={code.length !== 10}
-            >
-              Go
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Search — white pill, excluded from underline hover */}
+      <Link href="/search" className={styles.searchCta}>
+        {labels.search}
+      </Link>
 
-      {/* Other links — unchanged */}
       {links.map(({ href, label }) => (
         <Link
           key={href}
@@ -94,7 +60,6 @@ export default function NavLinks({ labels }: { labels: Labels }) {
         </Link>
       ))}
 
-      {/* Sliding underline — unchanged */}
       <span style={{
         position: "absolute",
         bottom: 0,

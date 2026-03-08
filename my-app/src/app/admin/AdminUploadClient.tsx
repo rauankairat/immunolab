@@ -37,26 +37,19 @@ const EMPTY_FORM: UploadForm = {
   file: null,
 };
 
-export default function AdminUploadClient() {
+export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
   const [tab, setTab] = useState<Tab>("registered");
-
-  // Registered tab state
   const [query, setQuery] = useState("");
   const [patients, setPatients] = useState<Patient[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-
-  // Walk-in tab state
   const [walkinName, setWalkinName] = useState("");
-
-  // Shared form state
   const [form, setForm] = useState<UploadForm>(EMPTY_FORM);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [resultCode, setResultCode] = useState<string | null>(null);
 
-  // Patient search with debounce
   useEffect(() => {
     if (tab !== "registered" || query.trim().length === 0) {
       setPatients([]);
@@ -114,29 +107,26 @@ export default function AdminUploadClient() {
 
   async function handleSubmit() {
     setSubmitError(null);
-
-    // Validate testCode
     if (!/^\d{10}$/.test(form.testCode)) {
-      setSubmitError("Test code must be exactly 10 digits.");
+      setSubmitError(ui.err_code);
       return;
     }
     if (!form.testName || !form.testDate || !form.branch || !form.file) {
-      setSubmitError("Please fill in all fields and attach a PDF.");
+      setSubmitError(ui.err_fields);
       return;
     }
     if (tab === "registered" && !selectedPatient) {
-      setSubmitError("Please select a patient.");
+      setSubmitError(ui.err_patient);
       return;
     }
     if (tab === "walkin" && !walkinName.trim()) {
-      setSubmitError("Please enter the patient name.");
+      setSubmitError(ui.err_walkin);
       return;
     }
 
     setSubmitLoading(true);
 
     try {
-      // 1. Create test row
       const createRes = await fetch("/api/tests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -151,25 +141,17 @@ export default function AdminUploadClient() {
         }),
       });
 
-      if (!createRes.ok) {
-        throw new Error(await safeError(createRes));
-      }
-
+      if (!createRes.ok) throw new Error(await safeError(createRes));
       const created = await createRes.json() as { id: string; testCode: string };
 
-      // 2. Upload PDF
       const fd = new FormData();
       fd.append("file", form.file!);
       const uploadRes = await fetch(`/api/tests/${created.id}/result`, {
         method: "POST",
         body: fd,
       });
+      if (!uploadRes.ok) throw new Error(await safeError(uploadRes));
 
-      if (!uploadRes.ok) {
-        throw new Error(await safeError(uploadRes));
-      }
-
-      // 3. Mark as PAST
       await fetch(`/api/tests/${created.id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -185,7 +167,6 @@ export default function AdminUploadClient() {
     }
   }
 
-  // ── Success screen ──
   if (submitted && resultCode) {
     const patientLabel = tab === "registered"
       ? (selectedPatient?.name ?? selectedPatient?.email)
@@ -196,17 +177,17 @@ export default function AdminUploadClient() {
         <div className={styles.stepCard}>
           <div className={styles.success}>
             <div className={styles.successIcon}>✅</div>
-            <h3 className={styles.successTitle}>Result Uploaded</h3>
+            <h3 className={styles.successTitle}>{ui.success_title}</h3>
             <p className={styles.successSub}>
-              Result for <strong>{patientLabel}</strong> has been uploaded successfully.
+              {ui.success_sub} <strong>{patientLabel}</strong>.
             </p>
             <div className={styles.codeDisplay}>
-              <p className={styles.codeDisplayLabel}>Patient's Test Code</p>
+              <p className={styles.codeDisplayLabel}>{ui.code_label}</p>
               <p className={styles.codeDisplayValue}>{resultCode}</p>
-              <p className={styles.codeDisplayHint}>Give this code to the patient — they can use it on the search page to retrieve their result.</p>
+              <p className={styles.codeDisplayHint}>{ui.code_hint}</p>
             </div>
             <button className={styles.submitBtn} onClick={handleReset} type="button">
-              Upload Another
+              {ui.upload_another}
             </button>
           </div>
         </div>
@@ -214,39 +195,34 @@ export default function AdminUploadClient() {
     );
   }
 
-  // ── Main form ──
   const showForm = (tab === "registered" && selectedPatient) || (tab === "walkin");
 
   return (
     <div className={styles.wrap}>
-
-      {/* Tab switcher */}
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${tab === "registered" ? styles.tabActive : ""}`}
           onClick={() => switchTab("registered")}
           type="button"
         >
-          Registered Patient
+          {ui.tab_registered}
         </button>
         <button
           className={`${styles.tab} ${tab === "walkin" ? styles.tabActive : ""}`}
           onClick={() => switchTab("walkin")}
           type="button"
         >
-          Walk-in / No Account
+          {ui.tab_walkin}
         </button>
       </div>
 
-      {/* Step 1 */}
       <div className={styles.stepCard}>
-        <p className={styles.stepLabel}>STEP 1 — IDENTIFY PATIENT</p>
+        <p className={styles.stepLabel}>{ui.step1_label}</p>
 
         {tab === "registered" ? (
           <>
-            <h2 className={styles.stepTitle}>Search Registered Patient</h2>
-            <p className={styles.stepSub}>Search by name or email to find the patient's account.</p>
-
+            <h2 className={styles.stepTitle}>{ui.step1_registered_title}</h2>
+            <p className={styles.stepSub}>{ui.step1_registered_sub}</p>
             <div className={styles.searchBox}>
               <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8" />
@@ -255,12 +231,9 @@ export default function AdminUploadClient() {
               <input
                 type="text"
                 className={styles.searchInput}
-                placeholder="Search by name or email..."
+                placeholder={ui.search_placeholder}
                 value={query}
-                onChange={e => {
-                  setQuery(e.target.value);
-                  setSelectedPatient(null);
-                }}
+                onChange={e => { setQuery(e.target.value); setSelectedPatient(null); }}
                 autoComplete="off"
               />
               {query && (
@@ -272,7 +245,6 @@ export default function AdminUploadClient() {
               )}
             </div>
 
-            {/* Dropdown results */}
             {patients.length > 0 && !selectedPatient && (
               <div className={styles.dropdown}>
                 {patients.map(p => (
@@ -281,7 +253,7 @@ export default function AdminUploadClient() {
                       {(p.name?.[0] ?? p.email[0]).toUpperCase()}
                     </div>
                     <div>
-                      <p className={styles.dropdownName}>{p.name ?? "Unnamed"}</p>
+                      <p className={styles.dropdownName}>{p.name ?? ui.unknown}</p>
                       <p className={styles.dropdownEmail}>{p.email}</p>
                     </div>
                   </div>
@@ -289,16 +261,15 @@ export default function AdminUploadClient() {
               </div>
             )}
 
-            {searchLoading && <p className={styles.searchHint}>Searching...</p>}
+            {searchLoading && <p className={styles.searchHint}>{ui.searching}</p>}
 
-            {/* Selected patient chip */}
             {selectedPatient && (
               <div className={styles.selectedChip}>
                 <div className={styles.chipAvatar}>
                   {(selectedPatient.name?.[0] ?? selectedPatient.email[0]).toUpperCase()}
                 </div>
                 <div>
-                  <p className={styles.chipName}>{selectedPatient.name ?? "Unnamed"}</p>
+                  <p className={styles.chipName}>{selectedPatient.name ?? ui.unknown}</p>
                   <p className={styles.chipEmail}>{selectedPatient.email}</p>
                 </div>
                 <button className={styles.chipRemove} onClick={() => { setSelectedPatient(null); setQuery(""); }} type="button">
@@ -311,12 +282,12 @@ export default function AdminUploadClient() {
           </>
         ) : (
           <>
-            <h2 className={styles.stepTitle}>Walk-in Patient</h2>
-            <p className={styles.stepSub}>Enter the patient's full name. No account required.</p>
+            <h2 className={styles.stepTitle}>{ui.step1_walkin_title}</h2>
+            <p className={styles.stepSub}>{ui.step1_walkin_sub}</p>
             <input
               type="text"
               className={styles.input}
-              placeholder="Patient full name"
+              placeholder={ui.walkin_placeholder}
               value={walkinName}
               onChange={e => setWalkinName(e.target.value)}
               style={{ maxWidth: 400 }}
@@ -325,17 +296,17 @@ export default function AdminUploadClient() {
         )}
       </div>
 
-      {/* Step 2 — Upload form */}
       {showForm && (
         <div className={styles.stepCard}>
-          <p className={styles.stepLabel}>STEP 2 — TEST DETAILS & UPLOAD</p>
-          <h2 className={styles.stepTitle}>Fill in Details & Upload PDF</h2>
-          <p className={styles.stepSub}>Enter the test information and attach the result PDF.</p>
+          <p className={styles.stepLabel}>{ui.step2_label}</p>
+          <h2 className={styles.stepTitle}>{ui.step2_title}</h2>
+          <p className={styles.stepSub}>{ui.step2_sub}</p>
 
           <div className={styles.form}>
-            {/* Test code */}
             <div className={styles.field}>
-              <label className={styles.label}>Test Code <span className={styles.labelHint}>(10 digits — written on patient's receipt)</span></label>
+              <label className={styles.label}>
+                {ui.test_code_label} <span className={styles.labelHint}>({ui.test_code_hint})</span>
+              </label>
               <input
                 type="text"
                 inputMode="numeric"
@@ -349,17 +320,17 @@ export default function AdminUploadClient() {
 
             <div className={styles.formRow}>
               <div className={styles.field}>
-                <label className={styles.label}>Test Name</label>
+                <label className={styles.label}>{ui.test_name_label}</label>
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="e.g. IgE Allergy Panel"
+                  placeholder={ui.test_name_placeholder}
                   value={form.testName}
                   onChange={e => setForm({ ...form, testName: e.target.value })}
                 />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Test Date</label>
+                <label className={styles.label}>{ui.test_date_label}</label>
                 <input
                   type="date"
                   className={styles.input}
@@ -370,18 +341,18 @@ export default function AdminUploadClient() {
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>Branch</label>
+              <label className={styles.label}>{ui.branch_label}</label>
               <input
                 type="text"
                 className={styles.input}
-                placeholder="e.g. AllergoExpress Immunolab, Shagabutdinova 132"
+                placeholder={ui.branch_placeholder}
                 value={form.branch}
                 onChange={e => setForm({ ...form, branch: e.target.value })}
               />
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>PDF Result</label>
+              <label className={styles.label}>{ui.pdf_label}</label>
               <label className={styles.fileZone}>
                 {form.file ? (
                   <div className={styles.fileSelected}>
@@ -392,13 +363,13 @@ export default function AdminUploadClient() {
                       className={styles.fileRemove}
                       onClick={e => { e.preventDefault(); setForm({ ...form, file: null }); }}
                     >
-                      Remove
+                      {ui.pdf_remove}
                     </button>
                   </div>
                 ) : (
                   <div className={styles.filePrompt}>
-                    <span className={styles.filePromptText}>Click to upload PDF</span>
-                    <span className={styles.filePromptSub}>PDF files only · max 10MB</span>
+                    <span className={styles.filePromptText}>{ui.pdf_prompt}</span>
+                    <span className={styles.filePromptSub}>{ui.pdf_sub}</span>
                   </div>
                 )}
                 <input
@@ -423,7 +394,7 @@ export default function AdminUploadClient() {
               disabled={submitLoading}
               type="button"
             >
-              {submitLoading ? "Uploading..." : "Upload Result"}
+              {submitLoading ? ui.uploading : ui.upload_result}
             </button>
           </div>
         </div>

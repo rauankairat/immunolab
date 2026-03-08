@@ -13,16 +13,28 @@ type User = {
   role: string;
 } | null;
 
-export default function NavAuthClient({ user }: { user: User }) {
+type Labels = {
+  account: string;
+  myAccount: string;
+  adminDashboard: string;
+  ownerDashboard: string;
+  signOut: string;
+  signIn: string;
+  register: string;
+  signOutSuccess: string;
+  signOutError: string;
+};
+
+export default function NavAuthClient({ user, labels }: { user: User; labels: Labels }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
   async function handleSignOut() {
     const { error } = await authClient.signOut();
     if (error) {
-      toast.error(error.message || "Something went wrong");
+      toast.error(error.message || labels.signOutError);
     } else {
-      toast.success("Signed out successfully");
+      toast.success(labels.signOutSuccess);
       router.push("/login");
       router.refresh();
     }
@@ -32,32 +44,37 @@ export default function NavAuthClient({ user }: { user: User }) {
     <div className={styles.wrapper}>
       <button onClick={() => setOpen(!open)} className={styles.trigger}>
         <UserIcon size={16} />
-        <span>{user ? user.name : "Account"} ▾</span>
+        <span>{user ? user.name : labels.account} ▾</span>
       </button>
       {open && (
         <div className={styles.dropdown}>
           {user ? (
             <>
               <Link href="/account" onClick={() => setOpen(false)} className={styles.item}>
-                My Account
+                {labels.myAccount}
               </Link>
-              {user.role === "ADMIN" && (
+              {(user.role === "ADMIN" || user.role === "OWNER") && (
                 <Link href="/admin" onClick={() => setOpen(false)} className={styles.item}>
-                  Admin Dashboard
+                  {labels.adminDashboard}
+                </Link>
+              )}
+              {user.role === "OWNER" && (
+                <Link href="/owner" onClick={() => setOpen(false)} className={styles.item}>
+                  {labels.ownerDashboard}
                 </Link>
               )}
               <button className={styles.item} onClick={handleSignOut}>
+                {labels.signOut}
                 <LogOutIcon size={16} />
-                Sign out
               </button>
             </>
           ) : (
             <>
               <Link href="/login" onClick={() => setOpen(false)} className={styles.item}>
-                Sign in
+                {labels.signIn}
               </Link>
               <Link href="/register" onClick={() => setOpen(false)} className={styles.item}>
-                Register
+                {labels.register}
               </Link>
             </>
           )}

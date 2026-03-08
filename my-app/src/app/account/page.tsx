@@ -1,11 +1,12 @@
 import { getServerSession } from "@/lib/get-session";
+import { getTranslations, getLocale } from "next-intl/server";
 import { User } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 
-function formatTestDate(d: Date) {
-  return d.toLocaleString("en-US", {
+function formatTestDate(d: Date, locale: string) {
+  return d.toLocaleString(locale, {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -17,58 +18,73 @@ function formatTestDate(d: Date) {
 export default async function OrderPage() {
   const session = await getServerSession();
   const user = session?.user;
-
   if (!user) redirect("/unauth");
 
-  // Fetch real tests for this patient
+  const t = await getTranslations("account");
+  const locale = await getLocale();
+
   const tests = await prisma.test.findMany({
     where: { patientId: user.id },
     orderBy: { testedDay: "desc" },
   });
 
-  const upcoming = tests.filter((t) => t.status === "UPCOMING");
-  const current = tests.filter((t) => t.status === "CURRENT");
-  const past = tests.filter((t) => t.status === "PAST");
+  const upcoming = tests.filter((t2) => t2.status === "UPCOMING");
+  const current = tests.filter((t2) => t2.status === "CURRENT");
+  const past = tests.filter((t2) => t2.status === "PAST");
+
+  const ui = {
+    title: t("title"),
+    description: t("description"),
+    upcoming: t("upcoming"),
+    current: t("current"),
+    past: t("past"),
+    noUpcoming: t("noUpcoming"),
+    noCurrent: t("noCurrent"),
+    noPast: t("noPast"),
+    reschedule: t("reschedule"),
+    awaiting: t("awaiting"),
+    viewResults: t("viewResults"),
+    resultPending: t("resultPending"),
+    newOrder: t("newOrder"),
+    memberSince: t("memberSince"),
+    verifyEmail: t("verifyEmail"),
+    verifyBtn: t("verifyBtn"),
+    badge_scheduled: t("badge_scheduled"),
+    badge_inprogress: t("badge_inprogress"),
+    badge_completed: t("badge_completed"),
+  };
 
   return (
     <div className={styles.page}>
-      {/* Page Header Banner */}
       <div className={styles.banner}>
-        <h1 className={styles.bannerTitle}>My Test Orders</h1>
-        <p className={styles.bannerDesc}>
-          Manage your test orders. Review upcoming, current and past test orders
-          to stay informed about potential allergies and recommended medications.
-        </p>
+        <h1 className={styles.bannerTitle}>{ui.title}</h1>
+        <p className={styles.bannerDesc}>{ui.description}</p>
       </div>
 
-      {/* Email verification alert */}
-      {!user.emailVerified && <EmailVerificationAlert />}
+      {!user.emailVerified && <EmailVerificationAlert ui={ui} />}
 
-      {/* Main Layout */}
       <div className={styles.main}>
-        <ProfileInformation user={user} />
+        <ProfileInformation user={user} ui={ui} locale={locale} />
 
         <div className={styles.content}>
           {/* Upcoming */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Upcoming Tests</h2>
+            <h2 className={styles.sectionTitle}>{ui.upcoming}</h2>
             {upcoming.length === 0 ? (
-              <p className={styles.empty}>No upcoming tests.</p>
+              <p className={styles.empty}>{ui.noUpcoming}</p>
             ) : (
               upcoming.map((test) => (
                 <div key={test.id} className={styles.card}>
                   <div className={styles.cardHeader}>
                     <span className={styles.cardTitle}>{test.name}</span>
-                    <span className={`${styles.badge} ${styles.badgeScheduled}`}>
-                      Scheduled
-                    </span>
+                    <span className={`${styles.badge} ${styles.badgeScheduled}`}>{ui.badge_scheduled}</span>
                   </div>
                   <div className={styles.cardBody}>
-                    <p className={styles.cardDate}>{formatTestDate(test.testedDay)}</p>
+                    <p className={styles.cardDate}>{formatTestDate(test.testedDay, locale)}</p>
                     <p className={styles.cardLocation}>{test.location ?? "ImmunoLab"}</p>
                     <hr className={styles.divider} />
                     <div className={styles.cardFooter}>
-                      <button className={styles.actionBtnGray}>Reschedule</button>
+                      <button className={styles.actionBtnGray}>{ui.reschedule}</button>
                     </div>
                   </div>
                 </div>
@@ -78,29 +94,25 @@ export default async function OrderPage() {
 
           {/* Current */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Current Test</h2>
+            <h2 className={styles.sectionTitle}>{ui.current}</h2>
             {current.length === 0 ? (
-              <p className={styles.empty}>No tests currently in progress.</p>
+              <p className={styles.empty}>{ui.noCurrent}</p>
             ) : (
               current.map((test) => (
                 <div key={test.id} className={styles.card}>
                   <div className={styles.cardHeader}>
                     <span className={styles.cardTitle}>{test.name}</span>
-                    <span className={`${styles.badge} ${styles.badgeInProgress}`}>
-                      In Progress
-                    </span>
+                    <span className={`${styles.badge} ${styles.badgeInProgress}`}>{ui.badge_inprogress}</span>
                   </div>
                   <div className={styles.cardBody}>
-                    <p className={styles.cardDate}>{formatTestDate(test.testedDay)}</p>
+                    <p className={styles.cardDate}>{formatTestDate(test.testedDay, locale)}</p>
                     <p className={styles.cardLocation}>{test.location ?? "ImmunoLab"}</p>
                     <hr className={styles.divider} />
                     <div className={styles.cardFooter}>
                       {test.resultUrl ? (
-                        <ResultButton testId={test.id} />
+                        <ResultButton testId={test.id} label={ui.viewResults} />
                       ) : (
-                        <button className={styles.actionBtnGreen} disabled>
-                          Awaiting Lab Analysis...
-                        </button>
+                        <button className={styles.actionBtnGreen} disabled>{ui.awaiting}</button>
                       )}
                     </div>
                   </div>
@@ -111,29 +123,25 @@ export default async function OrderPage() {
 
           {/* Past */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Past Tests</h2>
+            <h2 className={styles.sectionTitle}>{ui.past}</h2>
             {past.length === 0 ? (
-              <p className={styles.empty}>No past tests.</p>
+              <p className={styles.empty}>{ui.noPast}</p>
             ) : (
               past.map((test) => (
                 <div key={test.id} className={styles.card}>
                   <div className={styles.cardHeader}>
                     <span className={styles.cardTitle}>{test.name}</span>
-                    <span className={`${styles.badge} ${styles.badgeCompleted}`}>
-                      Completed
-                    </span>
+                    <span className={`${styles.badge} ${styles.badgeCompleted}`}>{ui.badge_completed}</span>
                   </div>
                   <div className={styles.cardBody}>
-                    <p className={styles.cardDate}>{formatTestDate(test.testedDay)}</p>
+                    <p className={styles.cardDate}>{formatTestDate(test.testedDay, locale)}</p>
                     <p className={styles.cardLocation}>{test.location ?? "ImmunoLab"}</p>
                     <hr className={styles.divider} />
                     <div className={styles.cardFooter}>
                       {test.resultUrl ? (
-                        <ResultButton testId={test.id} />
+                        <ResultButton testId={test.id} label={ui.viewResults} />
                       ) : (
-                        <button className={styles.actionBtnGray} disabled>
-                          Result Pending
-                        </button>
+                        <button className={styles.actionBtnGray} disabled>{ui.resultPending}</button>
                       )}
                     </div>
                   </div>
@@ -147,58 +155,41 @@ export default async function OrderPage() {
   );
 }
 
-/* ---------------- Components ---------------- */
-
-function ResultButton({ testId }: { testId: string }) {
+function ResultButton({ testId, label }: { testId: string; label: string }) {
   return (
-    <a
-      href={`/api/results/${testId}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.actionBtnPurple}
-    >
-      View Results
+    <a href={`/api/results/${testId}`} target="_blank" rel="noopener noreferrer" className={styles.actionBtnPurple}>
+      {label}
     </a>
   );
 }
 
-interface ProfileInformationProps {
-  user: User;
-}
-
-function ProfileInformation({ user }: ProfileInformationProps) {
+function ProfileInformation({ user, ui, locale }: { user: User; ui: Record<string, string>; locale: string }) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.avatarWrap}>
         <div className={styles.avatar} />
       </div>
-
       <p className={styles.userName}>{user.name}</p>
       <p className={styles.userEmail}>{user.email}</p>
       <p className={styles.userCreatedAt}>
-        Member since: <br />
-        {new Date(user.createdAt).toLocaleDateString("en-US", {
+        {ui.memberSince}:<br />
+        {new Date(user.createdAt).toLocaleDateString(locale, {
           year: "numeric",
           month: "long",
           day: "numeric",
         })}
       </p>
-      <p className={styles.userPhone}>+777 7777 7777</p>
 
-      <button className={styles.newOrderBtn}>+ New Test Order</button>
+      <button className={styles.newOrderBtn}>{ui.newOrder}</button>
     </aside>
   );
 }
 
-function EmailVerificationAlert() {
+function EmailVerificationAlert({ ui }: { ui: Record<string, string> }) {
   return (
     <div className={styles.verificationAlert}>
-      <p className={styles.verificationText}>
-        ✉️ Please verify your email address to access all features.
-      </p>
-      <a href="/verify-email" className={styles.verificationBtn}>
-        Verify Email
-      </a>
+      <p className={styles.verificationText}>✉️ {ui.verifyEmail}</p>
+      <a href="/verify-email" className={styles.verificationBtn}>{ui.verifyBtn}</a>
     </div>
   );
 }

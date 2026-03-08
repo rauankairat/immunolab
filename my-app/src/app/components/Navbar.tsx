@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,7 +9,7 @@ type Labels = {
   team: string;
   contact: string;
   about: string;
-  search : string;
+  search: string;
 };
 
 export default function Navbar({
@@ -34,11 +33,10 @@ export default function Navbar({
   }, []);
 
   const links = [
-    { href: "/search", label: labels.search },
-    { href: "/orders", label: labels.order },
-    { href: "/team", label: labels.team },
+    { href: "/orders",  label: labels.order },
+    { href: "/team",    label: labels.team },
     { href: "/contact", label: labels.contact },
-    { href: "/about", label: labels.about },
+    { href: "/about",   label: labels.about },
   ];
 
   return (
@@ -62,6 +60,9 @@ export default function Navbar({
 
           {/* Desktop links */}
           <nav className={styles.desktopNav}>
+            <Link href="/search" className={styles.searchCta}>
+              {labels.search}
+            </Link>
             {links.map(({ href, label }) => (
               <Link key={href} href={href} className={styles.navLink}>
                 {label}
@@ -91,13 +92,11 @@ export default function Navbar({
         {/* Mobile drawer */}
         <div className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ""}`}>
           <nav className={styles.mobileNav}>
+            <Link href="/search" className={styles.mobileLinkCta} onClick={() => setOpen(false)}>
+              {labels.search}
+            </Link>
             {links.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={styles.mobileLink}
-                onClick={() => setOpen(false)}
-              >
+              <Link key={href} href={href} className={styles.mobileLink} onClick={() => setOpen(false)}>
                 {label}
               </Link>
             ))}
@@ -109,7 +108,6 @@ export default function Navbar({
           </div>
         </div>
       </header>
-
       {open && <div className={styles.backdrop} onClick={() => setOpen(false)} />}
     </>
   );

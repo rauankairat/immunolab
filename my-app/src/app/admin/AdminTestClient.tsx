@@ -33,23 +33,18 @@ async function safeError(res: Response): Promise<string> {
   }
 }
 
-export default function AdminTestsClient({ tests: initialTests }: { tests: Test[] }) {
+export default function AdminTestsClient({ tests: initialTests, ui }: { tests: Test[]; ui: Record<string, any> }) {
   const router = useRouter();
   const [tests, setTests] = useState(initialTests);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("ALL");
-
-  // Edit modal
   const [editTest, setEditTest] = useState<Test | null>(null);
   const [editForm, setEditForm] = useState<EditForm>({ testName: "", patientName: "", location: "", status: "" });
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
-
-  // Delete confirm
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // Filter
   const query = search.toLowerCase().trim();
   const filtered = tests.filter(t => {
     const matchesSearch = !query ||
@@ -109,13 +104,8 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
   async function handleDelete() {
     if (!deleteId) return;
     setDeleteLoading(true);
-
     const res = await fetch(`/api/tests/${deleteId}`, { method: "DELETE" });
-
-    if (res.ok) {
-      setTests(prev => prev.filter(t => t.id !== deleteId));
-    }
-
+    if (res.ok) setTests(prev => prev.filter(t => t.id !== deleteId));
     setDeleteId(null);
     setDeleteLoading(false);
     router.refresh();
@@ -123,8 +113,6 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
 
   return (
     <div className={styles.wrap}>
-
-      {/* Filters */}
       <div className={styles.filterRow}>
         <div className={styles.searchBox}>
           <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -134,7 +122,7 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="Search by code, name, patient, branch..."
+            placeholder={ui.search_tests_placeholder}
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -148,35 +136,39 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
         </div>
 
         <div className={styles.statusFilters}>
-          {["ALL", "UPCOMING", "CURRENT", "PAST"].map(s => (
+          {[
+            { key: "ALL", label: ui.filter_all },
+            { key: "UPCOMING", label: ui.filter_upcoming },
+            { key: "CURRENT", label: ui.filter_current },
+            { key: "PAST", label: ui.filter_past },
+          ].map(s => (
             <button
-              key={s}
-              className={`${styles.filterBtn} ${filterStatus === s ? styles.filterBtnActive : ""}`}
-              onClick={() => setFilterStatus(s)}
+              key={s.key}
+              className={`${styles.filterBtn} ${filterStatus === s.key ? styles.filterBtnActive : ""}`}
+              onClick={() => setFilterStatus(s.key)}
               type="button"
             >
-              {s === "ALL" ? "All" : s === "UPCOMING" ? "Upcoming" : s === "CURRENT" ? "In Progress" : "Completed"}
+              {s.label}
             </button>
           ))}
         </div>
       </div>
 
-      <p className={styles.resultCount}>{filtered.length} test{filtered.length !== 1 ? "s" : ""}</p>
+      <p className={styles.resultCount}>{filtered.length} {filtered.length !== 1 ? ui.filter_past : ui.filter_upcoming}</p>
 
-      {/* Table */}
       <div className={styles.tableWrap}>
         <div className={styles.tableHead}>
-          <span>Code</span>
-          <span>Patient</span>
-          <span>Test Name</span>
-          <span>Branch</span>
-          <span>Date</span>
-          <span>Result</span>
+          <span>{ui.col_code}</span>
+          <span>{ui.col_patient}</span>
+          <span>{ui.col_test}</span>
+          <span>{ui.col_branch}</span>
+          <span>{ui.col_date}</span>
+          <span>{ui.col_result}</span>
           <span></span>
         </div>
 
         {filtered.length === 0 ? (
-          <div className={styles.empty}>No tests found.</div>
+          <div className={styles.empty}>{ui.no_tests}</div>
         ) : (
           filtered.map(t => (
             <div key={t.id} className={styles.tableRow}>
@@ -190,21 +182,16 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
               <span className={styles.date}>{t.date}</span>
               <span>
                 {t.hasResult ? (
-                  <a
-                    href={`/api/tests/${t.id}/result/view`}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className={styles.viewBtn}
-                >
-                  View PDF
-                </a>
+                  <a href={`/api/tests/${t.id}/result/view`} target="_blank" rel="noopener noreferrer" className={styles.viewBtn}>
+                    {ui.view_pdf}
+                  </a>
                 ) : (
-                  <span className={styles.noPdf}>No PDF</span>
+                  <span className={styles.noPdf}>{ui.no_pdf}</span>
                 )}
               </span>
               <div className={styles.actions}>
-                <button className={styles.editBtn} onClick={() => openEdit(t)} type="button">Edit</button>
-                <button className={styles.deleteBtn} onClick={() => setDeleteId(t.id)} type="button">Delete</button>
+                <button className={styles.editBtn} onClick={() => openEdit(t)} type="button">{ui.edit}</button>
+                <button className={styles.deleteBtn} onClick={() => setDeleteId(t.id)} type="button">{ui.delete}</button>
               </div>
             </div>
           ))
@@ -216,7 +203,7 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
         <div className={styles.overlay} onClick={e => e.target === e.currentTarget && setEditTest(null)}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h3 className={styles.modalTitle}>Edit Test</h3>
+              <h3 className={styles.modalTitle}>{ui.edit_title}</h3>
               <button className={styles.closeBtn} onClick={() => setEditTest(null)} type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
                   <path d="M18 6 6 18M6 6l12 12" />
@@ -224,50 +211,31 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
               </button>
             </div>
             <div className={styles.modalDivider} />
-
             <div className={styles.form}>
               <div className={styles.field}>
-                <label className={styles.label}>Test Name</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={editForm.testName}
-                  onChange={e => setEditForm({ ...editForm, testName: e.target.value })}
-                />
+                <label className={styles.label}>{ui.field_test_name}</label>
+                <input type="text" className={styles.input} value={editForm.testName}
+                  onChange={e => setEditForm({ ...editForm, testName: e.target.value })} />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Branch</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={editForm.location}
-                  onChange={e => setEditForm({ ...editForm, location: e.target.value })}
-                />
+                <label className={styles.label}>{ui.field_branch}</label>
+                <input type="text" className={styles.input} value={editForm.location}
+                  onChange={e => setEditForm({ ...editForm, location: e.target.value })} />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Status</label>
-                <select
-                  className={styles.input}
-                  value={editForm.status}
-                  onChange={e => setEditForm({ ...editForm, status: e.target.value })}
-                >
-                  <option value="UPCOMING">Upcoming</option>
-                  <option value="CURRENT">In Progress</option>
-                  <option value="PAST">Completed</option>
+                <label className={styles.label}>{ui.field_status}</label>
+                <select className={styles.input} value={editForm.status}
+                  onChange={e => setEditForm({ ...editForm, status: e.target.value })}>
+                  <option value="UPCOMING">{ui.status_upcoming}</option>
+                  <option value="CURRENT">{ui.status_current}</option>
+                  <option value="PAST">{ui.status_past}</option>
                 </select>
               </div>
-
-              {editError && (
-                <div className={styles.errorBox}>
-                  <span>⚠</span>
-                  <p>{editError}</p>
-                </div>
-              )}
-
+              {editError && <div className={styles.errorBox}><span>⚠</span><p>{editError}</p></div>}
               <div className={styles.modalActions}>
-                <button className={styles.cancelBtn} onClick={() => setEditTest(null)} type="button">Cancel</button>
+                <button className={styles.cancelBtn} onClick={() => setEditTest(null)} type="button">{ui.cancel}</button>
                 <button className={styles.submitBtn} onClick={handleEdit} disabled={editLoading} type="button">
-                  {editLoading ? "Saving..." : "Save Changes"}
+                  {editLoading ? ui.saving : ui.save_changes}
                 </button>
               </div>
             </div>
@@ -275,17 +243,17 @@ export default function AdminTestsClient({ tests: initialTests }: { tests: Test[
         </div>
       )}
 
-      {/* Delete Confirm Modal */}
+      {/* Delete Modal */}
       {deleteId && (
         <div className={styles.overlay} onClick={e => e.target === e.currentTarget && setDeleteId(null)}>
           <div className={styles.modal}>
-            <h3 className={styles.modalTitle}>Delete Test</h3>
+            <h3 className={styles.modalTitle}>{ui.delete_title}</h3>
             <div className={styles.modalDivider} />
-            <p className={styles.deleteSub}>Are you sure you want to delete this test? This cannot be undone.</p>
+            <p className={styles.deleteSub}>{ui.delete_sub}</p>
             <div className={styles.modalActions}>
-              <button className={styles.cancelBtn} onClick={() => setDeleteId(null)} type="button">Cancel</button>
+              <button className={styles.cancelBtn} onClick={() => setDeleteId(null)} type="button">{ui.cancel}</button>
               <button className={styles.deleteBtnRed} onClick={handleDelete} disabled={deleteLoading} type="button">
-                {deleteLoading ? "Deleting..." : "Delete"}
+                {deleteLoading ? ui.deleting : ui.delete}
               </button>
             </div>
           </div>

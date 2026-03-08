@@ -13,7 +13,17 @@ type Product = {
   description: string;
 };
 
-export default function OrderClient({ list1, list2 }: { list1: Product[]; list2: Product[] }) {
+type UI = Record<string, any>;
+
+export default function OrderClient({
+  list1,
+  list2,
+  ui,
+}: {
+  list1: Product[];
+  list2: Product[];
+  ui: UI;
+}) {
   const [activeList, setActiveList] = useState<1 | 2>(1);
   const [selected1, setSelected1] = useState<number[]>([]);
   const [selected2, setSelected2] = useState<number[]>([]);
@@ -25,13 +35,14 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
   const setSelected = activeList === 1 ? setSelected1 : setSelected2;
 
   const toggleProduct = (id: number) => {
-    setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+    setSelected(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
   };
 
   const quantity = selected.length;
   const pricePerItem = PRICE_PER_ITEM + (express ? EXPRESS_FEE : 0);
   const total = quantity * pricePerItem;
-
   const selectedProducts = products.filter(p => selected.includes(p.id));
 
   return (
@@ -39,7 +50,7 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
 
       {/* CATALOG */}
       <div className={styles.catalogWrapper}>
-        <h2>Available Products</h2>
+        <h2>{ui.available_products}</h2>
         <div className={styles.listSwitcher} role="tablist" aria-label="Lists">
           <button
             type="button"
@@ -48,7 +59,7 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
             aria-selected={activeList === 1}
             role="tab"
           >
-            Anesthetics & Antibiotics
+            {ui.anesthetics}
           </button>
           <button
             type="button"
@@ -57,7 +68,7 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
             aria-selected={activeList === 2}
             role="tab"
           >
-            Allergen Panel
+            {ui.allergen_panel}
           </button>
         </div>
         <div className={styles.catalogGrid}>
@@ -73,8 +84,8 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
       {/* ORDER PANEL */}
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h1>Order Panel</h1>
-          <p>Select products for analysis</p>
+          <h1>{ui.order_panel}</h1>
+          <p>{ui.select_products}</p>
         </div>
 
         <div className={styles.layout}>
@@ -89,7 +100,9 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
                   className={`${styles.productCard} ${isSelected ? styles.selected : ""}`}
                 >
                   <span>{product.name}</span>
-                  <div className={styles.checkbox}>{isSelected && <div className={styles.checkmark} />}</div>
+                  <div className={styles.checkbox}>
+                    {isSelected && <div className={styles.checkmark} />}
+                  </div>
                 </div>
               );
             })}
@@ -99,38 +112,42 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
           <div className={styles.summary}>
             <div className={styles.summaryCard}>
               <div className={styles.priceInfo}>
-                <span>Price per item</span>
+                <span>{ui.price_per_item}</span>
                 <strong>{pricePerItem.toLocaleString()} ₸</strong>
               </div>
 
               <div className={styles.summaryRow}>
-                <span>Quantity</span>
+                <span>{ui.quantity}</span>
                 <strong>{quantity}</strong>
               </div>
 
               <div className={styles.summaryRow}>
-                <span>Subtotal</span>
+                <span>{ui.subtotal}</span>
                 <strong>{(quantity * PRICE_PER_ITEM).toLocaleString()} ₸</strong>
               </div>
 
               {express && (
                 <div className={styles.summaryRow}>
-                  <span>Express surcharge</span>
+                  <span>{ui.express_surcharge}</span>
                   <strong>{(quantity * EXPRESS_FEE).toLocaleString()} ₸</strong>
                 </div>
               )}
 
               <div className={styles.expressOption}>
                 <label>
-                  <input type="checkbox" checked={express} onChange={() => setExpress(!express)} />
-                  Express result (+{EXPRESS_FEE.toLocaleString()} ₸ per item)
+                  <input
+                    type="checkbox"
+                    checked={express}
+                    onChange={() => setExpress(!express)}
+                  />
+                  {ui.express_label}
                 </label>
               </div>
 
               <div className={styles.divider} />
 
               <div className={styles.totalRow}>
-                <span>Total</span>
+                <span>{ui.total}</span>
                 <strong>{total.toLocaleString()} ₸</strong>
               </div>
 
@@ -140,7 +157,7 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
                 onClick={() => setModalOpen(true)}
                 type="button"
               >
-                Place Order
+                {ui.place_order}
               </button>
             </div>
           </div>
@@ -151,10 +168,11 @@ export default function OrderClient({ list1, list2 }: { list1: Product[]; list2:
       {modalOpen && (
         <OrderModal
           selectedProducts={selectedProducts}
-          listType={activeList === 1 ? "Anesthetics & Antibiotics" : "Allergen Panel"}
+          listType={activeList === 1 ? ui.anesthetics : ui.allergen_panel}
           express={express}
           total={total}
           pricePerItem={pricePerItem}
+          ui={ui}
           onClose={() => setModalOpen(false)}
         />
       )}

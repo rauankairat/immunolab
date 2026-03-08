@@ -53,6 +53,7 @@ type Props = {
   patients: Patient[];
   orders: Order[];
   stats: Stats;
+  ui: Record<string, string>;
 };
 
 type Tab = "overview" | "patients" | "orders" | "admins" | "whatsapp";
@@ -69,18 +70,16 @@ const STATUS_TEXT: Record<string, string> = {
   PAST: "#888",
 };
 
-export default function OwnerDashboard({ admins: initialAdmins, patients, orders, stats }: Props) {
+export default function OwnerDashboard({ admins: initialAdmins, patients, orders, stats, ui }: Props) {
   const [tab, setTab] = useState<Tab>("overview");
   const [admins, setAdmins] = useState<Admin[]>(initialAdmins);
   const [expandedPatient, setExpandedPatient] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [orderSearch, setOrderSearch] = useState("");
-
   const [newAdminEmail, setNewAdminEmail] = useState("");
   const [newAdminRole, setNewAdminRole] = useState("ADMIN");
   const [adminLoading, setAdminLoading] = useState(false);
   const [adminMsg, setAdminMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
-
   const [waNumber, setWaNumber] = useState("");
   const [waSaving, setWaSaving] = useState(false);
   const [waMsg, setWaMsg] = useState<string | null>(null);
@@ -110,21 +109,21 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
       if (!res.ok) throw new Error(data.error);
       setAdmins(prev => [...prev, data.user]);
       setNewAdminEmail("");
-      setAdminMsg({ type: "success", text: "Admin added successfully." });
+      setAdminMsg({ type: "success", text: ui.admin_added });
     } catch (e: any) {
-      setAdminMsg({ type: "error", text: e.message || "Failed to add admin." });
+      setAdminMsg({ type: "error", text: e.message || ui.admin_add_failed });
     } finally {
       setAdminLoading(false);
     }
   }
 
   async function handleDeleteAdmin(id: string) {
-    if (!confirm("Remove this admin?")) return;
+    if (!confirm(ui.remove_confirm)) return;
     try {
       await fetch(`/api/owner/admins/${id}`, { method: "DELETE" });
       setAdmins(prev => prev.filter(a => a.id !== id));
     } catch {
-      alert("Failed to delete admin.");
+      alert(ui.remove_failed);
     }
   }
 
@@ -138,24 +137,24 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
       const data = await res.json();
       setAdmins(prev => prev.map(a => a.id === id ? { ...a, role: data.role } : a));
     } catch {
-      alert("Failed to update role.");
+      alert(ui.role_update_failed);
     }
   }
 
   const tabs: { key: Tab; label: string; icon: string }[] = [
-    { key: "overview", label: "Overview", icon: "📊" },
-    { key: "patients", label: "Patients & Tests", icon: "🧪" },
-    { key: "orders", label: "Orders", icon: "📋" },
-    { key: "admins", label: "Admin Management", icon: "👥" },
-    { key: "whatsapp", label: "WhatsApp Settings", icon: "💬" },
+    { key: "overview", label: ui.tab_overview, icon: "📊" },
+    { key: "patients", label: ui.tab_patients, icon: "🧪" },
+    { key: "orders", label: ui.tab_orders, icon: "📋" },
+    { key: "admins", label: ui.tab_admins, icon: "👥" },
+    { key: "whatsapp", label: ui.tab_whatsapp, icon: "💬" },
   ];
 
   return (
     <div className={styles.page}>
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
-          <div className={styles.ownerBadge}>OWNER</div>
-          <p className={styles.sidebarTitle}>Dashboard</p>
+          <div className={styles.ownerBadge}>{ui.badge}</div>
+          <p className={styles.sidebarTitle}>{ui.dashboard}</p>
         </div>
         <nav className={styles.sidebarNav}>
           {tabs.map(t => (
@@ -174,48 +173,48 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
 
       <main className={styles.main}>
 
-        {/* ── OVERVIEW ── */}
+        {/* OVERVIEW */}
         {tab === "overview" && (
           <div className={styles.section}>
-            <h1 className={styles.sectionTitle}>Overview</h1>
-            <p className={styles.sectionSub}>ImmunoLab at a glance</p>
+            <h1 className={styles.sectionTitle}>{ui.overview_title}</h1>
+            <p className={styles.sectionSub}>{ui.overview_sub}</p>
             <div className={styles.statsGrid}>
               <div className={styles.statCard}>
                 <span className={styles.statIcon}>👤</span>
                 <strong className={styles.statNum}>{stats.totalPatients}</strong>
-                <span className={styles.statLabel}>Total Patients</span>
+                <span className={styles.statLabel}>{ui.stat_patients}</span>
               </div>
               <div className={styles.statCard}>
                 <span className={styles.statIcon}>🧪</span>
                 <strong className={styles.statNum}>{stats.totalTests}</strong>
-                <span className={styles.statLabel}>Total Tests</span>
+                <span className={styles.statLabel}>{ui.stat_tests}</span>
               </div>
               <div className={styles.statCard}>
                 <span className={styles.statIcon}>⏳</span>
                 <strong className={styles.statNum}>{stats.upcomingTests}</strong>
-                <span className={styles.statLabel}>Upcoming Tests</span>
+                <span className={styles.statLabel}>{ui.stat_upcoming}</span>
               </div>
               <div className={styles.statCard}>
                 <span className={styles.statIcon}>📋</span>
                 <strong className={styles.statNum}>{stats.totalOrders}</strong>
-                <span className={styles.statLabel}>Total Orders</span>
+                <span className={styles.statLabel}>{ui.stat_orders}</span>
               </div>
               <div className={styles.statCard}>
                 <span className={styles.statIcon}>🛡️</span>
                 <strong className={styles.statNum}>{stats.totalAdmins}</strong>
-                <span className={styles.statLabel}>Admins</span>
+                <span className={styles.statLabel}>{ui.stat_admins}</span>
               </div>
             </div>
           </div>
         )}
 
-        {/* ── PATIENTS & TESTS ── */}
+        {/* PATIENTS & TESTS */}
         {tab === "patients" && (
           <div className={styles.section}>
-            <h1 className={styles.sectionTitle}>Patients & Tests</h1>
+            <h1 className={styles.sectionTitle}>{ui.patients_title}</h1>
             <input
               className={styles.searchInput}
-              placeholder="Search by name or email..."
+              placeholder={ui.search_placeholder}
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
@@ -231,28 +230,28 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                         {(p.name?.[0] ?? p.email[0]).toUpperCase()}
                       </div>
                       <div>
-                        <p className={styles.patientName}>{p.name ?? "Unknown"}</p>
+                        <p className={styles.patientName}>{p.name ?? ui.unknown}</p>
                         <p className={styles.patientEmail}>{p.email}</p>
                       </div>
                     </div>
                     <div className={styles.patientMeta}>
-                      <span className={styles.testCount}>{p.tests.length} test{p.tests.length !== 1 ? "s" : ""}</span>
+                      <span className={styles.testCount}>{p.tests.length}</span>
                       <span className={styles.chevron}>{expandedPatient === p.id ? "▲" : "▼"}</span>
                     </div>
                   </div>
                   {expandedPatient === p.id && (
                     <div className={styles.testsTable}>
                       {p.tests.length === 0 ? (
-                        <p className={styles.empty}>No tests yet.</p>
+                        <p className={styles.empty}>{ui.no_tests}</p>
                       ) : (
                         <table className={styles.table}>
                           <thead>
                             <tr>
-                              <th>Test Name</th>
-                              <th>Branch</th>
-                              <th>Date</th>
-                              <th>Status</th>
-                              <th>Result</th>
+                              <th>{ui.col_test}</th>
+                              <th>{ui.col_branch}</th>
+                              <th>{ui.col_date}</th>
+                              <th>{ui.col_status}</th>
+                              <th>{ui.col_result}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -260,19 +259,19 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                               <tr key={t.id}>
                                 <td>{t.name}</td>
                                 <td>{t.location ?? "—"}</td>
-                                <td>{new Date(t.testedDay).toLocaleDateString("en-GB")}</td>
+                                <td>{new Date(t.testedDay).toLocaleDateString("ru-RU")}</td>
                                 <td>
                                   <span className={styles.statusBadge} style={{
                                     background: STATUS_COLORS[t.status],
                                     color: STATUS_TEXT[t.status],
                                   }}>
-                                    {t.status}
+                                    {t.status === "UPCOMING" ? ui.status_upcoming : t.status === "CURRENT" ? ui.status_current : ui.status_past}
                                   </span>
                                 </td>
                                 <td>
                                   {t.resultUrl ? (
                                     <a href={`/api/tests/${t.id}/result/view`} target="_blank" rel="noopener noreferrer" className={styles.viewBtn}>
-                                      View PDF
+                                      {ui.view_pdf}
                                     </a>
                                   ) : "—"}
                                 </td>
@@ -289,20 +288,20 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
           </div>
         )}
 
-        {/* ── ORDERS ── */}
+        {/* ORDERS */}
         {tab === "orders" && (
           <div className={styles.section}>
-            <h1 className={styles.sectionTitle}>Orders</h1>
-            <p className={styles.sectionSub}>{orders.length} total order{orders.length !== 1 ? "s" : ""} submitted</p>
+            <h1 className={styles.sectionTitle}>{ui.orders_title}</h1>
+            <p className={styles.sectionSub}>{orders.length}</p>
             <input
               className={styles.searchInput}
-              placeholder="Search by name, branch or phone..."
+              placeholder={ui.orders_search}
               value={orderSearch}
               onChange={e => setOrderSearch(e.target.value)}
             />
             <div className={styles.list}>
               {filteredOrders.length === 0 && (
-                <p className={styles.empty}>No orders found.</p>
+                <p className={styles.empty}>{ui.no_orders}</p>
               )}
               {filteredOrders.map(o => (
                 <div key={o.id} className={styles.orderCard}>
@@ -317,23 +316,16 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                       </div>
                     </div>
                     <div className={styles.orderMeta}>
-                      {o.express && (
-                        <span className={styles.expressBadge}>EXPRESS</span>
-                      )}
+                      {o.express && <span className={styles.expressBadge}>{ui.express}</span>}
                       <span className={styles.orderTotal}>{o.total.toLocaleString()} KZT</span>
                     </div>
                   </div>
                   <div className={styles.orderBottom}>
                     <span className={styles.orderDetail}>{o.listType}</span>
-                    <span className={styles.orderDetail}>{o.count} test{o.count !== 1 ? "s" : ""}</span>
-                    <span className={styles.orderDetail}>{new Date(o.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
-                    <a
-                      href={o.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.viewBtn}
-                    >
-                      Download PDF →
+                    <span className={styles.orderDetail}>{o.count}</span>
+                    <span className={styles.orderDetail}>{new Date(o.createdAt).toLocaleDateString("ru-RU", { day: "numeric", month: "short", year: "numeric" })}</span>
+                    <a href={o.pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.viewBtn}>
+                      {ui.download_pdf}
                     </a>
                   </div>
                 </div>
@@ -342,16 +334,16 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
           </div>
         )}
 
-        {/* ── ADMIN MANAGEMENT ── */}
+        {/* ADMIN MANAGEMENT */}
         {tab === "admins" && (
           <div className={styles.section}>
-            <h1 className={styles.sectionTitle}>Admin Management</h1>
+            <h1 className={styles.sectionTitle}>{ui.admins_title}</h1>
             <div className={styles.addAdminCard}>
-              <h3 className={styles.cardTitle}>Add New Admin</h3>
+              <h3 className={styles.cardTitle}>{ui.add_admin_title}</h3>
               <div className={styles.addAdminRow}>
                 <input
                   className={styles.searchInput}
-                  placeholder="Email address"
+                  placeholder={ui.email_placeholder}
                   value={newAdminEmail}
                   onChange={e => setNewAdminEmail(e.target.value)}
                   style={{ flex: 1 }}
@@ -361,16 +353,11 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                   value={newAdminRole}
                   onChange={e => setNewAdminRole(e.target.value)}
                 >
-                  <option value="ADMIN">Admin</option>
-                  <option value="OWNER">Owner</option>
+                  <option value="ADMIN">{ui.role_admin}</option>
+                  <option value="OWNER">{ui.role_owner}</option>
                 </select>
-                <button
-                  className={styles.addBtn}
-                  onClick={handleAddAdmin}
-                  disabled={adminLoading}
-                  type="button"
-                >
-                  {adminLoading ? "Adding..." : "Add"}
+                <button className={styles.addBtn} onClick={handleAddAdmin} disabled={adminLoading} type="button">
+                  {adminLoading ? ui.adding : ui.add}
                 </button>
               </div>
               {adminMsg && (
@@ -387,25 +374,17 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                       {(a.name?.[0] ?? a.email[0]).toUpperCase()}
                     </div>
                     <div>
-                      <p className={styles.patientName}>{a.name ?? "No name"}</p>
+                      <p className={styles.patientName}>{a.name ?? ui.no_name}</p>
                       <p className={styles.patientEmail}>{a.email}</p>
                     </div>
                   </div>
                   <div className={styles.adminActions}>
-                    <select
-                      className={styles.roleSelect}
-                      value={a.role}
-                      onChange={e => handleChangeRole(a.id, e.target.value)}
-                    >
-                      <option value="ADMIN">Admin</option>
-                      <option value="OWNER">Owner</option>
+                    <select className={styles.roleSelect} value={a.role} onChange={e => handleChangeRole(a.id, e.target.value)}>
+                      <option value="ADMIN">{ui.role_admin}</option>
+                      <option value="OWNER">{ui.role_owner}</option>
                     </select>
-                    <button
-                      className={styles.deleteBtn}
-                      onClick={() => handleDeleteAdmin(a.id)}
-                      type="button"
-                    >
-                      Remove
+                    <button className={styles.deleteBtn} onClick={() => handleDeleteAdmin(a.id)} type="button">
+                      {ui.remove}
                     </button>
                   </div>
                 </div>
@@ -414,17 +393,17 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
           </div>
         )}
 
-        {/* ── WHATSAPP SETTINGS ── */}
+        {/* WHATSAPP SETTINGS */}
         {tab === "whatsapp" && (
           <div className={styles.section}>
-            <h1 className={styles.sectionTitle}>WhatsApp Settings</h1>
+            <h1 className={styles.sectionTitle}>{ui.wa_title}</h1>
             <div className={styles.addAdminCard}>
-              <h3 className={styles.cardTitle}>Lab Staff WhatsApp Number</h3>
-              <p className={styles.cardSub}>Orders will be sent to this number. Changes take effect immediately.</p>
+              <h3 className={styles.cardTitle}>{ui.wa_card_title}</h3>
+              <p className={styles.cardSub}>{ui.wa_card_sub}</p>
               <div className={styles.addAdminRow}>
                 <input
                   className={styles.searchInput}
-                  placeholder="e.g. 787785603278"
+                  placeholder={ui.wa_placeholder}
                   value={waNumber}
                   onChange={e => setWaNumber(e.target.value)}
                   style={{ flex: 1 }}
@@ -441,9 +420,9 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                         body: JSON.stringify({ number: waNumber }),
                       });
                       if (!res.ok) throw new Error();
-                      setWaMsg("Saved! Restart the server to apply.");
+                      setWaMsg(ui.wa_saved);
                     } catch {
-                      setWaMsg("Failed to save.");
+                      setWaMsg(ui.wa_failed);
                     } finally {
                       setWaSaving(false);
                     }
@@ -451,7 +430,7 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
                   disabled={waSaving}
                   type="button"
                 >
-                  {waSaving ? "Saving..." : "Save"}
+                  {waSaving ? ui.wa_saving : ui.wa_save}
                 </button>
               </div>
               {waMsg && <p className={styles.successMsg}>{waMsg}</p>}

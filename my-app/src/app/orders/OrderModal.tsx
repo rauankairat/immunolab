@@ -9,22 +9,17 @@ type Product = {
   description: string;
 };
 
+type UI = Record<string, any>;
+
 type Props = {
   selectedProducts: Product[];
   listType: string;
   express: boolean;
   total: number;
   pricePerItem: number;
+  ui: UI;
   onClose: () => void;
 };
-
-const BRANCHES = [
-  "Shagabutdinova 132",
-  "Dostyk 117",
-  "Alatau district",
-  "Medeu district",
-  "Bostandyk district",
-];
 
 export default function OrderModal({
   selectedProducts,
@@ -32,6 +27,7 @@ export default function OrderModal({
   express,
   total,
   pricePerItem,
+  ui,
   onClose,
 }: Props) {
   const [name, setName] = useState("");
@@ -42,9 +38,11 @@ export default function OrderModal({
   const [success, setSuccess] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
+  const branches: string[] = ui.branches ?? [];
+
   async function handleSubmit() {
     if (!name.trim() || !phone.trim() || !branch) {
-      setError("Please fill in all fields.");
+      setError(ui.fill_fields);
       return;
     }
     setLoading(true);
@@ -84,6 +82,8 @@ export default function OrderModal({
     }
   }
 
+  const count = selectedProducts.length;
+
   return (
     <div className={styles.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
       <div className={styles.modal}>
@@ -92,8 +92,10 @@ export default function OrderModal({
           <>
             <div className={styles.modalHeader}>
               <div>
-                <h3 className={styles.modalTitle}>Complete Your Order</h3>
-                <p className={styles.modalSub}>{selectedProducts.length} test{selectedProducts.length !== 1 ? "s" : ""} · {total.toLocaleString()} ₸ total</p>
+                <h3 className={styles.modalTitle}>{ui.complete_order}</h3>
+                <p className={styles.modalSub}>
+                  {count} · {total.toLocaleString()} ₸ {ui.total.toLowerCase()}
+                </p>
               </div>
               <button className={styles.closeBtn} onClick={onClose} type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
@@ -104,9 +106,8 @@ export default function OrderModal({
 
             <div className={styles.divider} />
 
-            {/* Selected tests preview */}
             <div className={styles.testsList}>
-              <p className={styles.testsLabel}>Selected Tests</p>
+              <p className={styles.testsLabel}>{ui.selected_tests}</p>
               <div className={styles.testsScroll}>
                 {selectedProducts.map((p, i) => (
                   <div key={p.id} className={styles.testItem}>
@@ -119,39 +120,38 @@ export default function OrderModal({
 
             <div className={styles.divider} />
 
-            {/* Form */}
             <div className={styles.form}>
               <div className={styles.field}>
-                <label className={styles.label}>Full Name</label>
+                <label className={styles.label}>{ui.full_name}</label>
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="e.g. Asel Nurlanovna"
+                  placeholder={ui.full_name_placeholder}
                   value={name}
                   onChange={e => setName(e.target.value)}
                 />
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Phone Number</label>
+                <label className={styles.label}>{ui.phone}</label>
                 <input
                   type="tel"
                   className={styles.input}
-                  placeholder="+7 777 000 00 00"
+                  placeholder={ui.phone_placeholder}
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
                 />
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Branch</label>
+                <label className={styles.label}>{ui.branch}</label>
                 <select
                   className={styles.input}
                   value={branch}
                   onChange={e => setBranch(e.target.value)}
                 >
-                  <option value="">Select a branch...</option>
-                  {BRANCHES.map(b => (
+                  <option value="">{ui.branch_placeholder}</option>
+                  {branches.map(b => (
                     <option key={b} value={b}>{b}</option>
                   ))}
                 </select>
@@ -159,7 +159,7 @@ export default function OrderModal({
 
               {express && (
                 <div className={styles.expressTag}>
-                  ⚡ Express order — results delivered faster
+                  {ui.express_tag}
                 </div>
               )}
 
@@ -171,7 +171,7 @@ export default function OrderModal({
               )}
 
               <div className={styles.totalRow}>
-                <span>Total</span>
+                <span>{ui.total}</span>
                 <strong>{total.toLocaleString()} ₸</strong>
               </div>
 
@@ -181,24 +181,22 @@ export default function OrderModal({
                 disabled={loading}
                 type="button"
               >
-                {loading ? "Submitting..." : "Confirm Order"}
+                {loading ? ui.submitting : ui.confirm_order}
               </button>
             </div>
           </>
         ) : (
           <div className={styles.success}>
             <div className={styles.successIcon}>✅</div>
-            <h3 className={styles.successTitle}>Order Submitted!</h3>
-            <p className={styles.successSub}>
-              Your order has been sent to the lab. They will contact you shortly.
-            </p>
+            <h3 className={styles.successTitle}>{ui.order_submitted}</h3>
+            <p className={styles.successSub}>{ui.order_success_sub}</p>
             {pdfUrl && (
               <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className={styles.pdfBtn}>
-                Download Order PDF →
+                {ui.download_pdf}
               </a>
             )}
             <button className={styles.submitBtn} onClick={onClose} type="button">
-              Done
+              {ui.done}
             </button>
           </div>
         )}

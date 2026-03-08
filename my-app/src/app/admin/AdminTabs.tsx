@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import AdminUploadClient from "./AdminUploadClient";
 import AdminTestsClient from "./AdminTestClient";
@@ -18,7 +17,7 @@ type Test = {
   resultUrl: string | null;
 };
 
-export default function AdminTabs({ tests }: { tests: Test[] }) {
+export default function AdminTabs({ tests, ui }: { tests: Test[]; ui: Record<string, any> }) {
   const [tab, setTab] = useState<"upload" | "tests">("upload");
 
   return (
@@ -29,20 +28,19 @@ export default function AdminTabs({ tests }: { tests: Test[] }) {
           onClick={() => setTab("upload")}
           type="button"
         >
-          Upload Result
+          {ui.tab_upload}
         </button>
         <button
           className={`${styles.pageTab} ${tab === "tests" ? styles.pageTabActive : ""}`}
           onClick={() => setTab("tests")}
           type="button"
         >
-          All Tests
+          {ui.tab_tests}
           <span className={styles.pageTabCount}>{tests.length}</span>
         </button>
       </div>
-
-      {tab === "upload" && <AdminUploadClient />}
-      {tab === "tests" && <AdminTestsClient tests={tests} />}
+      {tab === "upload" && <AdminUploadClient ui={ui} />}
+      {tab === "tests" && <AdminTestsClient tests={tests} ui={ui} />}
     </div>
   );
 }
