@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { put } from "@vercel/blob";
+import { prisma } from "@/lib/prisma"
+import fs from "fs";
+import path from "path";
+import fontkit from "@pdf-lib/fontkit";
 
 export const runtime = "nodejs";
 
@@ -24,7 +28,6 @@ function sanitize(str: string): string {
   return str
     .replace(/\u2019|\u2018/g, "'")
     .replace(/\u2014|\u2013/g, "-")
-    .replace(/[^\x00-\x7F]/g, "?")
     .trim();
 }
 
@@ -127,8 +130,15 @@ export async function POST(req: Request) {
     const sListType = sanitize(listType);
 
     const doc = await PDFDocument.create();
-    const font = await doc.embedFont(StandardFonts.Helvetica);
-    const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
+
+    
+    doc.registerFontkit(fontkit);
+    
+
+const fontRegularBytes = fs.readFileSync(path.join(process.cwd(), "public/fonts/Roboto-Regular.ttf"));
+const fontBoldBytes = fs.readFileSync(path.join(process.cwd(), "public/fonts/Roboto-Bold.ttf"));
+const font = await doc.embedFont(fontRegularBytes);
+const fontBold = await doc.embedFont(fontBoldBytes);
 
     const GREEN = rgb(0.1, 0.32, 0.1);
     const LIGHT_GREEN = rgb(0.94, 0.98, 0.94);
@@ -222,6 +232,19 @@ export async function POST(req: Request) {
     });
 
     console.log("PDF uploaded:", blob.url);
+
+    await prisma.order.create({
+  data: {
+    name: sName,
+    phone: sPhone,
+    branch: sBranch,
+    listType: sListType,
+    express,
+    total,
+    count: products.length,
+    pdfUrl: blob.url,
+  },
+});
 
     await sendWhatsApp(blob.url, {
       name: sName,

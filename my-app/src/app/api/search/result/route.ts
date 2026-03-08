@@ -5,14 +5,13 @@ export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
-
   if (!code || !/^\d{10}$/.test(code)) {
     return NextResponse.json({ error: "Invalid test code" }, { status: 400 });
   }
 
   const test = await prisma.test.findUnique({
     where: { testCode: code },
-    select: { resultUrl: true },
+    select: { resultUrl: true, resultName: true },
   });
 
   if (!test) {
@@ -23,5 +22,25 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Result not yet available" }, { status: 404 });
   }
 
-  return NextResponse.redirect(test.resultUrl);
+  const response = await fetch(test.resultUrl, {
+    headers: {
+      Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+    },
+  });
+
+  if (!response.ok) {
+    return new NextResponse("Not found", { status: 404 });
+  }
+
+  const buffer = await response.arrayBuffer();
+  const rawName = test.resultName ?? "result.pdf";
+  const fileName = rawName.replace(/^\d+_/, "");
+
+  return new NextResponse(buffer, {
+    headers: {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="${fileName}"`,
+      "Cache-Control": "private, no-cache",
+    },
+  });
 }

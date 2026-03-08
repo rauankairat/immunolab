@@ -1,0 +1,471 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7f5;
+  font-family: "Poppins", Helvetica, sans-serif;
+  padding-top: 84px;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #1a5319;
+  min-height: calc(100vh - 84px);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 84px;
+  height: calc(100vh - 84px);
+}
+
+.sidebarHeader {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.ownerBadge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.sidebarTitle {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sidebarNav {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  width: 100%;
+}
+
+.navItem:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.navItemActive {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-weight: 600;
+}
+
+.navIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  padding: 36px 40px;
+  max-width: 1100px;
+}
+
+.section {}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 4px 0;
+}
+
+.sectionSub {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 28px 0;
+}
+
+/* ── Stats ── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.statCard {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.statIcon {
+  font-size: 24px;
+}
+
+.statNum {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a5319;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #888;
+}
+
+/* ── Search ── */
+.searchInput {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  color: #111;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  transition: border-color 0.15s;
+}
+
+.searchInput:focus { border-color: #1a5319; }
+
+/* ── List ── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ── Patient card ── */
+.patientCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.patientHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.patientHeader:hover { background: #f9fdf9; }
+
+.patientInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patientAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1a5319;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.patientName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 2px 0;
+}
+
+.patientEmail {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+.patientMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testCount {
+  font-size: 12px;
+  color: #1a5319;
+  font-weight: 600;
+  background: #f0f7f0;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.chevron {
+  font-size: 10px;
+  color: #aaa;
+}
+
+/* ── Tests table ── */
+.testsTable {
+  border-top: 1px solid #f0f0f0;
+  padding: 16px 20px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  text-align: left;
+  padding: 8px 12px;
+  color: #aaa;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.table td {
+  padding: 10px 12px;
+  color: #333;
+  border-bottom: 1px solid #fafafa;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.viewBtn {
+  color: #1a5319;
+  font-weight: 600;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px 10px;
+  background: #f0f7f0;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.viewBtn:hover { background: #e0f0e0; }
+
+.empty {
+  color: #aaa;
+  font-size: 13px;
+  text-align: center;
+  padding: 16px 0;
+}
+
+/* ── Admin row ── */
+.adminRow {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.adminActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roleSelect {
+  height: 36px;
+  padding: 0 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  color: #111;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  height: 36px;
+  padding: 0 14px;
+  background: #fff0f0;
+  color: #cc3333;
+  border: 1.5px solid #ffd0d0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.deleteBtn:hover { background: #ffe0e0; }
+
+/* ── Add admin card ── */
+.addAdminCard {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 4px 0;
+}
+
+.cardSub {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 16px 0;
+}
+
+.addAdminRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.addAdminRow .searchInput {
+  margin-bottom: 0;
+}
+
+.addBtn {
+  height: 44px;
+  padding: 0 20px;
+  background: #1a5319;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.addBtn:hover:not(:disabled) { background: #143f13; }
+.addBtn:disabled { background: #ccc; cursor: not-allowed; }
+
+.successMsg {
+  font-size: 13px;
+  color: #1a5319;
+  margin: 10px 0 0 0;
+}
+
+.errorMsg {
+  font-size: 13px;
+  color: #cc3333;
+  margin: 10px 0 0 0;
+}
+
+@media (max-width: 768px) {
+  .page { flex-direction: column; }
+  .sidebar { width: 100%; min-height: auto; position: static; height: auto; }
+  .main { padding: 20px 16px; }
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+  .addAdminRow { flex-wrap: wrap; }
+}
+
+.orderCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.orderTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.orderInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.orderMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orderTotal {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a5319;
+}
+
+.expressBadge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #b36b00;
+  background: #fff8e1;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.orderBottom {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.orderDetail {
+  font-size: 12px;
+  color: #888;
+}

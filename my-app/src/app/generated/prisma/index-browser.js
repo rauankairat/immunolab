@@ -148,6 +148,19 @@ exports.Prisma.TestScalarFieldEnum = {
   patientId: 'patientId'
 };
 
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  branch: 'branch',
+  listType: 'listType',
+  express: 'express',
+  total: 'total',
+  count: 'count',
+  pdfUrl: 'pdfUrl',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -200,7 +213,8 @@ exports.Prisma.NullsOrder = {
 };
 exports.Role = exports.$Enums.Role = {
   BASIC: 'BASIC',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  OWNER: 'OWNER'
 };
 
 exports.TestStatus = exports.$Enums.TestStatus = {
@@ -212,6 +226,7 @@ exports.TestStatus = exports.$Enums.TestStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Test: 'Test',
+  Order: 'Order',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'

@@ -48,6 +48,19 @@ model Test {
   patientId String?
 }
 
+model Order {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  branch    String
+  listType  String
+  express   Boolean  @default(false)
+  total     Int
+  count     Int
+  pdfUrl    String
+  createdAt DateTime @default(now())
+}
+
 enum TestStatus {
   UPCOMING
   CURRENT
@@ -57,6 +70,7 @@ enum TestStatus {
 enum Role {
   BASIC
   ADMIN
+  OWNER
 }
 
 model Session {

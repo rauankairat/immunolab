@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { get } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 
@@ -15,7 +14,6 @@ export async function GET(
   }
 
   const { id } = await ctx.params;
-
   const test = await prisma.test.findUnique({
     where: { id },
     select: { resultUrl: true, resultName: true },
@@ -25,20 +23,24 @@ export async function GET(
     return NextResponse.json({ error: "no result found" }, { status: 404 });
   }
 
-  // Extract the pathname from the full blob URL
-  const url = new URL(test.resultUrl);
-  const pathname = url.pathname.slice(1); // remove leading slash
+  const response = await fetch(test.resultUrl, {
+    headers: {
+      Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+    },
+  });
 
-  const result = await get(pathname, { access: "private" });
-
-  if (result?.statusCode !== 200) {
+  if (!response.ok) {
     return new NextResponse("Not found", { status: 404 });
   }
 
-  return new NextResponse(result.stream, {
+  const buffer = await response.arrayBuffer();
+  const rawName = test.resultName ?? "result.pdf";
+  const fileName = rawName.replace(/^\d+_/, "");
+
+  return new NextResponse(buffer, {
     headers: {
-      "Content-Type": result.blob.contentType ?? "application/pdf",
-      "Content-Disposition": `inline; filename="${test.resultName ?? "result.pdf"}"`,
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="${fileName}"`,
       "Cache-Control": "private, no-cache",
     },
   });
