@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
-import { redirect } from "next/navigation";
 
 const schema = z
   .object({
@@ -25,7 +24,24 @@ const schema = z
 
 type FormValues = z.infer<typeof schema>
 
-export default function RegisterClient() {
+type Props = {
+  sideTitle: string
+  sideText: string
+  title: string
+  nameLabel: string
+  emailLabel: string
+  passwordLabel: string
+  showPasswordLabel: string
+  hidePasswordLabel: string
+  confirmLabel: string
+  registeringLabel: string
+  registerLabel: string
+  hasAccount: string
+  signInLabel: string
+  successToast: string
+}
+
+export default function RegisterClient(props: Props) {
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -36,19 +52,12 @@ export default function RegisterClient() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-      identifier: "",
-      password: "",
-      confirmPassword: "",
-    },
+    defaultValues: { name: "", identifier: "", password: "", confirmPassword: "" },
   })
 
   const onSubmit = async (values: FormValues) => {
     setServerError(null)
-
     try {
-     
       const result = await (authClient as any).signUp?.email?.({
         email: values.identifier,
         password: values.password,
@@ -62,7 +71,7 @@ export default function RegisterClient() {
         return
       }
 
-      toast.success("Account created")
+      toast.success(props.successToast)
       router.push(`/verify-email?email=${values.identifier}`)
       router.refresh()
     } catch (e: any) {
@@ -75,39 +84,36 @@ export default function RegisterClient() {
   return (
     <div className={styles.page}>
       <div className={styles.shell}>
-       <section className={styles.side}>
-  <div className={styles.sideBox}>
-    <h1 className={styles.sideTitle}>Create Your Account</h1>
-    <p className={styles.sideText}>
-      Sign up to manage your tests and access personalized health insights.
-    </p>
-  </div>
-</section>
+
+        <section className={styles.side}>
+          <h1 className={styles.sideTitle}>{props.sideTitle}</h1>
+          <p className={styles.sideText}>{props.sideText}</p>
+        </section>
 
         <div className={styles.wrapper}>
           <div className={styles.card}>
-            <h2 className={styles.title}>Register</h2>
+            <h2 className={styles.title}>{props.title}</h2>
             <div className={styles.underline} />
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-              <label className={styles.label}>Full Name</label>
+              <label className={styles.label}>{props.nameLabel}</label>
               <input className={styles.input} type="text" {...register("name")} />
               {errors.name && <div className={styles.error}>{errors.name.message}</div>}
 
-              <label className={styles.label}>Email / Phone Number / IIN</label>
+              <label className={styles.label}>{props.emailLabel}</label>
               <input className={styles.input} type="text" {...register("identifier")} />
               {errors.identifier && (
                 <div className={styles.error}>{errors.identifier.message}</div>
               )}
 
               <div className={styles.passRow}>
-                <label className={styles.label}>Password</label>
+                <label className={styles.label}>{props.passwordLabel}</label>
                 <button
                   type="button"
                   className={styles.showBtn}
                   onClick={() => setShowPassword((v) => !v)}
                 >
-                  {showPassword ? "Hide Password" : "Show Password"}
+                  {showPassword ? props.hidePasswordLabel : props.showPasswordLabel}
                 </button>
               </div>
 
@@ -116,9 +122,11 @@ export default function RegisterClient() {
                 type={showPassword ? "text" : "password"}
                 {...register("password")}
               />
-              {errors.password && <div className={styles.error}>{errors.password.message}</div>}
+              {errors.password && (
+                <div className={styles.error}>{errors.password.message}</div>
+              )}
 
-              <label className={styles.label}>Confirm Password</label>
+              <label className={styles.label}>{props.confirmLabel}</label>
               <input
                 className={styles.input}
                 type={showPassword ? "text" : "password"}
@@ -128,21 +136,24 @@ export default function RegisterClient() {
                 <div className={styles.error}>{errors.confirmPassword.message}</div>
               )}
 
-              {serverError && <div className={styles.errorCenter}>{serverError}</div>}
+              {serverError && (
+                <div className={styles.errorCenter}>{serverError}</div>
+              )}
 
               <button className={styles.button} type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Registering..." : "Register"}
+                {isSubmitting ? props.registeringLabel : props.registerLabel}
               </button>
             </form>
 
             <div className={styles.bottomText}>
-              Already have an account ?{" "}
+              {props.hasAccount}{" "}
               <Link href="/login" className={styles.bottomLink}>
-                Sign In
+                {props.signInLabel}
               </Link>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   )

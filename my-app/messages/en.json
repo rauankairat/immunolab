@@ -535,8 +535,37 @@
     "success": "Verification email sent successfully",
     "error": "Something went wrong"
   
+},
+"login": {
+  "welcome": "Welcome",
+  "welcomeLine2": "Back",
+  "sub": "Sign in to manage your orders and view your personalized results.",
+  "title": "Sign In",
+  "emailLabel": "Email / Phone Number / IIN",
+  "passwordLabel": "Password",
+  "forgotPassword": "Forgot Password?",
+  "signingIn": "Signing in...",
+  "signIn": "Sign In",
+  "noAccount": "Don't have an account?",
+  "register": "Register",
+  "successToast": "Signed in successfully"
+},
+"register": {
+  "sideTitle": "Create Your Account",
+  "sideText": "Sign up to manage your tests and access personalized health insights.",
+  "title": "Register",
+  "nameLabel": "Full Name",
+  "emailLabel": "Email / Phone Number / IIN",
+  "passwordLabel": "Password",
+  "showPassword": "Show Password",
+  "hidePassword": "Hide Password",
+  "confirmLabel": "Confirm Password",
+  "registering": "Registering...",
+  "register": "Register",
+  "hasAccount": "Already have an account?",
+  "signIn": "Sign In",
+  "successToast": "Account created"
 }
-
 
 
 

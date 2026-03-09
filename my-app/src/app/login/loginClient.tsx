@@ -18,7 +18,22 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
-export default function LoginPage() {
+type Props = {
+  welcome: string
+  welcomeLine2: string
+  sub: string
+  title: string
+  emailLabel: string
+  passwordLabel: string
+  forgotPassword: string
+  signingIn: string
+  signInLabel: string
+  noAccount: string
+  registerLabel: string
+  successToast: string
+}
+
+export default function LoginPage(props: Props) {
   const router = useRouter()
   const [serverError, setServerError] = useState<string | null>(null)
 
@@ -28,16 +43,11 @@ export default function LoginPage() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      identifier: "",
-      password: "",
-      remember: false,
-    },
+    defaultValues: { identifier: "", password: "", remember: false },
   })
 
   const onSubmit = async (values: FormValues) => {
     setServerError(null)
-
     const result = await authClient.signIn.email({
       email: values.identifier,
       password: values.password,
@@ -53,7 +63,7 @@ export default function LoginPage() {
       setServerError(msg)
       toast.error(msg)
     } else {
-      toast.success("Signed in successfully")
+      toast.success(props.successToast)
       router.push("/account")
       router.refresh()
     }
@@ -62,23 +72,23 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.bg} aria-hidden="true" />
-
       <div className={styles.shell}>
         <section className={styles.left}>
-          <h1 className={styles.welcome}>Welcome<br />Back</h1>
-          <p className={styles.sub}>
-            Sign in to manage your orders and view your personalized results.
-          </p>
+          <h1 className={styles.welcome}>
+            {props.welcome}
+            {props.welcomeLine2 && <><br />{props.welcomeLine2}</>}
+          </h1>
+          <p className={styles.sub}>{props.sub}</p>
         </section>
 
         <section className={styles.right}>
           <div className={styles.glass}>
             <div className={styles.card}>
-              <h2 className={styles.title}>Sign In</h2>
+              <h2 className={styles.title}>{props.title}</h2>
 
               <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className={styles.field}>
-                  <label className={styles.label}>Email / Phone Number / IIN</label>
+                  <label className={styles.label}>{props.emailLabel}</label>
                   <input
                     type="text"
                     autoComplete="username"
@@ -91,7 +101,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className={styles.field}>
-                  <label className={styles.label}>Password</label>
+                  <label className={styles.label}>{props.passwordLabel}</label>
                   <input
                     type="password"
                     autoComplete="current-password"
@@ -103,7 +113,7 @@ export default function LoginPage() {
                   )}
                   <div className={styles.forgotRow}>
                     <Link href="/forgot-password" className={styles.forgotLink}>
-                      Forgot Password?
+                      {props.forgotPassword}
                     </Link>
                   </div>
                 </div>
@@ -113,14 +123,14 @@ export default function LoginPage() {
                 )}
 
                 <button type="submit" disabled={isSubmitting} className={styles.submit}>
-                  {isSubmitting ? "Signing in..." : "Sign In"}
+                  {isSubmitting ? props.signingIn : props.signInLabel}
                 </button>
               </form>
 
               <p className={styles.signup}>
-                Don't have an account?{" "}
+                {props.noAccount}{" "}
                 <Link href="/register" className={styles.signupLink}>
-                  Register
+                  {props.registerLabel}
                 </Link>
               </p>
             </div>

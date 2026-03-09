@@ -38,29 +38,35 @@
   justify-content: center;
 }
 
-/* Left side */
+/* ---- Left side ---- */
 .side {
-  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2rem 2rem 1rem 3rem;
+  padding-top: 110;
+  margin-top: -600px;
+  margin-left: -250px;
 }
 
 .sideTitle {
-  font-size: 2.3rem;
-  font-weight: 700;
-  color: #1f5b2b;
-  letter-spacing: -0.02em;
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #1a5319;
+  letter-spacing: -0.03em;
   line-height: 1.1;
-  margin: 0 0 0.8rem 0;
+  margin: 0 0 1rem 0;
 }
 
 .sideText {
-  max-width: 320px;
+  max-width: 300px;
   font-size: 1rem;
-  line-height: 1.45;
-  color: rgba(10,22,16,0.75);
+  line-height: 1.6;
+  color: rgba(10, 22, 16, 0.75);
   margin: 0;
 }
 
-/* Card */
+/* ---- Card ---- */
 .card {
   width: min(480px, 100%);
   padding: 2.2rem 2.6rem 1.8rem;
@@ -178,7 +184,7 @@
 
 .bottomLink:hover { text-decoration: underline; }
 
-/* Responsive */
+/* ---- Responsive ---- */
 @media (max-width: 900px) {
   .shell {
     grid-template-columns: 1fr;
@@ -186,8 +192,13 @@
     gap: 2rem;
   }
 
+
+ 
   .side {
-    padding-left: 0;
+    margin-top: 0;
+    margin-left: 0;
+    padding: 2rem 1.5rem;
+    align-items: center;
     text-align: center;
   }
 
@@ -207,26 +218,10 @@
     padding: 2rem 1.2rem;
   }
 
-  .sideTitle { font-size: 1.9rem; }
+  .sideTitle { font-size: 2rem; }
   .title { font-size: 1.8rem; }
 
   .card {
     padding: 1.6rem 1.2rem 1.4rem;
-  }
-}
-
-.sideBox {
-  padding: 2.4rem 2.8rem;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 30px 80px rgba(25, 35, 50, 0.14);
-  max-width: 420px;
-}
-
-@media (max-width: 900px) {
-  .sideBox {
-    max-width: 100%;
   }
 }
