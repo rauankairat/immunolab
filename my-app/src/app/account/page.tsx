@@ -169,17 +169,18 @@ function ProfileInformation({ user, ui, locale }: { user: User; ui: Record<strin
       <div className={styles.avatarWrap}>
         <div className={styles.avatar} />
       </div>
-      <p className={styles.userName}>{user.name}</p>
-      <p className={styles.userEmail}>{user.email}</p>
-      <p className={styles.userCreatedAt}>
-        {ui.memberSince}:<br />
-        {new Date(user.createdAt).toLocaleDateString(locale, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </p>
-
+      <div className={styles.sidebarInfo}>
+        <p className={styles.userName}>{user.name}</p>
+        <p className={styles.userEmail}>{user.email}</p>
+        <p className={styles.userCreatedAt}>
+          {ui.memberSince}:{" "}
+          {new Date(user.createdAt).toLocaleDateString(locale, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </p>
+      </div>
       <button className={styles.newOrderBtn}>{ui.newOrder}</button>
     </aside>
   );

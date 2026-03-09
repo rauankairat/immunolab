@@ -50,9 +50,7 @@
   transition: background 0.15s;
 }
 
-.catalogCard:hover {
-  background: #f7fbf7;
-}
+.catalogCard:hover { background: #f7fbf7; }
 
 .catalogCard strong {
   display: block;
@@ -102,6 +100,7 @@
 .products {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .productCard {
@@ -113,11 +112,10 @@
   cursor: pointer;
   transition: background 0.12s;
   position: relative;
+  overflow: hidden;
 }
 
-.productCard:first-child {
-  border-top: 1px solid #f0f0f0;
-}
+.productCard:first-child { border-top: 1px solid #f0f0f0; }
 
 .productCard::before {
   content: '';
@@ -131,9 +129,7 @@
   z-index: 0;
 }
 
-.productCard:hover::before {
-  width: calc(100% + 80px);
-}
+.productCard:hover::before { width: calc(100% + 80px); }
 
 .productCard span {
   font-size: 13.5px;
@@ -144,16 +140,12 @@
   transition: color 0.12s;
   padding-right: 16px;
   line-height: 1.4;
+  flex: 1;
+  min-width: 0;
 }
 
-.productCard:hover span {
-  color: #1a5319;
-}
-
-.selected span {
-  color: #1a5319;
-  font-weight: 600;
-}
+.productCard:hover span { color: #1a5319; }
+.selected span { color: #1a5319; font-weight: 600; }
 
 .checkbox {
   width: 18px;
@@ -168,14 +160,8 @@
   transition: border-color 0.12s;
 }
 
-.productCard:hover .checkbox {
-  border-color: #aaa;
-}
-
-.selected .checkbox {
-  border-color: #1a5319;
-  background: #1a5319;
-}
+.productCard:hover .checkbox { border-color: #aaa; }
+.selected .checkbox { border-color: #1a5319; background: #1a5319; }
 
 .checkmark {
   width: 8px;
@@ -247,9 +233,7 @@
   flex-shrink: 0;
 }
 
-.divider {
-  display: none;
-}
+.divider { display: none; }
 
 .totalRow {
   display: flex;
@@ -277,57 +261,16 @@
   transition: background 0.15s;
 }
 
-.orderButton:hover:not(:disabled) {
-  background: #143f13;
-}
+.orderButton:hover:not(:disabled) { background: #143f13; }
+.orderButton:disabled { background: #ccc; cursor: not-allowed; color: #999; }
 
-.orderButton:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  color: #999;
-}
-
-/* ---- Responsive ---- */
-@media (max-width: 1024px) {
-  .layout {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .summary {
-    position: relative;
-    top: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .outerBox {
-    padding: 36px 24px 60px;
-  }
-
-  .catalogWrapper {
-    margin-bottom: 48px;
-    padding-bottom: 48px;
-  }
-
-  .catalogGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .productCard::before {
-    left: -24px;
-  }
-
-  .productCard:hover::before {
-    width: calc(100% + 48px);
-  }
-}
-
+/* ---- List switcher ---- */
 .listSwitcher {
   display: flex;
   gap: 0;
   border-bottom: 2px solid #f0f0f0;
   margin-bottom: 16px;
+  overflow-x: auto;
 }
 
 .switchBtn {
@@ -342,9 +285,90 @@
   margin-bottom: -2px;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .switchBtnActive {
   color: #1a5319;
   border-bottom-color: #1a5319;
+}
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+  .outerBox {
+    padding: 40px 24px 60px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .summary {
+    position: relative;
+    top: 0;
+  }
+
+  .productCard::before {
+    display: none;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .outerBox {
+    padding: 28px 20px 60px;
+  }
+
+  .catalogWrapper {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+  }
+
+  .catalogGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .header h1 { font-size: 22px; }
+  .productCard span { font-size: 13px; }
+  .productCard::before { display: none; }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* Normal flow, no fixed positioning */
+  .summary {
+    position: relative;
+    top: 0;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    box-shadow: none;
+  }
+
+  .summaryCard {
+    display: block;
+    border: 1px solid #e8e8e8;
+    background: #fafcfa;
+  }
+
+  /* Show everything */
+  .priceInfo { display: flex; }
+  .summaryRow { display: flex; }
+  .expressOption { display: flex; }
+
+  .totalRow {
+    padding: 18px 20px;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 15px;
+  }
+
+  .orderButton {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 14px;
+    border-radius: 0;
+  }
 }

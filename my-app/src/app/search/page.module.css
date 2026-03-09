@@ -96,6 +96,7 @@
   color: #1a2e1a;
   background: #fff;
   transition: border-color 0.15s;
+  min-width: 0;
 }
 
 .input:focus {
@@ -119,6 +120,7 @@
   cursor: pointer;
   transition: background 0.15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .searchBtn:hover:not(:disabled) {
@@ -178,6 +180,7 @@
   padding: 24px 28px;
   border-bottom: 1px solid #ebebeb;
   background: #fff;
+  gap: 16px;
 }
 
 .resultHeaderLeft {}
@@ -204,6 +207,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 6px 14px;
+  flex-shrink: 0;
 }
 
 .statusBadge[data-status="COMPLETED"] {
@@ -251,6 +255,7 @@
   font-size: 13.5px;
   font-weight: 600;
   color: #1a2e1a;
+  word-break: break-word;
 }
 
 .downloadBtn {
@@ -261,7 +266,6 @@
   color: #1a5319;
   text-decoration: none;
   transition: background 0.15s;
-  border-top: none;
 }
 
 .downloadBtn:hover {
@@ -280,14 +284,42 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero { padding: 40px 24px; }
-  .heroTitle { font-size: 26px; }
-  .body { padding: 40px 24px 60px; }
+  .hero { padding: 40px 20px; }
+  .heroTitle { font-size: 24px; }
+  .heroSub { font-size: 13px; }
+  .body { padding: 32px 20px 60px; }
+
+  .searchSection { max-width: 100%; }
 
   .searchRow { flex-direction: column; }
-  .input { border-right: 1.5px solid #e0e0e0; border-bottom: none; }
-  .searchBtn { height: 48px; }
+  .input {
+    border-right: 1.5px solid #e0e0e0;
+    border-bottom: none;
+    font-size: 18px;
+    height: 52px;
+  }
+  .input:focus { border-color: #1a5319; }
+  .searchBtn {
+    height: 48px;
+    width: 100%;
+    font-size: 14px;
+  }
 
-  .resultMeta { grid-template-columns: 1fr; }
-  .metaItem { border-right: none; border-bottom: 1px solid #ebebeb; }
+  .resultSection { max-width: 100%; }
+  .resultHeader { padding: 18px 20px; }
+  .resultName { font-size: 17px; }
+
+  .resultMeta { grid-template-columns: 1fr 1fr; }
+  .metaItem { padding: 14px 20px; }
+  .metaItem:nth-child(odd) { border-right: 1px solid #ebebeb; }
+  .metaItem:last-child { 
+    grid-column: 1 / -1;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .downloadBtn { padding: 16px 20px; }
+  .pendingBox { padding: 16px 20px; }
+
+  .errorBox { max-width: 100%; }
 }

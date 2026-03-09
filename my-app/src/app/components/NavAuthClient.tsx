@@ -1,8 +1,9 @@
+
 "use client";
 import { UserIcon, LogOutIcon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import styles from "./NavAuth.module.css";
@@ -28,8 +29,20 @@ type Labels = {
 export default function NavAuthClient({ user, labels }: { user: User; labels: Labels }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   async function handleSignOut() {
+    setOpen(false);
     const { error } = await authClient.signOut();
     if (error) {
       toast.error(error.message || labels.signOutError);
@@ -41,11 +54,12 @@ export default function NavAuthClient({ user, labels }: { user: User; labels: La
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={ref}>
       <button onClick={() => setOpen(!open)} className={styles.trigger}>
         <UserIcon size={16} />
         <span>{user ? user.name : labels.account} ▾</span>
       </button>
+
       {open && (
         <div className={styles.dropdown}>
           {user ? (

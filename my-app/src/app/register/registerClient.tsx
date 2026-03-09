@@ -75,12 +75,14 @@ export default function RegisterClient() {
   return (
     <div className={styles.page}>
       <div className={styles.shell}>
-        <section className={styles.side}>
-          <h1 className={styles.sideTitle}>Create Your Account</h1>
-          <p className={styles.sideText}>
-            Sign up to manage your tests and access personalized health insights.
-          </p>
-        </section>
+       <section className={styles.side}>
+  <div className={styles.sideBox}>
+    <h1 className={styles.sideTitle}>Create Your Account</h1>
+    <p className={styles.sideText}>
+      Sign up to manage your tests and access personalized health insights.
+    </p>
+  </div>
+</section>
 
         <div className={styles.wrapper}>
           <div className={styles.card}>

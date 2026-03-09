@@ -1,9 +1,9 @@
 "use client";
-
 import { useState, useRef, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LanguageSelector({ current }: { current: string }) {
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(current);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -15,6 +15,10 @@ export default function LanguageSelector({ current }: { current: string }) {
     { code: "ru", name: "Русский" },
     { code: "kk", name: "Қазақша" },
   ];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,19 +33,19 @@ export default function LanguageSelector({ current }: { current: string }) {
   async function handleSelect(code: string) {
     setSelectedLang(code);
     setIsOpen(false);
-
     await fetch("/api/locale", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ locale: code }),
     });
-
     startTransition(() => {
       router.refresh();
     });
   }
 
   const currentLang = languages.find((lang) => lang.code === selectedLang);
+
+  if (!mounted) return null;
 
   return (
     <div className="language-dropdown" ref={dropdownRef}>
@@ -68,7 +72,6 @@ export default function LanguageSelector({ current }: { current: string }) {
           />
         </svg>
       </button>
-
       {isOpen && (
         <ul className="language-dropdown-menu">
           {languages.map((lang) => (
