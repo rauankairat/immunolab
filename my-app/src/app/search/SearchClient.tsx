@@ -30,7 +30,7 @@ export default function SearchClient({ ui, locale }: Props) {
 
   useEffect(() => {
     const incoming = searchParams.get("code");
-    if (incoming && incoming.length === 10) {
+    if (incoming && incoming.length === 8) {
       setCode(incoming);
       fetch(`/api/search?code=${incoming}`)
         .then(r => r.json())
@@ -42,7 +42,7 @@ export default function SearchClient({ ui, locale }: Props) {
   }, []);
 
   async function handleSearch() {
-    if (code.length !== 10) {
+    if (code.length !== 8) {
       setError(ui.errorInvalid);
       return;
     }
@@ -86,7 +86,7 @@ export default function SearchClient({ ui, locale }: Props) {
               className={styles.input}
               type="text"
               inputMode="numeric"
-              maxLength={10}
+              maxLength={8}
               placeholder={ui.placeholder}
               value={code}
               onChange={e => setCode(e.target.value.replace(/\D/g, ""))}
@@ -95,7 +95,7 @@ export default function SearchClient({ ui, locale }: Props) {
             <button
               className={styles.searchBtn}
               onClick={handleSearch}
-              disabled={loading || code.length !== 10}
+              disabled={loading || code.length !==8}
             >
               {loading ? ui.searching : ui.search}
             </button>

@@ -107,7 +107,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
 
   async function handleSubmit() {
     setSubmitError(null);
-    if (!/^\d{10}$/.test(form.testCode)) {
+    if (!/^\d{8}$/.test(form.testCode)) {
       setSubmitError(ui.err_code);
       return;
     }
@@ -310,9 +310,9 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
               <input
                 type="text"
                 inputMode="numeric"
-                maxLength={10}
+                maxLength={8}
                 className={`${styles.input} ${styles.codeInput}`}
-                placeholder="0000000000"
+                placeholder="00000000"
                 value={form.testCode}
                 onChange={e => setForm({ ...form, testCode: e.target.value.replace(/\D/g, "") })}
               />
