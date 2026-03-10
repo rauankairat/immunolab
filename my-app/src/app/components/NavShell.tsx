@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 type Labels = {
   search: string;
@@ -21,12 +22,63 @@ export default function NavShell({
   langSlot: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [underline, setUnderline] = useState({ left: 0, width: 0, opacity: 0 });
+  const navLinksRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     function onResize() { if (window.innerWidth > 768) setOpen(false); }
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  // Set underline to active link on route change
+  useEffect(() => {
+    const container = navLinksRef.current;
+    if (!container) return;
+    const activeLink = container.querySelector<HTMLElement>("[data-active='true']");
+    if (activeLink) {
+      const containerRect = container.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setUnderline({
+        left: linkRect.left - containerRect.left,
+        width: linkRect.width,
+        opacity: 1,
+      });
+    } else {
+      setUnderline(u => ({ ...u, opacity: 0 }));
+    }
+  }, [pathname]);
+
+  function handleMouseEnter(e: React.MouseEvent<HTMLAnchorElement>) {
+    const container = navLinksRef.current;
+    if (!container) return;
+    const containerRect = container.getBoundingClientRect();
+    const linkRect = e.currentTarget.getBoundingClientRect();
+    setUnderline({
+      left: linkRect.left - containerRect.left,
+      width: linkRect.width,
+      opacity: 1,
+    });
+  }
+
+  function handleMouseLeave() {
+    // Snap back to active link
+    const container = navLinksRef.current;
+    if (!container) return;
+    const activeLink = container.querySelector<HTMLElement>("[data-active='true']");
+    if (activeLink) {
+      const containerRect = container.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setUnderline({
+        left: linkRect.left - containerRect.left,
+        width: linkRect.width,
+        opacity: 1,
+      });
+    } else {
+      setUnderline(u => ({ ...u, opacity: 0 }));
+    }
+  }
 
   const links = [
     { href: "/orders",  label: labels.order },
@@ -71,11 +123,32 @@ export default function NavShell({
         </Link>
 
         {/* Desktop center links */}
-        <div className="nav-desktop-links" style={{
-          display: "flex",
-          gap: "36px",
-          alignItems: "center",
-        }}>
+        <div
+          ref={navLinksRef}
+          className="nav-desktop-links"
+          onMouseLeave={handleMouseLeave}
+          style={{
+            display: "flex",
+            gap: "36px",
+            alignItems: "center",
+            position: "relative",
+          }}
+        >
+          {/* Sliding underline */}
+          <span style={{
+            position: "absolute",
+            bottom: "6px",
+            height: "2px",
+            background: "rgba(255,255,255,0.85)",
+            borderRadius: "2px",
+            left: underline.left,
+            width: underline.width,
+            opacity: underline.opacity,
+            transition: "left 0.22s ease, width 0.22s ease, opacity 0.18s ease",
+            pointerEvents: "none",
+          }} />
+
+          {/* Search pill — no underline */}
           <Link href="/search" style={{
             fontSize: "14px",
             fontWeight: 700,
@@ -89,18 +162,29 @@ export default function NavShell({
           }}>
             {labels.search}
           </Link>
-          {links.map(({ href, label }) => (
-            <Link key={href} href={href} style={{
-              fontSize: "15px",
-              fontWeight: 600,
-              color: "#ffffff",
-              textDecoration: "none",
-              fontFamily: "Poppins, Helvetica, sans-serif",
-              whiteSpace: "nowrap",
-            }}>
-              {label}
-            </Link>
-          ))}
+
+          {links.map(({ href, label }) => {
+            const isActive = pathname === href || pathname.startsWith(href + "/");
+            return (
+              <Link
+                key={href}
+                href={href}
+                data-active={isActive ? "true" : "false"}
+                onMouseEnter={handleMouseEnter}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  fontFamily: "Poppins, Helvetica, sans-serif",
+                  whiteSpace: "nowrap",
+                  paddingBottom: "2px",
+                }}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Desktop right */}
@@ -202,7 +286,6 @@ export default function NavShell({
         </div>
       </div>
 
-      {/* Responsive styles */}
       <style>{`
         @media (max-width: 768px) {
           .nav-desktop-links { display: none !important; }
