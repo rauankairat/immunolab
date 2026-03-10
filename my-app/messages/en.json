@@ -366,7 +366,7 @@
     "step2_title": "Fill in Details & Upload PDF",
     "step2_sub": "Enter the test information and attach the result PDF.",
     "test_code_label": "Test Code",
-    "test_code_hint": "10 digits — written on patient's receipt",
+    "test_code_hint": "8 digits — written on patient's receipt",
     "test_name_label": "Test Name",
     "test_name_placeholder": "e.g. IgE Allergy Panel",
     "test_date_label": "Test Date",
