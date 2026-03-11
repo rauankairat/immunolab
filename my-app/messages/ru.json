@@ -566,7 +566,7 @@
   "sideText": "Зарегистрируйтесь, чтобы управлять тестами и получать персональные результаты.",
   "title": "Регистрация",
   "nameLabel": "ФИО",
-  "emailLabel": "Email / Номер телефона / ИИН",
+  "emailLabel": "Email",
   "passwordLabel": "Пароль",
   "showPassword": "Показать пароль",
   "hidePassword": "Скрыть пароль",
