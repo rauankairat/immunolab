@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "@/lib/get-session";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -10,5 +11,15 @@ export async function GET(req: NextRequest) {
     select: { emailVerified: true },
   });
 
-  return NextResponse.json({ verified: user?.emailVerified ?? false });
+  if (!user?.emailVerified) {
+    return NextResponse.json({ verified: false });
+  }
+
+  // Also check if session exists (auto sign in completed)
+  const session = await getServerSession();
+
+  return NextResponse.json({
+    verified: true,
+    hasSession: !!session?.user,
+  });
 }

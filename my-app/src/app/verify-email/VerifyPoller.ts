@@ -13,10 +13,13 @@ export default function VerifyPoller({ email }: { email: string }) {
       try {
         const res = await fetch(`/api/check-verified?email=${encodeURIComponent(email)}`);
         const data = await res.json();
-        if (data.verified) {
+        
+        if (data.verified && data.hasSession) {
           clearInterval(interval);
           router.push("/");
           router.refresh();
+        } else if (data.verified && !data.hasSession) {
+          // Verified but session not ready yet, wait one more tick
         }
       } catch {
         // ignore
