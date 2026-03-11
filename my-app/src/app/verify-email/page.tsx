@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
 import { ResendVerificationButton } from "../components/ResendVerification";
+import VerifyPoller from "./VerifyPoller";
 
 export default async function VerifyEmailPage({
   searchParams
@@ -27,6 +28,7 @@ export default async function VerifyEmailPage({
 
   return (
     <div className={styles.page}>
+      <VerifyPoller />
       <div className={styles.banner}>
         <h1 className={styles.bannerTitle}>{t("title")}</h1>
         <p className={styles.bannerDesc}>{t("desc")}</p>

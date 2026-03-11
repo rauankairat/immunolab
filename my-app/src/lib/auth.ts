@@ -10,26 +10,24 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
-    async sendResetPassword({user, url}) {
+    async sendResetPassword({ user, url }) {
       await sendEmail({
         to: user.email,
         subject: "Reset your password / ",
-text: `Click the link to reset your password: / Нажмите на ссылку чтоб подтвердить почту: ${url}`,
-      })
-
+        text: `Click the link to reset your password: / Нажмите на ссылку чтоб подтвердить почту: ${url}`,
+      });
     }
-    
   },
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    async sendVerificationEmail({user, url}){
+    callbackURL: "/verified",
+    async sendVerificationEmail({ user, url }) {
       await sendEmail({
         to: user.email,
         subject: "Verify your email / Подтвердить почту",
-text: `Click the link to verify your email: / Нажмите на ссылку чтоб подтвердить почту: ${url}`,
-      })
-
+        text: `Click the link to verify your email: / Нажмите на ссылку чтоб подтвердить почту: ${url}`,
+      });
     }
   },
   user: {
@@ -44,5 +42,5 @@ text: `Click the link to verify your email: / Нажмите на ссылку �
   trustedOrigins: ["https://www.allergoexpressmed.com"],
 });
 
-export type Session = typeof auth.$Infer.Session
+export type Session = typeof auth.$Infer.Session;
 export type User = typeof auth.$Infer.Session.user;
