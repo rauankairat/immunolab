@@ -1,15 +1,12 @@
-import { getServerSession } from "@/lib/get-session";
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function GET() {
-  const session = await getServerSession();
-  if (!session?.user?.id) {
-    return NextResponse.json({ verified: false });
-  }
+export async function GET(req: NextRequest) {
+  const email = req.nextUrl.searchParams.get("email");
+  if (!email) return NextResponse.json({ verified: false });
 
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+    where: { email },
     select: { emailVerified: true },
   });
 

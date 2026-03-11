@@ -28,7 +28,7 @@ export default async function VerifyEmailPage({
 
   return (
     <div className={styles.page}>
-      <VerifyPoller />
+      <VerifyPoller email={email} />
       <div className={styles.banner}>
         <h1 className={styles.bannerTitle}>{t("title")}</h1>
         <p className={styles.bannerDesc}>{t("desc")}</p>

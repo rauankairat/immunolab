@@ -3,13 +3,15 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function VerifyPoller() {
+export default function VerifyPoller({ email }: { email: string }) {
   const router = useRouter();
 
   useEffect(() => {
+    if (!email) return;
+
     const interval = setInterval(async () => {
       try {
-        const res = await fetch("/api/check-verified");
+        const res = await fetch(`/api/check-verified?email=${encodeURIComponent(email)}`);
         const data = await res.json();
         if (data.verified) {
           clearInterval(interval);
@@ -17,12 +19,12 @@ export default function VerifyPoller() {
           router.refresh();
         }
       } catch {
-        // silently ignore network errors
+        // ignore
       }
     }, 1500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [email]);
 
   return null;
 }
