@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./OwnerDashboard.module.css";
 
 type Admin = {
@@ -149,28 +149,54 @@ export default function OwnerDashboard({ admins: initialAdmins, patients, orders
     { key: "whatsapp", label: ui.tab_whatsapp, icon: "💬" },
   ];
 
+  const sidebarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    function updateHeight() {
+      if (!sidebarRef.current) return;
+      const footer = document.querySelector("footer");
+      const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
+      const top = 108;
+      const gap = 0.01; // ← change this for more/less bottom whitespace
+      const bottom = footerTop < window.innerHeight
+        ? footerTop - gap
+        : window.innerHeight - gap;
+      const height = bottom - top;
+      console.log({ footerTop, bottom, height, gap });
+      sidebarRef.current.style.height = `${bottom - top}px`;
+    }
+    updateHeight();
+    window.addEventListener("scroll", updateHeight);
+    window.addEventListener("resize", updateHeight);
+    return () => {
+      window.removeEventListener("scroll", updateHeight);
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, []);
+
   return (
     <div className={styles.page}>
-      <aside className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <div className={styles.ownerBadge}>{ui.badge}</div>
-          <p className={styles.sidebarTitle}>{ui.dashboard}</p>
-        </div>
-        <nav className={styles.sidebarNav}>
-          {tabs.map(t => (
-            <button
-              key={t.key}
-              className={`${styles.navItem} ${tab === t.key ? styles.navItemActive : ""}`}
-              onClick={() => setTab(t.key)}
-              type="button"
-            >
-              <span className={styles.navIcon}>{t.icon}</span>
-              {t.label}
-            </button>
-          ))}
-        </nav>
-      </aside>
-
+      <div className={styles.layout}>
+        <aside ref={sidebarRef} className={styles.sidebar}>
+          <div className={styles.sidebarHeader}>
+            <div className={styles.ownerBadge}>{ui.badge}</div>
+            <p className={styles.sidebarTitle}>{ui.dashboard}</p>
+          </div>
+          <nav className={styles.sidebarNav}>
+            {tabs.map(t => (
+              <button
+                key={t.key}
+                className={`${styles.navItem} ${tab === t.key ? styles.navItemActive : ""}`}
+                onClick={() => setTab(t.key)}
+                type="button"
+              >
+                <span className={styles.navIcon}>{t.icon}</span>
+                {t.label}
+              </button>
+            ))}
+          </nav>
+        </aside>
+      </div>
       <main className={styles.main}>
 
         {/* OVERVIEW */}

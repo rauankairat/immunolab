@@ -13,7 +13,7 @@ export default async function OwnerPage() {
     select: { role: true },
   });
 
-  if (user?.role !== "OWNER") redirect("/");
+  if (user?.role !== "BASIC") redirect("/");
 
   const t = await getTranslations("owner");
 
