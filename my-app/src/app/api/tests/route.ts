@@ -33,8 +33,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "testedDay must be a valid date string" }, { status: 400 });
     }
 
-    if (!testCode || typeof testCode !== "string" || testCode.length !== 10 || !/^\d{10}$/.test(testCode)) {
-      return NextResponse.json({ error: "testCode must be exactly 10 digits" }, { status: 400 });
+    if (!testCode || typeof testCode !== "string" || testCode.length !== 8 || !/^\d{8}$/.test(testCode)) {
+      return NextResponse.json({ error: "testCode must be exactly 8 digits" }, { status: 400 });
     }
 
     // Check testCode not already taken
