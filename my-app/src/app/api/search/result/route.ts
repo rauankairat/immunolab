@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
-  if (!code || !/^\d8}$/.test(code)) {
+  if (!code || !/^\d{8}$/.test(code)) {
     return NextResponse.json({ error: "Invalid test code" }, { status: 400 });
   }
 

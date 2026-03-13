@@ -41,11 +41,12 @@ export default function SearchClient({ ui, locale }: Props) {
     }
   }, []);
 
-  async function handleSearch() {
-    if (code.length !== 8) {
-      setError(ui.errorInvalid);
-      return;
-    }
+ async function handleSearch() {
+  console.log("searching code:", code, "length:", code.length)
+  if (code.length !== 8) {
+    setError(ui.errorInvalid);
+    return;
+  }
     setLoading(true);
     setError(null);
     setResult(null);
