@@ -332,7 +332,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                 value={form.branch}
                 onChange={e => setForm({ ...form, branch: e.target.value })}
               >
-                <option value="">{ui.branch_placeholder}</option>
+                <option value=""></option>
                 <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
                 <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33 А">МЦ Tau Sunkar — ул. Розыбакиева, 33 А</option>
                 <option value="МЦ New Med — мкр. 10 А, 22 А">МЦ New Med — мкр. 10 А, 22 А</option>
