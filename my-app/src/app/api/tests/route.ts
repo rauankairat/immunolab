@@ -20,10 +20,6 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!name || typeof name !== "string") {
-      return NextResponse.json({ error: "name is required" }, { status: 400 });
-    }
-
     if (!testedDay || typeof testedDay !== "string") {
       return NextResponse.json({ error: "testedDay is required" }, { status: 400 });
     }
@@ -45,7 +41,7 @@ export async function POST(req: Request) {
 
     const created = await prisma.test.create({
       data: {
-        name,
+        name: typeof name === "string" && name ? name : "Анализ",
         testCode,
         testedDay: d,
         location: typeof location === "string" ? location : null,

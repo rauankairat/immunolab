@@ -14,7 +14,6 @@ type Patient = {
 
 type UploadForm = {
   testCode: string;
-  testName: string;
   testDate: string;
   branch: string;
   file: File | null;
@@ -31,7 +30,6 @@ async function safeError(res: Response): Promise<string> {
 
 const EMPTY_FORM: UploadForm = {
   testCode: "",
-  testName: "",
   testDate: "",
   branch: "",
   file: null,
@@ -111,7 +109,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
       setSubmitError(ui.err_code);
       return;
     }
-    if (!form.testName || !form.testDate || !form.branch || !form.file) {
+    if (!form.testDate || !form.branch || !form.file) {
       setSubmitError(ui.err_fields);
       return;
     }
@@ -134,7 +132,6 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
           ...(tab === "registered"
             ? { patientId: selectedPatient!.id }
             : { walkinName: walkinName.trim() }),
-          name: form.testName,
           testedDay: form.testDate,
           location: form.branch,
           testCode: form.testCode,
@@ -318,51 +315,39 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
               />
             </div>
 
-            <div className={styles.formRow}>
-              <div className={styles.field}>
-                <label className={styles.label}>{ui.test_name_label}</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  placeholder={ui.test_name_placeholder}
-                  value={form.testName}
-                  onChange={e => setForm({ ...form, testName: e.target.value })}
-                />
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label}>{ui.test_date_label}</label>
-                <input
-                  type="date"
-                  className={styles.input}
-                  value={form.testDate}
-                  onChange={e => setForm({ ...form, testDate: e.target.value })}
-                />
-              </div>
+            <div className={styles.field}>
+              <label className={styles.label}>{ui.test_date_label}</label>
+              <input
+                type="date"
+                className={styles.input}
+                value={form.testDate}
+                onChange={e => setForm({ ...form, testDate: e.target.value })}
+              />
             </div>
 
             <div className={styles.field}>
-  <label className={styles.label}>{ui.branch_label}</label>
-  <select
-    className={styles.input}
-    value={form.branch}
-    onChange={e => setForm({ ...form, branch: e.target.value })}
-  >
-    
-    <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
-    <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33 А">МЦ Tau Sunkar — ул. Розыбакиева, 33 А</option>
-    <option value="МЦ New Med — мкр. 10 А, 22 А">МЦ New Med — мкр. 10 А, 22 А</option>
-    <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
-    <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
-    <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
-    <option value="МЦ АдкМед — ул. Туркебаева, 257 Е">МЦ АдкМед — ул. Туркебаева, 257 Е</option>
-    <option value="Interteach Clinic — пр-т Назарбаева, 257 Е">Interteach Clinic — пр-т Назарбаева, 257 Е</option>
-    <option value="Interteach Clinic — пр-т Назарбаева, 111">Interteach Clinic — пр-т Назарбаева, 111</option>
-    <option value="Interteach Clinic — мкр. 6, д. 16">Interteach Clinic — мкр. 6, д. 16</option>
-    <option value="Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49">Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49</option>
-    <option value="Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А">Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А</option>
-    <option value="МЦ Жасмин — пер. Абая, 14">МЦ Жасмин — пер. Абая, 14</option>
-  </select>
-</div>
+              <label className={styles.label}>{ui.branch_label}</label>
+              <select
+                className={styles.input}
+                value={form.branch}
+                onChange={e => setForm({ ...form, branch: e.target.value })}
+              >
+                <option value="">{ui.branch_placeholder}</option>
+                <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
+                <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33 А">МЦ Tau Sunkar — ул. Розыбакиева, 33 А</option>
+                <option value="МЦ New Med — мкр. 10 А, 22 А">МЦ New Med — мкр. 10 А, 22 А</option>
+                <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
+                <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
+                <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
+                <option value="МЦ АдкМед — ул. Туркебаева, 257 Е">МЦ АдкМед — ул. Туркебаева, 257 Е</option>
+                <option value="Interteach Clinic — пр-т Назарбаева, 257 Е">Interteach Clinic — пр-т Назарбаева, 257 Е</option>
+                <option value="Interteach Clinic — пр-т Назарбаева, 111">Interteach Clinic — пр-т Назарбаева, 111</option>
+                <option value="Interteach Clinic — мкр. 6, д. 16">Interteach Clinic — мкр. 6, д. 16</option>
+                <option value="Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49">Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49</option>
+                <option value="Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А">Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А</option>
+                <option value="МЦ Жасмин — пер. Абая, 14">МЦ Жасмин — пер. Абая, 14</option>
+              </select>
+            </div>
 
             <div className={styles.field}>
               <label className={styles.label}>{ui.pdf_label}</label>
