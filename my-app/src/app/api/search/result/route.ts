@@ -35,12 +35,14 @@ export async function GET(req: NextRequest) {
   const buffer = await response.arrayBuffer();
   const rawName = test.resultName ?? "result.pdf";
   const fileName = rawName.replace(/^\d+_/, "");
+  const safeFileName = encodeURIComponent(fileName);
 
-  return new NextResponse(buffer, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="${fileName}"`,
-      "Cache-Control": "private, no-cache",
-    },
-  });
+return new NextResponse(buffer, {
+  headers: {
+    "Content-Type": "application/pdf",
+    "Content-Disposition": `inline; filename*=UTF-8''${safeFileName}`,
+    "Cache-Control": "private, no-cache",
+    "Content-Length": buffer.byteLength.toString(),
+  },
+});
 }

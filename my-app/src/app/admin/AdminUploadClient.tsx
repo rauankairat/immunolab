@@ -341,15 +341,28 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>{ui.branch_label}</label>
-              <input
-                type="text"
-                className={styles.input}
-                placeholder={ui.branch_placeholder}
-                value={form.branch}
-                onChange={e => setForm({ ...form, branch: e.target.value })}
-              />
-            </div>
+  <label className={styles.label}>{ui.branch_label}</label>
+  <select
+    className={styles.input}
+    value={form.branch}
+    onChange={e => setForm({ ...form, branch: e.target.value })}
+  >
+    
+    <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
+    <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33 А">МЦ Tau Sunkar — ул. Розыбакиева, 33 А</option>
+    <option value="МЦ New Med — мкр. 10 А, 22 А">МЦ New Med — мкр. 10 А, 22 А</option>
+    <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
+    <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
+    <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
+    <option value="МЦ АдкМед — ул. Туркебаева, 257 Е">МЦ АдкМед — ул. Туркебаева, 257 Е</option>
+    <option value="Interteach Clinic — пр-т Назарбаева, 257 Е">Interteach Clinic — пр-т Назарбаева, 257 Е</option>
+    <option value="Interteach Clinic — пр-т Назарбаева, 111">Interteach Clinic — пр-т Назарбаева, 111</option>
+    <option value="Interteach Clinic — мкр. 6, д. 16">Interteach Clinic — мкр. 6, д. 16</option>
+    <option value="Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49">Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49</option>
+    <option value="Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А">Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А</option>
+    <option value="МЦ Жасмин — пер. Абая, 14">МЦ Жасмин — пер. Абая, 14</option>
+  </select>
+</div>
 
             <div className={styles.field}>
               <label className={styles.label}>{ui.pdf_label}</label>
