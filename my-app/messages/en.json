@@ -110,20 +110,22 @@
     "socials": "MESSENGERS & SOCIALS",
     "banner_text": "Results are issued same day for samples submitted before 12:00 noon. Samples received after 12:00 will be ready the next business day.",
     "map_text": "OUR BRANCHES - 13 LOCATIONS",
-      "branches": [
+     "branches": [
   { "name": "AllergoExpress Immunolab", "address": "Shagabutdinova St, 132" },
-  { "name": "Tau Sunkar MC", "address": "Rozybakiev St, 33 A" },
-  { "name": "New Med MC", "address": "Microdistrict 10 A, 22 A" },
+  { "name": "Tau Sunkar MC", "address": "Rozybakiev St, 33A" },
+  { "name": "New Med MC", "address": "Microdistrict 1, 26A, Ushtobe Residential Complex" },
   { "name": "Comfort Clinic", "address": "Serkebaev Ave, 146/12 (Comfort City, between blocks 5 & 6)" },
   { "name": "Dr. Kalimoldaeva MC", "address": "Kenesary Khan St, 54/11" },
   { "name": "LB Clinic (Pain Clinic)", "address": "Raiymbek Ave, 540/7" },
-  { "name": "AdkMed MC", "address": "Turkebaev St, 257 E" },
-  { "name": "Interteach Clinic", "address": "Nazarbayev Ave, 257 E" },
-  { "name": "Interteach Clinic", "address": "Nazarbayev Ave, 111" },
-  { "name": "Interteach Clinic", "address": "Microdistrict 6, bld 16" },
-  { "name": "Interteach (Pediatrics)", "address": "Samal-2, Mendikulov St, 49" },
-  { "name": "Interteach (Pediatrics)", "address": "Kabanbay Batyr St, 122 A" },
-  { "name": "Jasmin MC", "address": "Abay Lane, 14" }
+  { "name": "AdkMed MC", "address": "Turkebaev St, 257E" },
+  { "name": "Interteach Clinic", "address": "" },
+  { "name": "Jasmin MC", "address": "Abay Lane, 14, Kaskelen" },
+  { "name": "Sana MC", "address": "Almagul Microdistrict, 22/2" },
+  { "name": "TAN Clinic MC", "address": "Taugul Microdistrict, 19" },
+  { "name": "Algamed MC", "address": "Abay Ave, 157A" },
+  { "name": "AdalMed Clinic", "address": "Abay Ave, 115" },
+  { "name": "Dr. Zaure MC", "address": "Nurkent Microdistrict, 9, block 1, office 2" },
+  { "name": "Zhan-Ay-Mir MC", "address": "Seifullin Ave, 104" }
 ]
   },
   "about": {

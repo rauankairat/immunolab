@@ -130,18 +130,20 @@
     "map_text": "НАШИ ФИЛИАЛЫ — 13 ЛОКАЦИЙ",
      "branches": [
   { "name": "AllergoExpress Immunolab", "address": "ул. Шагабутдинова, 132" },
-  { "name": "МЦ Tau Sunkar", "address": "ул. Розыбакиева, 33 А" },
-  { "name": "МЦ New Med", "address": "мкр. 10 А, 22 А" },
+  { "name": "МЦ Tau Sunkar", "address": "ул. Розыбакиева, 33А" },
+  { "name": "МЦ New Med", "address": "г. Алматы, 1 Мкр, 26а, ЖК Уштобе" },
   { "name": "Comfort Clinic", "address": "пр. Серкебаева, 146/12 (ЖК Комфорт Сити, между 5 и 6 блоком)" },
   { "name": "МЦ Доктор Калимолдаева", "address": "ул. Кенесары Хана, 54/11" },
   { "name": "LB Clinic (Клиника боли)", "address": "пр. Райымбека, 540/7" },
-  { "name": "МЦ АдкМед", "address": "ул. Туркебаева, 257 Е" },
-  { "name": "Interteach Clinic", "address": "пр-т Назарбаева, 257 Е" },
-  { "name": "Interteach Clinic", "address": "пр-т Назарбаева, 111" },
-  { "name": "Interteach Clinic", "address": "мкр. 6, д. 16" },
-  { "name": "Interteach (Педиатрия)", "address": "мкр. Самал-2, ул. Мендикулова, 49" },
-  { "name": "Interteach (Педиатрия)", "address": "ул. Кабанбай батыра, 122 А" },
-  { "name": "МЦ Жасмин", "address": "пер. Абая, 14" }
+  { "name": "МЦ АдкМед", "address": "ул. Туркебаева, 257Е" },
+  { "name": "МЦ Жасмин", "address": "г. Каскелен, пер. Абая, 14" },
+  { "name": "МЦ Сана", "address": "Мкр Алмагуль 22/2" },
+  { "name": "МЦ TAN clinic", "address": "Мкрн. Таугуль 19" },
+  { "name": "МЦ Алгамед", "address": "пр. Абая, 157а" },
+  { "name": "AdalMed Clinic", "address": "пр. Абая, 115" },
+  { "name": "МЦ Dr. Zaure", "address": "Мкрн. Нуркент, 9, блок 1, офис 2" },
+  { "name": "МЦ Жан-Ай-Мир", "address": "пр. Сейфуллина, 104" },
+  { "name": "Interteach Clinic", "address": "" }
 ]
   },
   "about": {
