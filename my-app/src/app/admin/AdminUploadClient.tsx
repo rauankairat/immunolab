@@ -324,30 +324,37 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                 onChange={e => setForm({ ...form, testDate: e.target.value })}
               />
             </div>
+<div className={styles.field}>
+  <label className={styles.label}>{ui.branch_label}</label>
+  <select
+    className={styles.input}
+    value={form.branch}
+    onChange={e => setForm({ ...form, branch: e.target.value })}
+  >
+    <option value=""></option>
+    <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
+    <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33А">МЦ Tau Sunkar — ул. Розыбакиева, 33А</option>
+    <option value="МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе">МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе</option>
+    <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
+    <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
+    <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
+    <option value="МЦ АдкМед — ул. Туркебаева, 257Е">МЦ АдкМед — ул. Туркебаева, 257Е</option>
+    <option value="Interteach Clinic — пр-т Назарбаева, 275Е">Interteach Clinic — пр-т Назарбаева, 275Е</option>
+    <option value="Interteach Clinic — пр-т Назарбаева, 111">Interteach Clinic — пр-т Назарбаева, 111</option>
+    <option value="Interteach Clinic — мкр. 6, д. 16">Interteach Clinic — мкр. 6, д. 16</option>
+    <option value="Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49">Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49</option>
+    <option value="Interteach (Педиатрия) — ул. Кабанбай батыра, 122А">Interteach (Педиатрия) — ул. Кабанбай батыра, 122А</option>
+    <option value="МЦ Жасмин — г. Каскелен, пер. Абая, 14">МЦ Жасмин — г. Каскелен, пер. Абая, 14</option>
+    <option value="МЦ Сана — мкр. Алмагуль, 22/2">МЦ Сана — мкр. Алмагуль, 22/2</option>
+    <option value="МЦ TAN Clinic — мкрн. Таугуль, 19">МЦ TAN Clinic — мкрн. Таугуль, 19</option>
+    <option value="МЦ Алгамед — пр. Абая, 157а">МЦ Алгамед — пр. Абая, 157а</option>
+    <option value="AdalMed Clinic — пр. Абая, 115">AdalMed Clinic — пр. Абая, 115</option>
+    <option value="МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2">МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2</option>
+    <option value="МЦ Жан-Ай-Мир — пр. Сейфуллина, 104">МЦ Жан-Ай-Мир — пр. Сейфуллина, 104</option>
+  </select>
+</div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>{ui.branch_label}</label>
-              <select
-                className={styles.input}
-                value={form.branch}
-                onChange={e => setForm({ ...form, branch: e.target.value })}
-              >
-                <option value=""></option>
-                <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
-                <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33 А">МЦ Tau Sunkar — ул. Розыбакиева, 33 А</option>
-                <option value="МЦ New Med — мкр. 10 А, 22 А">МЦ New Med — мкр. 10 А, 22 А</option>
-                <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
-                <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
-                <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
-                <option value="МЦ АдкМед — ул. Туркебаева, 257 Е">МЦ АдкМед — ул. Туркебаева, 257 Е</option>
-                <option value="Interteach Clinic — пр-т Назарбаева, 257 Е">Interteach Clinic — пр-т Назарбаева, 257 Е</option>
-                <option value="Interteach Clinic — пр-т Назарбаева, 111">Interteach Clinic — пр-т Назарбаева, 111</option>
-                <option value="Interteach Clinic — мкр. 6, д. 16">Interteach Clinic — мкр. 6, д. 16</option>
-                <option value="Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49">Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49</option>
-                <option value="Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А">Interteach (Педиатрия) — ул. Кабанбай батыра, 122 А</option>
-                <option value="МЦ Жасмин — пер. Абая, 14">МЦ Жасмин — пер. Абая, 14</option>
-              </select>
-            </div>
+
 
             <div className={styles.field}>
               <label className={styles.label}>{ui.pdf_label}</label>
