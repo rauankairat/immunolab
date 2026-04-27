@@ -339,11 +339,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
     <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
     <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
     <option value="МЦ АдкМед — ул. Туркебаева, 257Е">МЦ АдкМед — ул. Туркебаева, 257Е</option>
-    <option value="Interteach Clinic — пр-т Назарбаева, 275Е">Interteach Clinic — пр-т Назарбаева, 275Е</option>
-    <option value="Interteach Clinic — пр-т Назарбаева, 111">Interteach Clinic — пр-т Назарбаева, 111</option>
-    <option value="Interteach Clinic — мкр. 6, д. 16">Interteach Clinic — мкр. 6, д. 16</option>
-    <option value="Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49">Interteach (Педиатрия) — мкр. Самал-2, ул. Мендикулова, 49</option>
-    <option value="Interteach (Педиатрия) — ул. Кабанбай батыра, 122А">Interteach (Педиатрия) — ул. Кабанбай батыра, 122А</option>
+    <option value="Interteach Clinic">Interteach Clinic</option>
     <option value="МЦ Жасмин — г. Каскелен, пер. Абая, 14">МЦ Жасмин — г. Каскелен, пер. Абая, 14</option>
     <option value="МЦ Сана — мкр. Алмагуль, 22/2">МЦ Сана — мкр. Алмагуль, 22/2</option>
     <option value="МЦ TAN Clinic — мкрн. Таугуль, 19">МЦ TAN Clinic — мкрн. Таугуль, 19</option>
