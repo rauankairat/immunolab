@@ -1,4 +1,3 @@
-// Branch data — no leaflet dependency, safe to import anywhere
 export const branchCoords = [
   { lat: 43.2485, lng: 76.9518, phone: "+7 707 566 8899" },
   { lat: 43.2492, lng: 76.9203, phone: "+7 707 566 8899" },
@@ -13,4 +12,6 @@ export const branchCoords = [
   { lat: 43.2385, lng: 76.9302, phone: "+7 707 566 8899" },
   { lat: 43.2335, lng: 76.9552, phone: "+7 707 566 8899" },
   { lat: 43.2482, lng: 76.9352, phone: "+7 707 566 8899" },
+  { lat: 43.2610, lng: 76.9280, phone: "+7 707 566 8899" }, // Dr. Zaure MC
+  { lat: 43.2698, lng: 76.9415, phone: "+7 707 566 8899" }, // Zhan-Ay-Mir MC
 ];
