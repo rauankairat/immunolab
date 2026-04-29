@@ -29,4 +29,6 @@ export const branchCoords = [
   { lat: 43.2545, lng: 76.8183, phone: "+7 707 566 8899" },
   // 15. Zhan-Ay-Mir MC — Seifullin 104
   { lat: 43.3118, lng: 76.9395, phone: "+7 707 566 8899" },
+  // 16. SAPA Lab — Shagabutdinova 169
+{ lat: 43.2461, lng: 76.9231, phone: "+7 707 566 8899" },
 ];

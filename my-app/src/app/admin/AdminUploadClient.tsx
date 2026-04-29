@@ -424,6 +424,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                 <option value="AdalMed Clinic — пр. Абая, 115">AdalMed Clinic — пр. Абая, 115</option>
                 <option value="МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2">МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2</option>
                 <option value="МЦ Жан-Ай-Мир — пр. Сейфуллина, 104">МЦ Жан-Ай-Мир — пр. Сейфуллина, 104</option>
+                <option value="SAPA Lab — ул. Шагабутдинова, 169">SAPA Lab — ул. Шагабутдинова, 169</option>
               </select>
             </div>
 

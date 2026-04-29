@@ -16,6 +16,7 @@ const BRANCH_MAP: { keywords: string[]; value: string }[] = [
   { keywords: ["AdalMed", "Адалмед"], value: "AdalMed Clinic — пр. Абая, 115" },
   { keywords: ["Zaure", "Зауре"], value: "МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2" },
   { keywords: ["Жан Ай Мир", "Жан-Ай-Мир"], value: "МЦ Жан-Ай-Мир — пр. Сейфуллина, 104" },
+  { keywords: ["SAPA", "САПА"], value: "SAPA Lab — ул. Шагабутдинова, 169" },
 ];
 
 function matchBranch(text: string): string {
@@ -50,7 +51,7 @@ function extractFromText(text: string) {
   const testCode = testCodeMatch?.[1]?.trim() ?? "";
 
   // Name — appears after "Specimen Information)"
-  const nameMatch = text.match(/Specimen Information\)\s*([\p{L}\s]+?)\s+\d{9,12}/u);
+  const nameMatch = text.match(/Specimen Information\)\s*([\p{L}\s]+?)\s+(?:\d{9,12}|[МЖM]\s+\d{2}\.\d{2}\.\d{4})/u);
   const name = nameMatch?.[1]?.trim() ?? "";
 
   // DOB — appears after IIN (12 digit number) and gender (М/Ж)
