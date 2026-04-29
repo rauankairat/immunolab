@@ -10,9 +10,8 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { patientId, walkinName, name, testedDay, location, testCode } = body;
+    const { patientId, walkinName, name, testedDay, location, testCode, dob } = body;
 
-    // Must have either a registered patient or a walk-in name
     if (!patientId && !walkinName) {
       return NextResponse.json(
         { error: "either patientId or walkinName is required" },
@@ -33,7 +32,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "testCode must be exactly 8 digits" }, { status: 400 });
     }
 
-    // Check testCode not already taken
     const existing = await prisma.test.findUnique({ where: { testCode } });
     if (existing) {
       return NextResponse.json({ error: "testCode already in use" }, { status: 409 });
@@ -44,6 +42,7 @@ export async function POST(req: Request) {
         name: typeof name === "string" && name ? name : "Анализ",
         testCode,
         testedDay: d,
+        dob: typeof dob === "string" && dob ? dob : null,
         location: typeof location === "string" ? location : null,
         status: "CURRENT",
         ...(patientId ? { patientId } : {}),
