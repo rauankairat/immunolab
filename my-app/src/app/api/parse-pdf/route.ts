@@ -51,11 +51,13 @@ function extractFromText(text: string) {
   const testCode = testCodeMatch?.[1]?.trim() ?? "";
 
   // Name — appears after "Specimen Information)"
-  const nameMatch = text.match(/Specimen Information\)\s*([\p{L}\s]+?)\s+(?:\d{9,12}|[МЖM]\s+\d{2}\.\d{2}\.\d{4})/u);
+  const nameMatch = text.match(
+  /Specimen Information\)\s*([\p{L}\s]+?)\s+(?:\d{9,12}|[МЖM]\s+\d{2}\.\d{2}\.\d{4})/u
+);
   const name = nameMatch?.[1]?.trim() ?? "";
 
   // DOB — appears after IIN (12 digit number) and gender (М/Ж)
-  const dobMatch = text.match(/\d{12}\s+[МЖM]\s+(\d{2}\.\d{2}\.\d{4})/);
+  const dobMatch = text.match(/(?:\d{9,12}\s+)?[МЖMmж]\s+(\d{2}\.\d{2}\.\d{4})/);
   const dob = parseDate(dobMatch?.[1] ?? "");
 
   // Test date — first date that appears after "The result of the study)"
