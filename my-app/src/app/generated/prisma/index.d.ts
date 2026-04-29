@@ -2623,6 +2623,7 @@ export namespace Prisma {
     name: string | null
     testCode: string | null
     testedDay: Date | null
+    dob: string | null
     status: $Enums.TestStatus | null
     location: string | null
     resultUrl: string | null
@@ -2639,6 +2640,7 @@ export namespace Prisma {
     name: string | null
     testCode: string | null
     testedDay: Date | null
+    dob: string | null
     status: $Enums.TestStatus | null
     location: string | null
     resultUrl: string | null
@@ -2655,6 +2657,7 @@ export namespace Prisma {
     name: number
     testCode: number
     testedDay: number
+    dob: number
     status: number
     location: number
     resultUrl: number
@@ -2673,6 +2676,7 @@ export namespace Prisma {
     name?: true
     testCode?: true
     testedDay?: true
+    dob?: true
     status?: true
     location?: true
     resultUrl?: true
@@ -2689,6 +2693,7 @@ export namespace Prisma {
     name?: true
     testCode?: true
     testedDay?: true
+    dob?: true
     status?: true
     location?: true
     resultUrl?: true
@@ -2705,6 +2710,7 @@ export namespace Prisma {
     name?: true
     testCode?: true
     testedDay?: true
+    dob?: true
     status?: true
     location?: true
     resultUrl?: true
@@ -2794,6 +2800,7 @@ export namespace Prisma {
     name: string
     testCode: string | null
     testedDay: Date
+    dob: string | null
     status: $Enums.TestStatus
     location: string | null
     resultUrl: string | null
@@ -2827,6 +2834,7 @@ export namespace Prisma {
     name?: boolean
     testCode?: boolean
     testedDay?: boolean
+    dob?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
@@ -2844,6 +2852,7 @@ export namespace Prisma {
     name?: boolean
     testCode?: boolean
     testedDay?: boolean
+    dob?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
@@ -2861,6 +2870,7 @@ export namespace Prisma {
     name?: boolean
     testCode?: boolean
     testedDay?: boolean
+    dob?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
@@ -2878,6 +2888,7 @@ export namespace Prisma {
     name?: boolean
     testCode?: boolean
     testedDay?: boolean
+    dob?: boolean
     status?: boolean
     location?: boolean
     resultUrl?: boolean
@@ -2889,7 +2900,7 @@ export namespace Prisma {
     patientId?: boolean
   }
 
-  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "testCode" | "testedDay" | "status" | "location" | "resultUrl" | "resultName" | "uploadedAt" | "walkinName" | "createdAt" | "updatedAt" | "patientId", ExtArgs["result"]["test"]>
+  export type TestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "testCode" | "testedDay" | "dob" | "status" | "location" | "resultUrl" | "resultName" | "uploadedAt" | "walkinName" | "createdAt" | "updatedAt" | "patientId", ExtArgs["result"]["test"]>
   export type TestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     patient?: boolean | Test$patientArgs<ExtArgs>
   }
@@ -2910,6 +2921,7 @@ export namespace Prisma {
       name: string
       testCode: string | null
       testedDay: Date
+      dob: string | null
       status: $Enums.TestStatus
       location: string | null
       resultUrl: string | null
@@ -3347,6 +3359,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Test", 'String'>
     readonly testCode: FieldRef<"Test", 'String'>
     readonly testedDay: FieldRef<"Test", 'DateTime'>
+    readonly dob: FieldRef<"Test", 'String'>
     readonly status: FieldRef<"Test", 'TestStatus'>
     readonly location: FieldRef<"Test", 'String'>
     readonly resultUrl: FieldRef<"Test", 'String'>
@@ -8188,6 +8201,7 @@ export namespace Prisma {
     name: 'name',
     testCode: 'testCode',
     testedDay: 'testedDay',
+    dob: 'dob',
     status: 'status',
     location: 'location',
     resultUrl: 'resultUrl',
@@ -8477,6 +8491,7 @@ export namespace Prisma {
     name?: StringFilter<"Test"> | string
     testCode?: StringNullableFilter<"Test"> | string | null
     testedDay?: DateTimeFilter<"Test"> | Date | string
+    dob?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableFilter<"Test"> | string | null
     resultUrl?: StringNullableFilter<"Test"> | string | null
@@ -8494,6 +8509,7 @@ export namespace Prisma {
     name?: SortOrder
     testCode?: SortOrderInput | SortOrder
     testedDay?: SortOrder
+    dob?: SortOrderInput | SortOrder
     status?: SortOrder
     location?: SortOrderInput | SortOrder
     resultUrl?: SortOrderInput | SortOrder
@@ -8514,6 +8530,7 @@ export namespace Prisma {
     NOT?: TestWhereInput | TestWhereInput[]
     name?: StringFilter<"Test"> | string
     testedDay?: DateTimeFilter<"Test"> | Date | string
+    dob?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableFilter<"Test"> | string | null
     resultUrl?: StringNullableFilter<"Test"> | string | null
@@ -8531,6 +8548,7 @@ export namespace Prisma {
     name?: SortOrder
     testCode?: SortOrderInput | SortOrder
     testedDay?: SortOrder
+    dob?: SortOrderInput | SortOrder
     status?: SortOrder
     location?: SortOrderInput | SortOrder
     resultUrl?: SortOrderInput | SortOrder
@@ -8553,6 +8571,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Test"> | string
     testCode?: StringNullableWithAggregatesFilter<"Test"> | string | null
     testedDay?: DateTimeWithAggregatesFilter<"Test"> | Date | string
+    dob?: StringNullableWithAggregatesFilter<"Test"> | string | null
     status?: EnumTestStatusWithAggregatesFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableWithAggregatesFilter<"Test"> | string | null
     resultUrl?: StringNullableWithAggregatesFilter<"Test"> | string | null
@@ -8966,6 +8985,7 @@ export namespace Prisma {
     name: string
     testCode?: string | null
     testedDay?: Date | string
+    dob?: string | null
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
@@ -8982,6 +9002,7 @@ export namespace Prisma {
     name: string
     testCode?: string | null
     testedDay?: Date | string
+    dob?: string | null
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
@@ -8998,6 +9019,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9014,6 +9036,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9030,6 +9053,7 @@ export namespace Prisma {
     name: string
     testCode?: string | null
     testedDay?: Date | string
+    dob?: string | null
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
@@ -9046,6 +9070,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9061,6 +9086,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9668,6 +9694,7 @@ export namespace Prisma {
     name?: SortOrder
     testCode?: SortOrder
     testedDay?: SortOrder
+    dob?: SortOrder
     status?: SortOrder
     location?: SortOrder
     resultUrl?: SortOrder
@@ -9684,6 +9711,7 @@ export namespace Prisma {
     name?: SortOrder
     testCode?: SortOrder
     testedDay?: SortOrder
+    dob?: SortOrder
     status?: SortOrder
     location?: SortOrder
     resultUrl?: SortOrder
@@ -9700,6 +9728,7 @@ export namespace Prisma {
     name?: SortOrder
     testCode?: SortOrder
     testedDay?: SortOrder
+    dob?: SortOrder
     status?: SortOrder
     location?: SortOrder
     resultUrl?: SortOrder
@@ -10378,6 +10407,7 @@ export namespace Prisma {
     name: string
     testCode?: string | null
     testedDay?: Date | string
+    dob?: string | null
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
@@ -10393,6 +10423,7 @@ export namespace Prisma {
     name: string
     testCode?: string | null
     testedDay?: Date | string
+    dob?: string | null
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
@@ -10507,6 +10538,7 @@ export namespace Prisma {
     name?: StringFilter<"Test"> | string
     testCode?: StringNullableFilter<"Test"> | string | null
     testedDay?: DateTimeFilter<"Test"> | Date | string
+    dob?: StringNullableFilter<"Test"> | string | null
     status?: EnumTestStatusFilter<"Test"> | $Enums.TestStatus
     location?: StringNullableFilter<"Test"> | string | null
     resultUrl?: StringNullableFilter<"Test"> | string | null
@@ -10804,6 +10836,7 @@ export namespace Prisma {
     name: string
     testCode?: string | null
     testedDay?: Date | string
+    dob?: string | null
     status?: $Enums.TestStatus
     location?: string | null
     resultUrl?: string | null
@@ -10844,6 +10877,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10859,6 +10893,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10874,6 +10909,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     testCode?: NullableStringFieldUpdateOperationsInput | string | null
     testedDay?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTestStatusFieldUpdateOperationsInput | $Enums.TestStatus
     location?: NullableStringFieldUpdateOperationsInput | string | null
     resultUrl?: NullableStringFieldUpdateOperationsInput | string | null

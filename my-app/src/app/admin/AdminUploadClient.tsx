@@ -16,6 +16,7 @@ type UploadForm = {
   testCode: string;
   testDate: string;
   branch: string;
+  dob: string;
   file: File | null;
 };
 
@@ -32,6 +33,7 @@ const EMPTY_FORM: UploadForm = {
   testCode: "",
   testDate: "",
   branch: "",
+  dob: "",
   file: null,
 };
 
@@ -47,6 +49,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [resultCode, setResultCode] = useState<string | null>(null);
+  const [parsing, setParsing] = useState(false);
 
   useEffect(() => {
     if (tab !== "registered" || query.trim().length === 0) {
@@ -103,6 +106,37 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
     setResultCode(null);
   }
 
+  async function handleFileChange(file: File | null) {
+    setForm(prev => ({ ...prev, file }));
+    if (!file) return;
+
+    try {
+      setParsing(true);
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/parse-pdf", { method: "POST", body: fd });
+      if (!res.ok) return;
+      const data = await res.json();
+
+      setForm(prev => ({
+        ...prev,
+        file,
+        testCode: data.testCode || prev.testCode,
+        testDate: data.testDate || prev.testDate,
+        branch: data.branch || prev.branch,
+        dob: data.dob || prev.dob,
+      }));
+
+      if (tab === "walkin" && data.name) {
+        setWalkinName(data.name);
+      }
+    } catch {
+      // silently fail — admin can fill manually
+    } finally {
+      setParsing(false);
+    }
+  }
+
   async function handleSubmit() {
     setSubmitError(null);
     if (!/^\d{8}$/.test(form.testCode)) {
@@ -135,6 +169,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
           testedDay: form.testDate,
           location: form.branch,
           testCode: form.testCode,
+          dob: form.dob,
         }),
       });
 
@@ -234,7 +269,11 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                 autoComplete="off"
               />
               {query && (
-                <button className={styles.clearBtn} onClick={() => { setQuery(""); setSelectedPatient(null); setPatients([]); }} type="button">
+                <button
+                  className={styles.clearBtn}
+                  onClick={() => { setQuery(""); setSelectedPatient(null); setPatients([]); }}
+                  type="button"
+                >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
                     <path d="M18 6 6 18M6 6l12 12" />
                   </svg>
@@ -269,7 +308,11 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                   <p className={styles.chipName}>{selectedPatient.name ?? ui.unknown}</p>
                   <p className={styles.chipEmail}>{selectedPatient.email}</p>
                 </div>
-                <button className={styles.chipRemove} onClick={() => { setSelectedPatient(null); setQuery(""); }} type="button">
+                <button
+                  className={styles.chipRemove}
+                  onClick={() => { setSelectedPatient(null); setQuery(""); }}
+                  type="button"
+                >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
                     <path d="M18 6 6 18M6 6l12 12" />
                   </svg>
@@ -301,58 +344,6 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
 
           <div className={styles.form}>
             <div className={styles.field}>
-              <label className={styles.label}>
-                {ui.test_code_label} <span className={styles.labelHint}>({ui.test_code_hint})</span>
-              </label>
-              <input
-                type="text"
-                inputMode="numeric"
-                maxLength={8}
-                className={`${styles.input} ${styles.codeInput}`}
-                placeholder="00000000"
-                value={form.testCode}
-                onChange={e => setForm({ ...form, testCode: e.target.value.replace(/\D/g, "") })}
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>{ui.test_date_label}</label>
-              <input
-                type="date"
-                className={styles.input}
-                value={form.testDate}
-                onChange={e => setForm({ ...form, testDate: e.target.value })}
-              />
-            </div>
-<div className={styles.field}>
-  <label className={styles.label}>{ui.branch_label}</label>
-  <select
-    className={styles.input}
-    value={form.branch}
-    onChange={e => setForm({ ...form, branch: e.target.value })}
-  >
-    <option value=""></option>
-    <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
-    <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33А">МЦ Tau Sunkar — ул. Розыбакиева, 33А</option>
-    <option value="МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе">МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе</option>
-    <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
-    <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
-    <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
-    <option value="МЦ АдкМед — ул. Туркебаева, 257Е">МЦ АдкМед — ул. Туркебаева, 257Е</option>
-    <option value="Interteach Clinic">Interteach Clinic</option>
-    <option value="МЦ Жасмин — г. Каскелен, пер. Абая, 14">МЦ Жасмин — г. Каскелен, пер. Абая, 14</option>
-    <option value="МЦ Сана — мкр. Алмагуль, 22/2">МЦ Сана — мкр. Алмагуль, 22/2</option>
-    <option value="МЦ TAN Clinic — мкрн. Таугуль, 19">МЦ TAN Clinic — мкрн. Таугуль, 19</option>
-    <option value="МЦ Алгамед — пр. Абая, 157а">МЦ Алгамед — пр. Абая, 157а</option>
-    <option value="AdalMed Clinic — пр. Абая, 115">AdalMed Clinic — пр. Абая, 115</option>
-    <option value="МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2">МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2</option>
-    <option value="МЦ Жан-Ай-Мир — пр. Сейфуллина, 104">МЦ Жан-Ай-Мир — пр. Сейфуллина, 104</option>
-  </select>
-</div>
-
-
-
-            <div className={styles.field}>
               <label className={styles.label}>{ui.pdf_label}</label>
               <label className={styles.fileZone}>
                 {form.file ? (
@@ -377,9 +368,63 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                   type="file"
                   accept=".pdf"
                   className={styles.hiddenInput}
-                  onChange={e => setForm({ ...form, file: e.target.files?.[0] ?? null })}
+                  onChange={e => handleFileChange(e.target.files?.[0] ?? null)}
                 />
               </label>
+              {parsing && (
+                <p className={styles.searchHint}>⏳ Reading PDF...</p>
+              )}
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>
+                {ui.test_code_label} <span className={styles.labelHint}>({ui.test_code_hint})</span>
+              </label>
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={8}
+                className={`${styles.input} ${styles.codeInput}`}
+                placeholder="00000000"
+                value={form.testCode}
+                onChange={e => setForm({ ...form, testCode: e.target.value.replace(/\D/g, "") })}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>{ui.test_date_label}</label>
+              <input
+                type="date"
+                className={styles.input}
+                value={form.testDate}
+                onChange={e => setForm({ ...form, testDate: e.target.value })}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>{ui.branch_label}</label>
+              <select
+                className={styles.input}
+                value={form.branch}
+                onChange={e => setForm({ ...form, branch: e.target.value })}
+              >
+                <option value=""></option>
+                <option value="AllergoExpress Immunolab — ул. Шагабутдинова, 132">AllergoExpress Immunolab — ул. Шагабутдинова, 132</option>
+                <option value="МЦ Tau Sunkar — ул. Розыбакиева, 33А">МЦ Tau Sunkar — ул. Розыбакиева, 33А</option>
+                <option value="МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе">МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе</option>
+                <option value="Comfort Clinic — пр. Серкебаева, 146/12">Comfort Clinic — пр. Серкебаева, 146/12</option>
+                <option value="МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11">МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11</option>
+                <option value="LB Clinic — пр. Райымбека, 540/7">LB Clinic — пр. Райымбека, 540/7</option>
+                <option value="МЦ АдкМед — ул. Туркебаева, 257Е">МЦ АдкМед — ул. Туркебаева, 257Е</option>
+                <option value="Interteach Clinic">Interteach Clinic</option>
+                <option value="МЦ Жасмин — г. Каскелен, пер. Абая, 14">МЦ Жасмин — г. Каскелен, пер. Абая, 14</option>
+                <option value="МЦ Сана — мкр. Алмагуль, 22/2">МЦ Сана — мкр. Алмагуль, 22/2</option>
+                <option value="МЦ TAN Clinic — мкрн. Таугуль, 19">МЦ TAN Clinic — мкрн. Таугуль, 19</option>
+                <option value="МЦ Алгамед — пр. Абая, 157а">МЦ Алгамед — пр. Абая, 157а</option>
+                <option value="AdalMed Clinic — пр. Абая, 115">AdalMed Clinic — пр. Абая, 115</option>
+                <option value="МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2">МЦ Dr. Zaure — мкрн. Нуркент, 9, блок 1, офис 2</option>
+                <option value="МЦ Жан-Ай-Мир — пр. Сейфуллина, 104">МЦ Жан-Ай-Мир — пр. Сейфуллина, 104</option>
+              </select>
             </div>
 
             {submitError && (
@@ -392,7 +437,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
             <button
               className={styles.submitBtn}
               onClick={handleSubmit}
-              disabled={submitLoading}
+              disabled={submitLoading || parsing}
               type="button"
             >
               {submitLoading ? ui.uploading : ui.upload_result}

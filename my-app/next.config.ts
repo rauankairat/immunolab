@@ -5,8 +5,9 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   experimental: {
-    authInterrupts: true
-  }
+    authInterrupts: true,
+  },
+  serverExternalPackages: ["unpdf"],
 };
 
-export default withNextIntl(nextConfig); 
+export default withNextIntl(nextConfig);
