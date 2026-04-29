@@ -518,7 +518,11 @@
     "metaName": "Test Name",
     "metaBranch": "Branch",
     "viewPdf": "View Result PDF →",
-    "pending": "Your result is not yet available. Please check back later."
+    "pending": "Your result is not yet available. Please check back later.",
+    "dobLabel": "DATE OF BIRTH",
+"dobHint": "Please enter your date of birth to verify your identity.",
+"errorDob": "Incorrect date of birth. Please try again."
+    
   
 },
 

@@ -23,6 +23,9 @@ export default async function SearchPage() {
     viewPdf: t("viewPdf"),
     pending: t("pending"),
     autoNotFound: t("autoNotFound"),
+    dobLabel: t("dobLabel"),
+dobHint: t("dobHint"),
+errorDob: t("errorDob"),
   };
 
   return <SearchClient ui={ui} locale={locale} />;

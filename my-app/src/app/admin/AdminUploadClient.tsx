@@ -16,6 +16,7 @@ type UploadForm = {
   testCode: string;
   testDate: string;
   branch: string;
+  dob: string;
   file: File | null;
 };
 
@@ -32,6 +33,7 @@ const EMPTY_FORM: UploadForm = {
   testCode: "",
   testDate: "",
   branch: "",
+  dob: "",
   file: null,
 };
 
@@ -108,7 +110,6 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
     setForm(prev => ({ ...prev, file }));
     if (!file) return;
 
-    // Auto-parse PDF
     try {
       setParsing(true);
       const fd = new FormData();
@@ -123,9 +124,9 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
         testCode: data.testCode || prev.testCode,
         testDate: data.testDate || prev.testDate,
         branch: data.branch || prev.branch,
+        dob: data.dob || prev.dob,
       }));
 
-      // Auto-fill walk-in name if on walkin tab
       if (tab === "walkin" && data.name) {
         setWalkinName(data.name);
       }
@@ -168,6 +169,7 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
           testedDay: form.testDate,
           location: form.branch,
           testCode: form.testCode,
+          dob: form.dob,
         }),
       });
 
@@ -341,8 +343,6 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
           <p className={styles.stepSub}>{ui.step2_sub}</p>
 
           <div className={styles.form}>
-
-            {/* PDF upload first so it auto-fills the fields below */}
             <div className={styles.field}>
               <label className={styles.label}>{ui.pdf_label}</label>
               <label className={styles.fileZone}>

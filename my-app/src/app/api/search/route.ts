@@ -5,6 +5,7 @@ export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
+  const dob = req.nextUrl.searchParams.get("dob");
 
   if (!code || !/^\d{8}$/.test(code)) {
     return NextResponse.json({ error: "Invalid test code" }, { status: 400 });
@@ -22,6 +23,7 @@ export async function GET(req: NextRequest) {
       resultUrl: true,
       resultName: true,
       walkinName: true,
+      dob: true,
       patient: {
         select: {
           name: true,
@@ -35,8 +37,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "No test found" }, { status: 404 });
   }
 
-  const patientName =
-    test.patient?.name ?? test.walkinName ?? "Unknown Patient";
+  // If DOB is stored, verify it
+  if (test.dob) {
+    if (!dob) {
+      // DOB required but not provided yet — tell client to ask for it
+      return NextResponse.json({ requiresDob: true });
+    }
+    if (dob !== test.dob) {
+      return NextResponse.json({ error: "Incorrect date of birth" }, { status: 403 });
+    }
+  }
+
+  const patientName = test.patient?.name ?? test.walkinName ?? "Unknown Patient";
 
   return NextResponse.json({
     test: {

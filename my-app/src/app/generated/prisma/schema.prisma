@@ -35,6 +35,7 @@ model Test {
   name       String
   testCode   String?    @unique
   testedDay  DateTime   @default(now())
+  dob        String?
   status     TestStatus @default(UPCOMING)
   location   String?
   resultUrl  String?
