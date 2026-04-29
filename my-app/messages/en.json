@@ -125,7 +125,8 @@
   { "name": "Algamed MC", "address": "Abay Ave, 157A" },
   { "name": "AdalMed Clinic", "address": "Abay Ave, 115" },
   { "name": "Dr. Zaure MC", "address": "Nurkent Microdistrict, 9, block 1, office 2" },
-  { "name": "Zhan-Ay-Mir MC", "address": "Seifullin Ave, 104" }
+  { "name": "Zhan-Ay-Mir MC", "address": "Seifullin Ave, 104" },
+  { "name": "SAPA Lab", "address": "Shagabutdinova St, 169" }
 ]
   },
   "about": {
