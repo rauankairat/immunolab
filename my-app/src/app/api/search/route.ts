@@ -46,6 +46,8 @@ export async function GET(req: NextRequest) {
     if (dob !== test.dob) {
       return NextResponse.json({ error: "Incorrect date of birth" }, { status: 403 });
     }
+  } else {
+    return NextResponse.json({ error: "Temporarly restricted" }, { status: 404 });
   }
 
   const patientName = test.patient?.name ?? test.walkinName ?? "Unknown Patient";
