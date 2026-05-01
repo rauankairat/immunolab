@@ -35,7 +35,7 @@ const medicalTeam: Person[] = [
 ];
 
 const devTeam: Person[] = [
-  { name: "Rauan Kairat",   role: "Lead Software Engineer", image: null, linkedin: "https://www.linkedin.com/in/rkairat-seng/" },
+  { name: "Rauan Kairat",   role: "Lead Software Engineer", image: "/team/lab5.heic", linkedin: "https://www.linkedin.com/in/rkairat-seng/" },
   { name: "Mustafa Rizwan", role: "UI Designer",            image: null, linkedin: "https://www.linkedin.com/in/mustafa-rizwan-2a949b330/" },
   { name: "Nawfal Lodhi",   role: "Frontend Developer",     image: null, linkedin: "https://www.linkedin.com/in/nawfal-lodhi-bb061829b/" },
 ];
