@@ -22,10 +22,10 @@ type Labels = {
 
 const medicalTeam: Person[] = [
   { name: "Аида Темирбекована", role: "Директор",  image: null },
-  { name: "Турдиева Калбинур Турсунжановна",     role: "Главная медсестра",     image: "/team/lab2.jpeg"  },
   { name: "Ислямиева Сауле Нурхановна", role: "Медицинский представитель ",  image: "/team/lab4.jpeg" },
   { name: "Дунгешева Асель Байжумаевна", role: "Врач лаборант",      image: "/team/lab1.jpeg" },
   { name: "Сархытқан Кәбира", role: "Врач лаборант",      image: "/team/lab3.jpeg"  },
+  { name: "Турдиева Калбинур Турсунжановна",     role: "Главная медсестра",     image: "/team/lab2.jpeg"  },
   // { name: "[Name]",     role: "Senior Lab Technician",     image: null },
   // { name: "[Name]",     role: "Lab Technician",            image: null },
   // { name: "[Name]",     role: "Lab Technician",            image: null },
