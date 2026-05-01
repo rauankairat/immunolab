@@ -5,7 +5,7 @@ const BRANCH_MAP: { keywords: string[]; value: string }[] = [
   { keywords: ["Tau Sunkar", "Тау Сункар"], value: "МЦ Tau Sunkar — ул. Розыбакиева, 33А" },
   { keywords: ["New Med", "Нью Мед"], value: "МЦ New Med — г. Алматы, 1 мкр, 26а, ЖК Уштобе" },
   { keywords: ["Comfort"], value: "Comfort Clinic — пр. Серкебаева, 146/12" },
-  { keywords: ["Калимолдаева"], value: "МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11" },
+  { keywords: ["Калимолдаева", "Калимолдаевой"], value: "МЦ Доктор Калимолдаева — ул. Кенесары Хана, 54/11" },
   { keywords: ["LB Clinic"], value: "LB Clinic — пр. Райымбека, 540/7" },
   { keywords: ["АдкМед", "AdkMed"], value: "МЦ АдкМед — ул. Туркебаева, 257Е" },
   { keywords: ["Interteach"], value: "Interteach Clinic" },

@@ -353,7 +353,11 @@ export default function AdminUploadClient({ ui }: { ui: Record<string, any> }) {
                     <button
                       type="button"
                       className={styles.fileRemove}
-                      onClick={e => { e.preventDefault(); setForm({ ...form, file: null }); }}
+                     onClick={e => { 
+  e.preventDefault(); 
+  setForm({ ...EMPTY_FORM, file: null }); 
+  setWalkinName("");
+}}
                     >
                       {ui.pdf_remove}
                     </button>
