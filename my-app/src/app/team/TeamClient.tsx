@@ -35,9 +35,11 @@ const medicalTeam: Person[] = [
 ];
 
 const devTeam: Person[] = [
-  { name: "Rauan Kairat",   role: "Lead Software Engineer", image: "/team/lab5.heic", linkedin: "https://www.linkedin.com/in/rkairat-seng/" },
-  { name: "Mustafa Rizwan", role: "UI Designer",            image: null, linkedin: "https://www.linkedin.com/in/mustafa-rizwan-2a949b330/" },
-  { name: "Nawfal Lodhi",   role: "Frontend Developer",     image: null, linkedin: "https://www.linkedin.com/in/nawfal-lodhi-bb061829b/" },
+  { name: "Rauan Kairat",      role: "Lead Software Engineer", image: "/team/lab5.heic", linkedin: "https://www.linkedin.com/in/rkairat-seng/" },
+  { name: "Zhangir Meirbek",   role: "Full Stack Developer", image: "", linkedin: "https://www.linkedin.com/in/zhangir-meirbek-190624254/?locale=en" },
+  { name: "Mustafa Rizwan",    role: "UI Designer",            image: null, linkedin: "https://www.linkedin.com/in/mustafa-rizwan-2a949b330/" },
+  { name: "Nawfal Lodhi",      role: "Frontend Developer",     image: null, linkedin: "https://www.linkedin.com/in/nawfal-lodhi-bb061829b/" },
+  // { name: "[Name]",     role: "Patient Coordinator",       image: null },
 ];
 
 function LinkedInIcon() {
