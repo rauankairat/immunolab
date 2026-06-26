@@ -1,3 +1,5 @@
+// user account, some of the database apis used, needs correcting as of jun 2026
+
 import { getServerSession } from "@/lib/get-session";
 import { getTranslations, getLocale } from "next-intl/server";
 import { User } from "@/lib/auth";

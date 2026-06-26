@@ -1,3 +1,5 @@
+// About page , no external components used
+
 import { getTranslations } from "next-intl/server";
 import styles from "./page.module.css";
 import type { Metadata } from "next";

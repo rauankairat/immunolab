@@ -1,3 +1,5 @@
+// Validation which is used in LOGIN and SIGNUP, can be reused
+
 import { z } from "zod";
 
 export const registerSchema = z

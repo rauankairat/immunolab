@@ -1,3 +1,7 @@
+// Main page for the stuff and admins, has a lot of logic, starting with authorization and lots of 
+// components for uploading
+
+
 import { getServerSession } from "@/lib/get-session";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
